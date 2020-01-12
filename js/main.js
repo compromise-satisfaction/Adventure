@@ -68,9 +68,18 @@ function Load(width,height){
         Buttons[a]._element = document.createElement('input');
         Buttons[a]._element.type = "submit";
         Buttons[a]._element.value = b;
+        Buttons[a].backgroundColor = "white"
         scene.addChild(Buttons[a]);
         Buttons[a].addEventListener('touchstart',function(e){
-          game.assets["sound/"+b+".wav"].play();
+          if(this.backgroundColor == "white"){
+            this.backgroundColor = "red";
+            game.assets["sound/"+b+".wav"].play();
+          }
+          else{
+            this.backgroundColor = "white";
+            game.assets["sound/"+b+".wav"].stop();
+          }
+          console.log(this);
         });
         Numbers += width/5;
       }
