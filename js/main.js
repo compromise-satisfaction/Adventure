@@ -1,5 +1,7 @@
 enchant()
 
+var Sound = ["アイテム","トロフィー","永遠の灯","ぼくのフレンド","異議あり！","待った！"];
+
 function Images(width,height){
   Load(width,height);
 }
@@ -48,8 +50,9 @@ function Load(width,height){
       core.dispatchEvent(e);
 	});
 
-  game.preload("sound/永遠の灯.wav");
-  game.preload("sound/ぼくのフレンド.wav");
+  for (var i = 0; i < Sound.length; i++) {
+    game.preload("sound/"+Sound[i]+".wav");
+  }
 
   game.fps = 10;
   game.onload = function(){
@@ -74,6 +77,7 @@ function Load(width,height){
           if(this.backgroundColor == "white"){
             this.backgroundColor = "red";
             game.assets["sound/"+b+".wav"].play();
+            game.assets["sound/"+b+".wav"]._element.loop = true;
           }
           else{
             this.backgroundColor = "white";
@@ -85,8 +89,9 @@ function Load(width,height){
       }
 
       var Buttons = [];
-      Button(0,"永遠の灯");
-      Button(1,"ぼくのフレンド");
+      for (var i = 0; i < Sound.length; i++) {
+        Button(i,Sound[i]);
+      }
 
       return scene;
     };
