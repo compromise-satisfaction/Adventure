@@ -79,7 +79,7 @@ function Load(width,height){
             this.backgroundColor = "white";
             game.assets["sound/"+b+".wav"].stop();
           }
-          console.log(this);
+          console.log(game.assets["sound/"+b+".wav"]);
         });
         Numbers += width/5;
       }
