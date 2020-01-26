@@ -99,7 +99,7 @@ function Load(width,height){
         Buttons[a].addEventListener('touchstart',function(e){
           if(this.backgroundColor == "buttonface"){
             this.backgroundColor = "red";
-            game.assets[c]._element.src = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/大江戸戦士トノサマン.wav";
+            game.assets[c].src = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/大江戸戦士トノサマン.wav";
             game.assets[c].play();
           }
           else{
