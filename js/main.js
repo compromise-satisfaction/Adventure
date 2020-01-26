@@ -76,7 +76,7 @@ function Load(width,height){
     Sound[i] = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/"+Sound[i]+".wav";
     game.preload("メニュー移動.wav");
   }
-  game.preload[Sound];
+  game.preload(Sound);
 
   game.fps = 10;
   game.onload = function(){
