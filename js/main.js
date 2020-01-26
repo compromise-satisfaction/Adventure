@@ -74,8 +74,9 @@ function Load(width,height){
 
   for (var i = 0; i < Sound.length; i++) {
     Sound[i] = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/"+Sound[i]+".wav";
+    game.preload("メニュー移動.wav");
+    console.log(game.assets["メニュー移動.wav"]);
   }
-  game.preload(Sound);
 
   game.fps = 10;
   game.onload = function(){
@@ -99,7 +100,7 @@ function Load(width,height){
         Buttons[a].addEventListener('touchstart',function(e){
           if(this.backgroundColor == "buttonface"){
             this.backgroundColor = "red";
-            game.assets[c].src = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/大江戸戦士トノサマン.wav";
+            console.log(game.assets[c]);
             game.assets[c].play();
           }
           else{
@@ -112,7 +113,7 @@ function Load(width,height){
 
       var Buttons = [];
       for (var i = 0; i < Sound.length; i++) {
-        Button(i,Sound2[i],Sound[i]);
+        Button(i,Sound2[i],"メニュー移動.wav");
       }
 
       return scene;
