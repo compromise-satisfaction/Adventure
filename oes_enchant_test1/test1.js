@@ -86,9 +86,9 @@ window.onload = function() {
 				chapter.addChild(text);
 			});
 			chapter.print(text,
-				'サウンドはロード後に再生できるようになります。再生時にループ指定ができます。{kp}ブラウザ毎に対応状況が異なっているため、サウンドがうまく鳴らない場合があるかもしれません。あらかじめご了承ください。{kp}それでは実際にやってみます。ＢＧＭをロードしてループ再生。{kp}'
+				'サウンドはロード後に再生できるようになるらしい。とりあえずurlから再生までできるみたい。大江戸戦士トノサマンをならしてみます。{kp}'
 			);
-			console.log(bgm);
+			console.log(OesSound);
 			console.log(chapter.loadSound);
 			chapter.loadSound(bgm,"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/大江戸戦士トノサマン.wav");
 			chapter.act(function() {
