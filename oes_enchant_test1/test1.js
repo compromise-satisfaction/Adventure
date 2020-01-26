@@ -63,18 +63,7 @@ window.onload = function() {
 				'ノベルゲーム向け機能テストの目次。'
 			);
 			chapter.choose(text,[
-				{text:'テキスト：逐次的出力と入力待ち', to:'textProgress'},
-				{text:'テキスト：文字表現', to:'textExpression'},
-				{text:'テキスト：選択肢', to:'textChoose'},
-				{text:'テキスト：ウインドウ表現', to:'textWindow'},
-				{text:'テキスト：バックログと既読スキップ', to:'textLogSkip'},
-				{text:'画像：ロードと配置と選択', to:'image'},
 				{text:'サウンド：ロードと再生', to:'sound'},
-				{text:'Tweenアニメーション', to:'tween'},
-				{text:'フラグとセーブ/ロード', to:'record'},
-				{text:'実践的サンプル１：「紹介」風', to:'sample1'},
-				{text:'実践的サンプル２：「ノベル」風', to:'sample2'},
-				{text:'実践的サンプル３：「脱出」風', to:'sample3'}
 			]);
 			// 章を終了。登録オブジェクトはシーンから自動的に外され、サウンドは自動停止。
 			chapter.exit('textProgress').label = 'textProgress';
