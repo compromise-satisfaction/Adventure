@@ -37,7 +37,7 @@ window.onload = function() {
 				chapter.addChild(text);
 			});
 			chapter.print(text,
-				'これは、HTML5 + JavaScript なゲームエンジンである「<a href="http://enchantjs.com/ja/?s=ja" target="_blank">enchant.js</a>」を利用したノベルゲーム向けの機能テストのサンプルです。{kw}ノベルゲーム向けの機能はプラグインの形で実装しています。{kw}このサンプルを実行するには、HTML5およびCSS3をサポートしているWebブラウザが必要です。ブラウザによって対応状況が異なることがあるようです。{kw}Windows上の<a href="http://www.google.co.jp/chrome/intl/ja/landing_ch.html" target="_blank">Chrome</a>ブラウザにて動作確認をしていますが、OSや使用フォントなど動作環境のちがいにより、うまく動作しなかったり、見え方が異なることがあるかもしれません。あらかじめご了承ください。{kp}このテストではインターネットで公開されている無料素材を利用させていただいております。皆様に感謝です。<br><a href="http://www.s-hoshino.com" target="_blank">「フリー素材屋Hoshino」</a>様。<br><a href="http://kage-design.com/wp/" target="_blank">「シルエットデザイン」</a>様。<br><a href="http://www.avatar-maker.info/am_01/" target="_blank">「アバターメーカー」</a>様。<br><a href="http://www.patterncooler.com/index.php" target="_blank">「PatternCooler」</a>様。<br><a href="http://dova-s.jp/" target="_blank">「DOVA SYNDROME」</a>様。<br><a href="http://osabisi.sakura.ne.jp/m2/" target="_blank">「ザ・マッチメイカァズ」</a>様。<br><a href="http://sozai.7gates.net/" target="_blank">「無料素材倶楽部」</a>様。<br><a href="http://www.igosso.net/" target="_blank">「igosso画像検索」</a>様。<br><a href="http://www.yen-soft.com/ssse/" target="_blank">「フリー効果音 On-Jin ～音人～」</a>様。<br>（順不同）{kp}'
+				'これは、サウンドテストです。'
 			);
 			// 章を終了。登録オブジェクトはシーンから自動的に外され、サウンドは自動停止。
 			chapter.exit('index');
