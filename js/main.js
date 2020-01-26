@@ -75,8 +75,8 @@ function Load(width,height){
   for (var i = 0; i < Sound.length; i++) {
     Sound[i] = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/"+Sound[i]+".wav";
     game.preload("メニュー移動.wav");
-    console.log(game.assets["メニュー移動.wav"]);
   }
+  console.log(game.assets[Sound]);
 
   game.fps = 10;
   game.onload = function(){
@@ -101,6 +101,8 @@ function Load(width,height){
           if(this.backgroundColor == "buttonface"){
             this.backgroundColor = "red";
             console.log(game.assets[c]);
+            console.log(game.assets[c].src);
+            console.log(game.assets[c].context);
             game.assets[c].play();
           }
           else{
@@ -113,7 +115,7 @@ function Load(width,height){
 
       var Buttons = [];
       for (var i = 0; i < Sound.length; i++) {
-        Button(i,Sound2[i],"メニュー移動.wav");
+        Button(i,Sound2[i],Sound[i]);
       }
 
       return scene;
