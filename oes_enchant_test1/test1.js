@@ -90,9 +90,11 @@ window.onload = function() {
 			);
 			console.log(bgm);
 			console.log(chapter.loadSound);
-			chapter.loadSound(bgm,"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/ぼくのフレンド.wav");
+			chapter.loadSound(bgm,"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/大江戸戦士トノサマン.wav");
 			chapter.act(function() {
 				bgm.loop = true;
+				bgm.loopStart = 2.150;
+				bgm.loopEnd = 54.102;
 				bgm.play();
 			});
 			chapter.print(text,
