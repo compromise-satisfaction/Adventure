@@ -60,7 +60,7 @@ window.onload = function() {
 				chapter.addChild(text);
 			});
 			chapter.print(text,
-				'ノベルゲーム向け機能テストの目次。'
+				'求めてない機能が多いからどこにあるかわからないぞ。順に削減しないとね。'
 			);
 			chapter.choose(text,[
 				{text:'サウンド：ロードと再生', to:'sound'},
@@ -864,20 +864,8 @@ window.onload = function() {
 		};
 
 		// 各章をシナリオに登録。
-		scenario.addChapter('intro',c_intro);
 		scenario.addChapter('index',c_index);
-		scenario.addChapter('textProgress',c_textProgress);
-		scenario.addChapter('textExpression',c_textExpression);
-		scenario.addChapter('textChoose',c_textChoose);
-		scenario.addChapter('textWindow',c_textWindow);
-		scenario.addChapter('textLogSkip',c_textLogSkip);
-		scenario.addChapter('image',c_image);
-		scenario.addChapter('tween',c_tween);
 		scenario.addChapter('sound',c_sound);
-		scenario.addChapter('record',c_record);
-		scenario.addChapter('sample1',c_sample1);
-		scenario.addChapter('sample2',c_sample2);
-		scenario.addChapter('sample3',c_sample3);
 
 		// デバッグ用。
 		scenario.onenterscenario = function() {
