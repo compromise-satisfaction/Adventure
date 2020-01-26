@@ -425,7 +425,7 @@ enchant.oes.OesChapter = enchant.Class.create(enchant.Group, {
 	},
 	_run: function() {
 		this._lines[this._lineIdx]();
-    console.log(this);
+    //console.log(this);
 	},
 	_record: function(caption,resume) {
 		var record = this.scenario.record;
@@ -1456,7 +1456,7 @@ enchant.oes.OesSound = enchant.Class.create(enchant.Node, {
 			t = type || getExt(src);
 			if (t && enchant.oes.OesSound.canPlayType(t)) {
 				audio = new Audio();
-        console.log(Audio);
+        //console.log(Audio);
 				audio.onerror = function() {
 					throw new Error('load failed: ' + this.src);
 				};
