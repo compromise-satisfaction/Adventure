@@ -90,7 +90,7 @@ window.onload = function() {
 			);
 			console.log(bgm);
 			console.log(chapter.loadSound);
-			chapter.loadSound(bgm,"大江戸戦士トノサマン.wav");
+			chapter.loadSound(bgm,"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/ぼくのフレンド.wav");
 			chapter.act(function() {
 				bgm.loop = true;
 				bgm.play();
@@ -98,7 +98,7 @@ window.onload = function() {
 			chapter.print(text,
 				'なお、このテストではロードしつつ再生しましたが、必要なサウンドはあらかじめロードしておくようにするのが良いと思われます。{kp}続いて、効果音を鳴らしてみます。{kp}'
 			);
-			chapter.loadSound(se,"異議あり！(御剣).wav");
+			chapter.loadSound(se,"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/異議あり！(ミツルギ).wav");
 			chapter.act(function() {
 				img.addEventListener('touchend',clickse);
 			});
