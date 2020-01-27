@@ -71,11 +71,29 @@ function Load(width,height){
     "湯けむりユートピア",
     "風船飛行（女性ver.）"
   ];
+  var Name2 = [
+    "あかり",
+    "ひなき",
+    "いちご",
+    "あの時…！",
+    "スミレ",
+    "ケータイ",
+    "ゴクン",
+    "すっごーい！",
+    "スナネコ",
+    "バシッ",
+    "ポポポ(男)",
+    "ポポポ(女)",
+    "衝撃",
+    "閃き",
+    "捜査",
+    "木槌",
+    "有罪"
+  ];
   var BGMs = [];
-  for (var i = 0; i < Name.length; i++) {
-    BGMs[i] = [Name[i],"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[i]+".wav"];
+  for (var i = 0; i < Name2.length; i++) {
+    BGMs[i] = [Name2[i],"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/"+Name2[i]+".wav"];
   }
-  BGMs[i] = ["捜査","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/捜査.wav"];
   var BGM = [];
   for (var i = 0; i < BGMs.length; i++) {
     BGM[i] = document.createElement("audio");
@@ -111,13 +129,13 @@ function Load(width,height){
         Button[submits].addEventListener('touchstart',function(e){
           BGM[b].addEventListener("ended",function(e){
             BGM[b].currentTime = 0;
-            switch (Button[b].backgroundColor) {
+            switch(Button[b].backgroundColor){
               case "red":
                 Button[b].backgroundColor = "buttonface";
                 break;
               case "purple":
-                for (var i = b; i < BGM.length; i++) {
-                  if(BGM[i].currentTime!=0&&Button[i].backgroundColor=="purple"){
+                for (var i = b+1; i < BGM.length; i++) {
+                  if(BGM[i].currentTime==0&&Button[i].backgroundColor=="purple"){
                     BGM[i].play();
                     return;
                   }
@@ -133,7 +151,7 @@ function Load(width,height){
                 break;
             }
           });
-          switch (this.backgroundColor){
+          switch(this.backgroundColor){
             default:
               BGM[b].play();
               this.backgroundColor = "red";
@@ -155,9 +173,37 @@ function Load(width,height){
               break;
             case "purple":
               this.backgroundColor = "green";
+              if(BGM[b].currentTime!=0){
+                for (var i = b+1; i < BGM.length; i++) {
+                  if(BGM[i].currentTime==0&&Button[i].backgroundColor=="purple"){
+                    BGM[i].play();
+                    return;
+                  }
+                }
+                for (var i = 0; i <= b; i++) {
+                  if(BGM[i].currentTime==0&&Button[i].backgroundColor=="purple"){
+                    BGM[i].play();
+                    return;
+                  }
+                }
+              }
               break;
             case "green":
               this.backgroundColor = "buttonface";
+              if(BGM[b].currentTime!=0){
+                for (var i = b+1; i < BGM.length; i++) {
+                  if(BGM[i].currentTime==0&&Button[i].backgroundColor=="green"){
+                    BGM[i].play();
+                    return;
+                  }
+                }
+                for (var i = 0; i <= b; i++) {
+                  if(BGM[i].currentTime==0&&Button[i].backgroundColor=="green"){
+                    BGM[i].play();
+                    return;
+                  }
+                }
+              }
               break;
           }
         });
