@@ -74,9 +74,7 @@ function Load(width,height){
 
   for (var i = 0; i < Sound.length; i++) {
     Sound[i] = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/"+Sound[i]+".wav";
-    game.preload("メニュー移動.wav");
   }
-  game.preload(Sound);
 
   game.fps = 10;
   game.onload = function(){
@@ -86,8 +84,13 @@ function Load(width,height){
       var scene = new Scene();                                // 新しいシーンを作る
 
       var Numbers = 0;
+      var Sounds = [];
 
       function Button(a,b,c){
+        Sounds[a] = new Entity();
+        Sounds[a].moveTo(width/4,Numbers);
+        Sounds[a]._element = document.createElement('audio');
+        Sounds[a]._element.src = c;
         Buttons[a] = new Entity();
         Buttons[a].moveTo(width/4,Numbers);
         Buttons[a].width = width/2;
@@ -99,15 +102,13 @@ function Load(width,height){
         scene.addChild(Buttons[a]);
         Buttons[a].addEventListener('touchstart',function(e){
           if(this.backgroundColor == "buttonface"){
+            Sounds[a]._element.play();
             this.backgroundColor = "red";
-            console.log(game.assets[c]);
-            console.log(game.assets[c].src);
-            console.log(game.assets[c].context);
-            game.assets[c].play();
           }
           else{
+            Sounds[a]._element.play();
+            Sounds[a]._element.stop();
             this.backgroundColor = "buttonface";
-            game.assets[c].stop();
           }
         });
         Numbers += width/5;
