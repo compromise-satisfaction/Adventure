@@ -59,9 +59,6 @@ function Load(width,height){
     return;
   });
 
-  var Number = 0;
-  var Ig = false;
-  var Type = "アイテム";
   var Name = [
     "COOLEST",
     "Get Wild",
@@ -111,13 +108,9 @@ function Load(width,height){
     var ItemScene = function(Number,Ig,Type){
 
       var scene = new Scene();                                // 新しいシーンを作る
-      switch (Type) {
-        case "アイテム":
-          var PAGAS = 5;
-          var Choice_Flag = Item_Flag;
-          var Type2 = "人物";
-          break;
-      }
+
+      var PAGAS = 5;
+      var Choice_Flag = Item_Flag;
 
       var Button = [];
       var submits = 0;
@@ -142,7 +135,6 @@ function Load(width,height){
               var ooo ="メニュー移動";
               break;
             case "設定を開く":
-            case Type2:
               var ooo ="メニュー";
               break;
             default:
@@ -159,12 +151,12 @@ function Load(width,height){
           if(a=="詳細"){
             switch (Button[3]._element.value){
               default:
-                BGM.src = Button[3].詳細;
                 if(Button[3]._element.value == "停止"){
                   Button[3]._element.value = "再生";
                   BGM.pause();
                 }
                 else{
+                  BGM.src = Button[3].詳細;
                   Button[3]._element.value = "停止";
                   BGM.currentTime = 0;
                   BGM.play();
@@ -173,7 +165,6 @@ function Load(width,height){
             }
           }
           else{
-            BGM.pause();
             switch (this._element.value){
               case "▶":
                 if(Setting_Flag[PAGAS]==0){
@@ -275,7 +266,7 @@ function Load(width,height){
 
       return scene;
     };
-    game.replaceScene(ItemScene(Number,Ig,Type));  // ゲームの_rootSceneをスタートシーンに置き換える
+    game.replaceScene(ItemScene(0,0,0));  // ゲームの_rootSceneをスタートシーンに置き換える
   }
   game.start();
 }
