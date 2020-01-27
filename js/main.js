@@ -1,15 +1,9 @@
 enchant()
 
-var Sound = ["着信メロディ成歩堂龍一",
-"捜査",
-"エキセントリック",
-"綾里春美～はみちゃんといっしょ",
-"逆転裁判・開廷",
-"逆転姉妹",
-"永遠の灯",
-"留置所",
-"尋問",
+var Sound = [
+"着信メロディ成歩堂龍一",
 "ぼくのフレンド",
+"大江戸戦士トノサマン"
 ];
 
 function Images(width,height){
@@ -60,21 +54,16 @@ function Load(width,height){
       core.dispatchEvent(e);
 	});
 
-  var Sound2 = ["着信メロディ成歩堂龍一",
-  "捜査",
-  "エキセントリック",
-  "綾里春美～はみちゃんといっしょ",
-  "逆転裁判・開廷",
-  "逆転姉妹",
-  "永遠の灯",
-  "留置所",
-  "尋問",
+  var Sound2 = [
+  "着信メロディ成歩堂龍一",
   "ぼくのフレンド",
+  "大江戸戦士トノサマン"
   ];
 
   for (var i = 0; i < Sound.length; i++) {
     Sound[i] = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/"+Sound[i]+".wav";
   }
+  game.preload("メニュー移動.wav");
 
   game.fps = 10;
   game.onload = function(){
@@ -86,14 +75,14 @@ function Load(width,height){
       var Numbers = 0;
       var Sounds = [];
 
-      function Button(a,b,c){
-        Sounds[a] = new Entity();
-        Sounds[a].moveTo(width/4,Numbers);
-        Sounds[a]._element = document.createElement('audio');
-        Sounds[a]._element.src = c;
-        Sounds[a]._element.loop = true;
-        Sounds[a]._element.loopStart = 2.150;
-				Sounds[a]._element.loopEnd = 14.102;
+      function Button(a,b,c,d){
+        Sounds[a] = document.createElement("audio");
+        Sounds[a].src = c;
+        Sounds[a].loopStart = 3;
+        Sounds[a].addEventListener("ended",function(e){
+          Sounds[a].currentTime = Sounds[a].loopStart;
+          Sounds[a].play();
+        });
         Buttons[a] = new Entity();
         Buttons[a].moveTo(width/4,Numbers);
         Buttons[a].width = width/2;
@@ -106,12 +95,12 @@ function Load(width,height){
         Buttons[a].addEventListener('touchstart',function(e){
           if(this.backgroundColor == "buttonface"){
             console.log(Sounds[a]);
-            Sounds[a]._element.play();
+            Sounds[a].play();
             this.backgroundColor = "red";
           }
           else{
-            Sounds[a]._element.pause();
-            Sounds[a]._element.currentTime = 0;
+            Sounds[a].pause();
+            Sounds[a].currentTime = 0;
             this.backgroundColor = "buttonface";
           }
         });
@@ -120,7 +109,7 @@ function Load(width,height){
 
       var Buttons = [];
       for (var i = 0; i < Sound.length; i++) {
-        Button(i,Sound2[i],Sound[i]);
+        Button(i,Sound2[i],Sound[i],3);
       }
 
       return scene;
