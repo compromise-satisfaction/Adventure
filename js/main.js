@@ -91,8 +91,12 @@ function Load(width,height){
     "有罪"
   ];
   var BGMs = [];
-  for (var i = 0; i < Name2.length; i++) {
-    BGMs[i] = [Name2[i],"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/"+Name2[i]+".wav"];
+  for (var i = 0; i < Name.length; i++) {
+    BGMs[i] = [Name[i],"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[i]+".wav"];
+  }
+  for (var k = 0; k < Name2[k].length; k++) {
+    BGMs[i] = [Name2[k],"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/"+Name2[k]+".wav"];
+    i++;
   }
   var BGM = [];
   for (var i = 0; i < BGMs.length; i++) {
@@ -204,6 +208,8 @@ function Load(width,height){
                   }
                 }
               }
+              BGM[b].pause();
+              BGM[b].currentTime = 0;
               break;
           }
         });
