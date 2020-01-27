@@ -62,13 +62,6 @@ function Load(width,height){
   var Image_DATAS = [];
 
   game.preload(Image_DATAS);
-  game.preload("sound/ページ.wav");
-  game.preload("sound/メニュー.wav");
-  game.preload("sound/メニュー移動.wav");
-  game.preload("sound/戻る.wav");
-  game.preload("sound/選択音.wav");
-  game.preload("image/画像無.png");
-  game.preload("image/Background.png");
 
   var Number = 0;
   var Ig = false;
@@ -111,69 +104,9 @@ function Load(width,height){
     if(Button_time==Button_time_next){
       game.fps = 10;
       Button_time = 0;
-      switch (expression) {
-        case "音無し":
-          break;
-        default:
-          Sound_ON(expression,true);
-          break;
-      }
       return(false);
     }
     else return(true);
-  }
-  function Sound_ON(Sound_Name,Play,Type){
-    switch (Sound_Name) {
-      case "お任せなのだ":
-      case "音量調整用":
-        if(Setting_Flag[11]==0) Play = false;
-        else var Volume = Setting_Flag[11]/10;
-        break;
-      default:
-        if(Setting_Flag[10]==0) Play = false;
-        else var Volume = Setting_Flag[10]/10;
-        break;
-    }
-    if(Type){
-      switch (Type) {
-        case "音声":
-          if(Setting_Flag[11]==0) Play = false;
-          else var Volume = Setting_Flag[11]/10;
-          break;
-        default:
-          if(Setting_Flag[10]==0) Play = false;
-          else var Volume = Setting_Flag[10]/10;
-          break;
-      }
-      if(Play){
-        if(game.assets[Sound_Name].src==undefined){
-          game.assets[Sound_Name].volume = Volume;
-        }
-        else{
-          game.assets[Sound_Name]._volume = Volume;
-        }
-        game.assets[Sound_Name].play();
-      }
-      else{
-        game.assets[Sound_Name].play();
-        game.assets[Sound_Name].stop();
-      }
-      return;
-    }
-    if(Play){
-      if(game.assets["sound/"+Sound_Name+".wav"].src==undefined){
-        game.assets["sound/"+Sound_Name+".wav"].volume = Volume;
-      }
-      else{
-        game.assets["sound/"+Sound_Name+".wav"]._volume = Volume;
-      }
-      game.assets["sound/"+Sound_Name+".wav"].play();
-    }
-    else{
-      game.assets["sound/"+Sound_Name+".wav"].play();
-      game.assets["sound/"+Sound_Name+".wav"].stop();
-    }
-    return;
   }
   function conversion_url(name,Type){
     switch (Type) {
@@ -204,16 +137,6 @@ function Load(width,height){
           var Type2 = "人物";
           break;
       }
-
-      var xxx = game.assets["image/Background.png"].width;
-      var yyy = game.assets["image/Background.png"].height;
-      var Background = new Sprite(xxx,yyy);
-      Background.scaleX = ((width)/xxx);
-      Background.scaleY = ((height)/yyy);
-      Background.image = game.assets["image/Background.png"];
-      Background.x = (Background.scaleX*xxx/2)-xxx/2;
-      Background.y = (Background.scaleY*yyy/2)-yyy/2;
-      scene.addChild(Background);
 
       var Item_image = new Sprite(0,0);
       scene.addChild(Item_image);
@@ -305,18 +228,6 @@ function Load(width,height){
                   Button[i].backgroundColor = "buttonface";
                 }
                 Choice_Item = f[5];
-                console.log(f[0]+"を選択 つきつけコード"+Choice_Item);
-                var Item_image_url = conversion_url(f[2],"画像");
-                if(game.assets[Item_image_url]==undefined) Item_image_url = "image/画像無.png";
-                var xxx = game.assets[Item_image_url].width;
-                var yyy = game.assets[Item_image_url].height;
-                Item_image.image = game.assets[Item_image_url];
-                Item_image.width = xxx;
-                Item_image.height = yyy;
-                Item_image.scaleX = ((width/4)/xxx);
-                Item_image.scaleY = ((width/4)/yyy);
-                Item_image.x = (Item_image.scaleX*xxx/2)-xxx/2+(width/1.6);
-                Item_image.y = (Item_image.scaleY*yyy/2)-yyy/2+(width/4)+(width/20)+(width/25);
                 this.backgroundColor = "red";
                 if(f[3]){
                   Button[3]._element.value = f[3];
