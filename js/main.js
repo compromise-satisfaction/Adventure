@@ -92,6 +92,8 @@ function Load(width,height){
         Sounds[a]._element = document.createElement('audio');
         Sounds[a]._element.src = c;
         Sounds[a]._element.loop = true;
+        Sounds[a]._element.loopStart = 2.150;
+				Sounds[a]._element.loopEnd = 14.102;
         Buttons[a] = new Entity();
         Buttons[a].moveTo(width/4,Numbers);
         Buttons[a].width = width/2;
