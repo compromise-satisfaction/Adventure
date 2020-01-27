@@ -91,6 +91,7 @@ function Load(width,height){
         Sounds[a].moveTo(width/4,Numbers);
         Sounds[a]._element = document.createElement('audio');
         Sounds[a]._element.src = c;
+        Sounds[a]._element.loop = true;
         Buttons[a] = new Entity();
         Buttons[a].moveTo(width/4,Numbers);
         Buttons[a].width = width/2;
@@ -102,12 +103,13 @@ function Load(width,height){
         scene.addChild(Buttons[a]);
         Buttons[a].addEventListener('touchstart',function(e){
           if(this.backgroundColor == "buttonface"){
+            console.log(Sounds[a]);
             Sounds[a]._element.play();
             this.backgroundColor = "red";
           }
           else{
-            Sounds[a]._element.play();
-            Sounds[a]._element.stop();
+            Sounds[a]._element.pause();
+            Sounds[a]._element.currentTime = 0;
             this.backgroundColor = "buttonface";
           }
         });
