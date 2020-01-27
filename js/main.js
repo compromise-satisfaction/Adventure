@@ -82,14 +82,19 @@ function Load(width,height){
       var scene = new Scene();                                // 新しいシーンを作る
 
       var Button = [];
-      var Numbers = 0;
+      var Number_x = 0;
+      var Number_y = 0;
       var submits = 0;
       function Submit(a,b){
         Button[submits] = new Entity();
-        Button[submits].moveTo(0,Numbers);
-        Numbers += width/10;
-        Button[submits].width = width/1;
-        Button[submits].height = width/10;
+        Button[submits].moveTo(Number_x,Number_y);
+        Number_y += height/10;
+        if(submits==9){
+          Number_x += width/4;
+          Number_y = 0;
+        }
+        Button[submits].width = width/4;
+        Button[submits].height = height/10;
         Button[submits]._element = document.createElement('input');
         Button[submits]._element.type = "submit";
         Button[submits]._element.value = a;
