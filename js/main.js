@@ -110,7 +110,28 @@ function Load(width,height){
         scene.addChild(Button[submits]);
         Button[submits].addEventListener('touchstart',function(e){
           BGM[b].addEventListener("ended",function(e){
-            if(Button[b].backgroundColor=="red") Button[b].backgroundColor = "buttonface";
+            BGM[b].currentTime = 0;
+            switch (Button[b].backgroundColor) {
+              case "red":
+                Button[b].backgroundColor = "buttonface";
+                break;
+              case "purple":
+                for (var i = b; i < BGM.length; i++) {
+                  if(BGM[i].currentTime!=0&&Button[i].backgroundColor=="purple"){
+                    BGM[i].play();
+                    return;
+                  }
+                }
+                for (var i = 0; i <= b; i++) {
+                  if(BGM[i].currentTime==0&&Button[i].backgroundColor=="purple"){
+                    BGM[i].play();
+                    return;
+                  }
+                }
+                break;
+              case "green":
+                break;
+            }
           });
           switch (this.backgroundColor){
             default:
@@ -122,9 +143,20 @@ function Load(width,height){
               this.backgroundColor = "blue";
               break;
             case "blue":
-              BGM[b].pause();
               BGM[b].loop = false;
-              BGM[b].currentTime = 0;
+              for (var i = 0; i < BGM.length; i++) {
+                if(BGM[i].currentTime!=0&&Button[i].backgroundColor=="purple"){
+                  BGM[b].pause();
+                  BGM[b].currentTime = 0;
+                  break;
+                }
+              }
+              this.backgroundColor = "purple";
+              break;
+            case "purple":
+              this.backgroundColor = "green";
+              break;
+            case "green":
               this.backgroundColor = "buttonface";
               break;
           }
