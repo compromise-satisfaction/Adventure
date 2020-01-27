@@ -62,13 +62,9 @@ function Load(width,height){
   var Image_DATAS = [];
 
   game.preload(Image_DATAS);
-  game.preload("sound/Item.wav");
-  game.preload("sound/セーブ.wav");
-  game.preload("sound/進む.wav");
   game.preload("sound/ページ.wav");
   game.preload("sound/メニュー.wav");
   game.preload("sound/メニュー移動.wav");
-  game.preload("sound/アイテム表示音.wav");
   game.preload("sound/戻る.wav");
   game.preload("sound/選択音.wav");
   game.preload("image/画像無.png");
@@ -77,11 +73,36 @@ function Load(width,height){
   var Number = 0;
   var Ig = false;
   var Type = "アイテム";
-  var Item_Flag = [
-    ["COOLEST","カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/COOLEST.wav","CD"],
-    ["スマホ", "僕のスマホだ。", "スマホ", "使う", "移動使うスマホ", "スマホ"]
+  var Name = [
+    "COOLEST",
+    "Get Wild",
+    "HANABI",
+    "OVERLAP",
+    "POP TEAM EPIC",
+    "ＰＯＰＰＹ　ＰＡＰＰＹ　ＤＡＹ（女性ｖｅｒ．１）",
+    "Red Flash Revolution",
+    "Ｔｗｉｎｋｌｉｎｇ　ｓｔａｒ",
+    "きみのままで",
+    "キラメク誓い",
+    "たーのしーたーのしーたーのしー！",
+    "とっても賢いじゅるり_れしぴ_"
   ];
-  var Setting_Flag = ["名前","苗字","未設定",game.fps,"最初から",0,0,0,true,5,5,5,"最初から","Black",""];
+  var Item_Flag = [
+    [Name[0],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[0]+".wav","CD"],
+    [Name[1],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[1]+".wav","CD"],
+    [Name[2],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[2]+".wav","CD"],
+    [Name[3],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[3]+".wav","CD"],
+    [Name[4],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[4]+".wav","CD"],
+    [Name[5],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[5]+".wav","CD"],
+    [Name[6],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[6]+".wav","CD"],
+    [Name[7],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[7]+".wav","CD"],
+    [Name[8],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[8]+".wav","CD"],
+    [Name[9],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[9]+".wav","CD"],
+    [Name[10],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[10]+".wav","CD"],
+    [Name[11],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[11]+".wav","CD"],
+    [Name[12],"カスタマイZ↓COOLEST（カスタマイＺ盤）↓カスタマイZ↓エンドウ．（ＧＥＥＫＳ）","image/画像無し.png","再生","https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[12]+".wav","CD"],
+  ];
+  var Setting_Flag = ["名前","苗字","未設定",false,"最初から",0,0,0,true,5,5,5,"最初から","Black",""];
   var Button_time_next = 3;
   var Button_time = Button_time_next;
   var BGM = document.createElement("audio");
@@ -182,17 +203,6 @@ function Load(width,height){
           var Choice_Flag = Item_Flag;
           var Type2 = "人物";
           break;
-        case "人物":
-          var PAGAS = 6;
-          var Choice_Flag = Character_Flag;
-          if(Ig) var Type2 = "アイテム";
-          else var Type2 = "トロフィー";
-          break;
-        case "トロフィー":
-          var PAGAS = 7;
-          var Choice_Flag = Trophy_Flag;
-          var Type2 = "アイテム";
-          break;
       }
 
       var xxx = game.assets["image/Background.png"].width;
@@ -247,37 +257,22 @@ function Load(width,height){
           }
           if(a=="詳細"){
             switch (Button[3]._element.value){
-              case "遊ぶ":
-                OASOBI = true;
-                game.popScene();
-                game.pushScene(ReversiScene());
-                console.log("Scene数",Scene_kazu);
-                break;
-              case "改造":
-                game.replaceScene(TransformScene(Number,Ig));
-                console.log("Scene数",Scene_kazu);
-                break;
-              case "再生":
-                BGM.src = Button[3].詳細;
-                BGM.play();
-                break;
               default:
-                if(Button[3].詳細.substring(0,2)=="移動"){
-                  Button[3].詳細 = Button[3].詳細.substring(2);
-                  game.popScene();
-                  Scene_kazu--;
-                  console.log("Scene数",Scene_kazu);
-                  Scene_loads(Number+"↓"+Button[3].詳細,false,Choice_Item,false);
+                BGM.src = Button[3].詳細;
+                if(Button[3]._element.value == "停止"){
+                  Button[3]._element.value = "再生";
+                  BGM.pause();
                 }
-                else {
-                  game.pushScene(DetailsScene(Button[3].詳細,0));
-                  Scene_kazu++;
-                  console.log("Scene数",Scene_kazu);
+                else{
+                  Button[3]._element.value = "停止";
+                  BGM.currentTime = 0;
+                  BGM.play();
                 }
                 break;
             }
           }
           else{
+            BGM.pause();
             switch (this._element.value){
               case "▶":
                 if(Setting_Flag[PAGAS]==0){
@@ -295,42 +290,11 @@ function Load(width,height){
                 }
                 game.replaceScene(ItemScene(Number,Ig,Type));
                 break;
-              case "戻る":
-                game.fps = Setting_Flag[3];
-                game.popScene();
-                Scene_kazu--;
-                console.log("Scene数",Scene_kazu);
+              case "リピート":
+                Setting_Flag[3] = true;
+                BGM.loop = Setting_Flag;
                 break;
-              case "設定を開く":
-                game.pushScene(SettingScene(Number));
-                Scene_kazu++;
-                console.log("Scene数",Scene_kazu);
-                break;
-              case Type2:
-                game.replaceScene(ItemScene(Number,Ig,Type2));
-                break;
-              case "つきつける":
-                game.popScene();
-                Scene_kazu--;
-                console.log("Scene数",Scene_kazu);
-                if(Ig==Choice_Item||(Ig!="日常"&&(Choice_Item=="強欲な壺"||Choice_Item=="万能"||Choice_Item=="ヒント"))){
-                  if(Choice_Item=="ヒント"){
-                    Scene_loads("ヒント"+Number,false,false);
-                    return;
-                  }
-                  if(Choice_Item=="強欲な壺"){
-                    Get_ICFT(["アイテム","強欲な壺→強欲なカケラ","強欲な壺を使った証。","強欲なカケラ","","","強欲なカケラ"]);
-                  }
-                  game.pushScene(PopScene(Number,"異議あり！","主人公異議あり！"));
-                  Scene_kazu++;
-                  console.log("Scene数",Scene_kazu);
-                }
-                else if(Ig=="日常") Scene_loads(Number,false,"つきつける"+Choice_Item,Type);
-                else{
-                  game.pushScene(PopScene("つきつけ失敗","異議あり！","主人公異議あり！"));
-                  Scene_kazu++;
-                  console.log("Scene数",Scene_kazu);
-                }
+              case "ランダム":
                 break;
               default:
                 for (var i = 0; i < 5; i++) {
@@ -364,7 +328,6 @@ function Load(width,height){
                   Button[4]._element.value = "つきつける";
                   scene.addChild(Button[4]);
                 }
-                console.log(f);
                 break;
             }
           }
@@ -375,9 +338,9 @@ function Load(width,height){
       var S_Y_H = width/10;
       var W_X_H = width/12;
       var W_Y_H = width/9;
-      Submit("戻る",W_X_H,W_Y_H,S_X_H,S_Y_H);
-      Submit("設定を開く",width/2-S_X_H/2,W_Y_H,S_X_H,S_Y_H);
-      Submit(Type2,width-S_X_H-W_X_H,W_Y_H,S_X_H,S_Y_H);
+      Submit("リピート",W_X_H,W_Y_H,S_X_H,S_Y_H);
+      Submit("",width/2-S_X_H/2,W_Y_H,S_X_H,S_Y_H);
+      Submit("ランダム",width-S_X_H-W_X_H,W_Y_H,S_X_H,S_Y_H);
       Submit("詳細",width/2+width/20,(width/4)+((width/20)+(width/25)+(width/50))*4,width/2.5+W_X_H-width/8,W_X_H);
       Submit("",width/2+width/20,(width/4)+((width/20)+(width/25)*14),width/2.5+W_X_H-width/8,W_X_H);
 
@@ -416,7 +379,6 @@ function Load(width,height){
 
       for (var i = 0; i < 5; i++) {
         if(Choice_Flag[i+Setting_Flag[PAGAS]]){
-          //Item[Item_Number] = new Items(Choice_Flag[i+Setting_Flag[PAGAS]]);
           Submit(Choice_Flag[i+Setting_Flag[PAGAS]][0],width/8,Numbers,width/2.5+W_X_H-width/8,W_X_H,Choice_Flag[i+Setting_Flag[PAGAS]]);
           Numbers += (width/20)+(width/25)+(width/50);
         };
