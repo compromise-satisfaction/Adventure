@@ -72,15 +72,9 @@ function Load(width,height){
     "風船飛行（女性ver.）"
   ];
   var Name2 = [
-    "あかり",
-    "ひなき",
-    "いちご",
     "あの時…！",
-    "スミレ",
     "ケータイ",
     "ゴクン",
-    "すっごーい！",
-    "スナネコ",
     "バシッ",
     "ポポポ(男)",
     "ポポポ(女)",
@@ -94,7 +88,7 @@ function Load(width,height){
   for (var i = 0; i < Name.length; i++) {
     BGMs[i] = [Name[i],"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[i]+".wav"];
   }
-  for (var k = 0; k < Name2[k].length; k++) {
+  for (var k = 0; k < Name2.length; k++) {
     BGMs[i] = [Name2[k],"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/"+Name2[k]+".wav"];
     i++;
   }
