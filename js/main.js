@@ -61,6 +61,15 @@ function Load(width,height){
     "キラメク誓い",
     "たーのしーたーのしーたーのしー！",
     "とっても賢いじゅるり_れしぴ_",
+    "ヒカリ証明論",
+    "プライド",
+    "ぼくのフレンド",
+    "マイペースちぇいさー",
+    "永遠の灯",
+    "偶然、必然。",
+    "砂糖玉の月",
+    "湯けむりユートピア",
+    "風船飛行（女性ver.）"
   ];
   var BGMs = [];
   for (var i = 0; i < Name.length; i++) {
@@ -89,7 +98,7 @@ function Load(width,height){
         Button[submits] = new Entity();
         Button[submits].moveTo(Number_x,Number_y);
         Number_y += height/10;
-        if(submits==9){
+        if(submits%10==9){
           Number_x += width/4;
           Number_y = 0;
         }
