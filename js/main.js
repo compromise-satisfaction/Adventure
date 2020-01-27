@@ -59,10 +59,6 @@ function Load(width,height){
     return;
   });
 
-  var Image_DATAS = [];
-
-  game.preload(Image_DATAS);
-
   var Number = 0;
   var Ig = false;
   var Type = "アイテム";
@@ -108,21 +104,6 @@ function Load(width,height){
     }
     else return(true);
   }
-  function conversion_url(name,Type){
-    switch (Type) {
-      case "画像":
-        for (var i = 0; i < Image_DATAS.length; i++) {
-          if(Image_DATAS[i].名前==name) return(Image_DATAS[i].url);
-        }
-        break;
-      case "サウンド":
-        for (var i = 0; i < Sounds_DATAS.length; i++) {
-          if(Sounds_DATAS[i].名前==name) return(Sounds_DATAS[i].url);
-        }
-        break;
-    }
-    return(name);
-  }
 
   game.fps = 10;
   game.onload = function(){
@@ -137,9 +118,6 @@ function Load(width,height){
           var Type2 = "人物";
           break;
       }
-
-      var Item_image = new Sprite(0,0);
-      scene.addChild(Item_image);
 
       var Button = [];
       var submits = 0;
