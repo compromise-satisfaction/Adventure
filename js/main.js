@@ -209,6 +209,14 @@ function Load(width,height){
         });
         submits++;
       }
+
+      var Image = document.createElement("img");
+      Image.src = "融合.png";
+      Image.width = width/2;
+      Image.height = width/2;
+      console.log(Image);
+      document.body.appendChild(Image);
+
       for (var i = 0; i < BGM.length; i++) {
         Submit(BGM[i].title,i);
       }
