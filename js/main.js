@@ -48,7 +48,7 @@ function Load(width,height){
       core.dispatchEvent(e);
 	});
 
-  var Name = [
+  /*var Name = [
     "COOLEST",
     "Get Wild",
     "HANABI",
@@ -83,7 +83,9 @@ function Load(width,height){
     "捜査",
     "木槌",
     "有罪"
-  ];
+  ];*/
+  var Name = [];
+  var Name2 = [];
   var BGMs = [];
   for (var i = 0; i < Name.length; i++) {
     BGMs[i] = [Name[i],"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[i]+".wav"];
@@ -210,12 +212,60 @@ function Load(width,height){
         submits++;
       }
 
-      var Image = document.createElement("img");
-      Image.src = "融合.png";
-      Image.width = width/2;
-      Image.height = width/2;
-      console.log(Image);
-      document.body.appendChild(Image);
+      var Background = new Sprite();
+      Background.src = "https://embed.github.com/view/3d/skalnik/secret-bear-clip/master/stl/clip.stl";
+      scene.addChild(Background);
+      console.log(Background);
+
+      var White_Background = new Sprite();
+      White_Background._element = document.createElement("img");
+      White_Background._element.src = "白.png";
+      White_Background.y = width/16*9;
+      White_Background.width = width;
+      White_Background.height = height-width/16*9;
+      scene.addChild(White_Background);
+
+      var GAS = new Sprite();
+      GAS = document.createElement('form');
+      GAS.action = "https://script.google.com/macros/s/AKfycbxqvWnxM7jKWdOgMLPcuLaOdAf7dv4enQn5VU_na5QvePO_2Ws/exec";
+      GAS.method = "post";
+      var Data = new Sprite();
+      Data._element = document.createElement('input');
+      Data._element.type = "submit";
+      Data._element.value = 'データ';
+      Data._element.name = "名前";
+      GAS.appendChild(Data._element);
+      //document.body.appendChild(GAS);
+      //console.log(GAS);
+
+      var Buttons_test = [];
+
+      function Button_test(a,b){
+        Buttons_test[a] = new Entity();
+        Buttons_test[a].moveTo((width/5)*a,height-(width/5));
+        Buttons_test[a].width = (width/5);
+        Buttons_test[a].height = (width/5);
+        Buttons_test[a]._element = document.createElement('input');
+        Buttons_test[a]._element.type = "submit";
+        Buttons_test[a]._element.value = b;
+        scene.addChild(Buttons_test[a]);
+      }
+      Button_test(0,"◀ ◀");//戻る1
+      Button_test(1,"◀");//戻る2
+      Button_test(2,"アイテム");//設定
+      Button_test(3,"▶");//進む1
+      Button_test(4,"▶ ▶");//進む2
+
+      Buttons_test[1].addEventListener('touchstart',function(e){
+        scene.removeChild(Explosion);
+        Explosion._element.src = "白.png";
+      });
+
+      Buttons_test[3].addEventListener('touchstart',function(e){
+        Explosion._element.src = "爆発.gif";
+        scene.addChild(Explosion);
+      });
+
 
       for (var i = 0; i < BGM.length; i++) {
         Submit(BGM[i].title,i);
