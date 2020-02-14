@@ -95,7 +95,7 @@ function Load(width,height){
     i++;
   }
   for (var i = 0; i < 16; i++) {
-    BGMs[i] = [["パイズリサムスさん"],"sound/titty-fuck-samus-san["+i+"].mp3"];
+    BGMs[i] = [[i],"sound/titty-fuck-samus-san["+i+"].mp3"];
   }
   var BGM = [];
   for (var i = 0; i < BGMs.length; i++) {
@@ -253,7 +253,7 @@ function Load(width,height){
 
 
       for (var i = 0; i < BGM.length; i++) {
-        //Submit(BGM[i].title,i);
+        Submit(BGM[i].title,i);
       }
 
       return scene;
