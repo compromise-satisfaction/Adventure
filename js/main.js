@@ -253,7 +253,7 @@ function Load(width,height){
 
 
       for (var i = 0; i < BGM.length; i++) {
-        Submit(BGM[i].title,i);
+        //Submit(BGM[i].title,i);
       }
 
       return scene;
