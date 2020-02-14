@@ -94,6 +94,9 @@ function Load(width,height){
     BGMs[i] = [Name2[k],"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/"+Name2[k]+".wav"];
     i++;
   }
+  for (var i = 0; i < 16; i++) {
+    BGMs[i] = [["パイズリサムスさん"],"sound/titty-fuck-samus-san["+i+"].mp3"];
+  }
   var BGM = [];
   for (var i = 0; i < BGMs.length; i++) {
     BGM[i] = document.createElement("audio");
@@ -212,11 +215,6 @@ function Load(width,height){
         submits++;
       }
 
-      var Background = new Sprite();
-      Background.src = "https://embed.github.com/view/3d/skalnik/secret-bear-clip/master/stl/clip.stl";
-      scene.addChild(Background);
-      console.log(Background);
-
       var White_Background = new Sprite();
       White_Background._element = document.createElement("img");
       White_Background._element.src = "白.png";
@@ -224,19 +222,6 @@ function Load(width,height){
       White_Background.width = width;
       White_Background.height = height-width/16*9;
       scene.addChild(White_Background);
-
-      var GAS = new Sprite();
-      GAS = document.createElement('form');
-      GAS.action = "https://script.google.com/macros/s/AKfycbxqvWnxM7jKWdOgMLPcuLaOdAf7dv4enQn5VU_na5QvePO_2Ws/exec";
-      GAS.method = "post";
-      var Data = new Sprite();
-      Data._element = document.createElement('input');
-      Data._element.type = "submit";
-      Data._element.value = 'データ';
-      Data._element.name = "名前";
-      GAS.appendChild(Data._element);
-      //document.body.appendChild(GAS);
-      //console.log(GAS);
 
       var Buttons_test = [];
 
@@ -248,7 +233,7 @@ function Load(width,height){
         Buttons_test[a]._element = document.createElement('input');
         Buttons_test[a]._element.type = "submit";
         Buttons_test[a]._element.value = b;
-        scene.addChild(Buttons_test[a]);
+        //scene.addChild(Buttons_test[a]);
       }
       Button_test(0,"◀ ◀");//戻る1
       Button_test(1,"◀");//戻る2
