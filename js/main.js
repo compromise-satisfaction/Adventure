@@ -48,7 +48,7 @@ function Load(width,height){
       core.dispatchEvent(e);
 	});
 
-  /*var Name = [
+  var Name = [
     "COOLEST",
     "Get Wild",
     "HANABI",
@@ -83,8 +83,8 @@ function Load(width,height){
     "捜査",
     "木槌",
     "有罪"
-  ];*/
-  var Name = [];
+  ];
+  //var Name = [];
   var Name2 = [];
   var BGMs = [];
   for (var i = 0; i < Name.length; i++) {
@@ -95,7 +95,7 @@ function Load(width,height){
     i++;
   }
   for (var i = 0; i < 16; i++) {
-    BGMs[i] = [[i],"sound/titty-fuck-samus-san["+i+"].mp3"];
+    //BGMs[i] = [[i],"sound/titty-fuck-samus-san["+i+"].mp3"];
   }
   var BGM = [];
   for (var i = 0; i < BGMs.length; i++) {
@@ -215,6 +215,38 @@ function Load(width,height){
         submits++;
       }
 
+      Datas = ["斧装備いちご.png","1.8","カットイン.gif"];
+
+      var Background = new Sprite();
+      Background._element = document.createElement("img");
+      if(Datas[2]) Background._element.src = Datas[2];
+      else Background._element.src = "黒.png";
+      Background.width = width;
+      Background.height = width/16*9;
+      scene.addChild(Background);
+
+      var Explosion = new Sprite();
+      Explosion._element = document.createElement("img");
+      Explosion._element.src = "透明.png";
+      Explosion.width = width/16*9;
+      Explosion.height = width/16*9;
+      Explosion.x = (width-Explosion.width)/2;
+      scene.addChild(Explosion);
+
+      if(Datas[0]!=false){
+        var Character2 = new Sprite();
+        Character2._element = document.createElement("img");
+        Character2._element.src = Datas[0];
+        Character2._element.title = Datas[0];
+        Character2.width = width/16*9;
+        Character2.height = width/16*9;
+        Character2.width*=Datas[1].split("→")[0];
+        Character2.height*=Datas[1].split("→")[0];
+        Character2.x = (width-Character2.width)/2;
+        if(Datas[1].split("→")[1]) Character2.y =  Datas[1].split("→")[1]*(width/16/100);
+        scene.addChild(Character2);
+      }//キャラ真ん中
+
       var White_Background = new Sprite();
       White_Background._element = document.createElement("img");
       White_Background._element.src = "白.png";
@@ -233,7 +265,7 @@ function Load(width,height){
         Buttons_test[a]._element = document.createElement('input');
         Buttons_test[a]._element.type = "submit";
         Buttons_test[a]._element.value = b;
-        //scene.addChild(Buttons_test[a]);
+        scene.addChild(Buttons_test[a]);
       }
       Button_test(0,"◀ ◀");//戻る1
       Button_test(1,"◀");//戻る2
@@ -242,19 +274,18 @@ function Load(width,height){
       Button_test(4,"▶ ▶");//進む2
 
       Buttons_test[1].addEventListener('touchstart',function(e){
-        scene.removeChild(Explosion);
         Explosion._element.src = "白.png";
+      });
+
+      Buttons_test[2].addEventListener('touchstart',function(e){
+        for (var i = 0; i < BGM.length; i++) {
+          Submit(BGM[i].title,i);
+        }
       });
 
       Buttons_test[3].addEventListener('touchstart',function(e){
         Explosion._element.src = "爆発.gif";
-        scene.addChild(Explosion);
       });
-
-
-      for (var i = 0; i < BGM.length; i++) {
-        Submit(BGM[i].title,i);
-      }
 
       return scene;
     };
