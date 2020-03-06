@@ -66,6 +66,7 @@ function Load(width,height){
     "ぼくのフレンド",
     "マイペースちぇいさー",
     "永遠の灯",
+    "硝子ドール",
     "偶然、必然。",
     "砂糖玉の月",
     "湯けむりユートピア",
@@ -88,7 +89,7 @@ function Load(width,height){
   var Name2 = [];
   var BGMs = [];
   for (var i = 0; i < Name.length; i++) {
-    BGMs[i] = [Name[i],"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/music/"+Name[i]+".wav"];
+    BGMs[i] = [Name[i],"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/歌/"+Name[i]+".wav"];
   }
   for (var k = 0; k < Name2.length; k++) {
     BGMs[i] = [Name2[k],"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/"+Name2[k]+".wav"];
@@ -273,19 +274,19 @@ function Load(width,height){
       Button_test(3,"▶");//進む1
       Button_test(4,"▶ ▶");//進む2
 
-      Buttons_test[1].addEventListener('touchstart',function(e){
+      Buttons_test[1]._element.onclick = function(){
         Explosion._element.src = "白.png";
-      });
+      };
 
-      Buttons_test[2].addEventListener('touchstart',function(e){
+      Buttons_test[2]._element.onclick = function(){
         for (var i = 0; i < BGM.length; i++) {
           Submit(BGM[i].title,i);
         }
-      });
+      };
 
-      Buttons_test[3].addEventListener('touchstart',function(e){
+      Buttons_test[3]._element.onclick = function(){
         Explosion._element.src = "爆発.gif";
-      });
+      };
 
       return scene;
     };
