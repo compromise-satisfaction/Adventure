@@ -216,7 +216,7 @@ function Load(width,height){
         submits++;
       }
 
-      Datas = ["斧装備いちご.png","1.8","カットイン.gif"];
+      Datas = ["透明.png","1.8","風呂.png"];
 
       var Background = new Sprite();
       Background._element = document.createElement("img");
@@ -225,6 +225,13 @@ function Load(width,height){
       Background.width = width;
       Background.height = width/16*9;
       scene.addChild(Background);
+
+      var Syu = new Sprite();
+      Syu._element = document.createElement("img");
+      Syu._element.src = "草.png";
+      Syu.width = width/16;
+      Syu.height = width/16;
+      scene.addChild(Syu);
 
       var Explosion = new Sprite();
       Explosion._element = document.createElement("img");
@@ -268,24 +275,32 @@ function Load(width,height){
         Buttons_test[a]._element.value = b;
         scene.addChild(Buttons_test[a]);
       }
-      Button_test(0,"◀ ◀");//戻る1
-      Button_test(1,"◀");//戻る2
+      Button_test(0,"左");//戻る1
+      Button_test(1,"上");//戻る2
       Button_test(2,"アイテム");//設定
-      Button_test(3,"▶");//進む1
-      Button_test(4,"▶ ▶");//進む2
+      Button_test(3,"下");//進む1
+      Button_test(4,"右");//進む2
+
+      Buttons_test[0]._element.onclick = function(){
+        Syu.x -= width/16;
+      };
 
       Buttons_test[1]._element.onclick = function(){
-        Explosion._element.src = "白.png";
+        Syu.y -= width/16;
+      };
+
+      Buttons_test[3]._element.onclick = function(){
+        Syu.y += width/16;
+      };
+
+      Buttons_test[4]._element.onclick = function(){
+        Syu.x += width/16;
       };
 
       Buttons_test[2]._element.onclick = function(){
         for (var i = 0; i < BGM.length; i++) {
           Submit(BGM[i].title,i);
         }
-      };
-
-      Buttons_test[3]._element.onclick = function(){
-        Explosion._element.src = "爆発.gif";
       };
 
       return scene;
