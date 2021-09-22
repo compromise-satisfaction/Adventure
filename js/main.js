@@ -1,8 +1,8 @@
 enchant()
 
-var Key_c = false;
 var Key_z = false;
 var Key_x = false;
+var Key_c = false;
 var Character = -1;
 var Character_X = 0;
 var Flag = {};
@@ -10,6 +10,7 @@ var Stage = "最初";
 var COOLTime = {c_key:0,run:0,down:0,right:0,left:0,up:0};
 var Run = false;
 var Pad_opacity = 1;
+var Stage_Datas = {};
 
 var SE = document.createElement("audio");
 var SE2 = document.createElement("audio");
@@ -232,6 +233,9 @@ function Game_load(width,height){
               C_B.opacity = 0;
               Z_B.opacity = 0;
               Pad1.opacity = 0;
+              Key_z = false;
+              Key_x = false;
+              Key_c = false;
               game.pushScene(Chat_Scene(Value[Object.keys(Value)[i]].text));
               X_B.opacity = Pad_opacity;
               C_B.opacity = Pad_opacity;
@@ -725,6 +729,9 @@ function Game_load(width,height){
           else Keydown_c();
         }
         else{
+          Key_z = false;
+          Key_x = false;
+          Key_c = false;
           game.popScene();
           if(Datas[k].ステージ移動){
             if(Datas[k].x) Character_X = Datas[k].x;
@@ -777,22 +784,26 @@ function Game_load(width,height){
     };
 
     fetch(URL,Options).then(res => res.json()).then(result => {
-      Stage_Datas = {};
       for (var i = 0; i < result.length; i++) {
         Stage_Datas[result[i].名前] = JSON.parse(result[i].ステージ);
       }
-      if(window.localStorage.length){
+      if(window.localStorage.getItem("Flag")){
         Flag = window.localStorage.getItem("Flag");
-        Stage = window.localStorage.getItem("Stage");
-        Character = window.localStorage.getItem("Character");
-        Character_X = window.localStorage.getItem("Character_X");
         Flag = JSON.parse(Flag);
+      }
+      if(window.localStorage.getItem("Stage")){
+        Stage = window.localStorage.getItem("Stage");
         Stage = JSON.parse(Stage);
+      }
+      if(window.localStorage.getItem("Character")){
+        Character = window.localStorage.getItem("Character");
         Character = JSON.parse(Character);
+      }
+      if(window.localStorage.getItem("Character_X")){
+        Character_X = window.localStorage.getItem("Character_X");
         Character_X = JSON.parse(Character_X);
       }
       if(!Stage_Datas[Stage]) Stage = "最初";
-      console.log(Stage);
       game.replaceScene(Main_Scene(Stage_Datas[Stage]));
       return;
     },);
