@@ -9,11 +9,13 @@ var Flag = {};
 var Stage = "最初";
 var COOLTime = {c_key:0,run:0,down:0,right:0,left:0,up:0};
 var Run = false;
+var Pad_opacity = 1;
 
 var SE = document.createElement("audio");
 var SE2 = document.createElement("audio");
 
 window.addEventListener("keydown",function(e){
+  Pad_opacity = 0;
   switch(e.key){
     case "z":
       Key_z = true;
@@ -224,9 +226,17 @@ function Game_load(width,height){
               return;
             }
             if(Value[Object.keys(Value)[i]].text){
-              Character = Image[Images_Data.人].scaleX
-              Character_X = Image[Images_Data.人].x
+              Character = Image[Images_Data.人].scaleX;
+              Character_X = Image[Images_Data.人].x;
+              X_B.opacity = 0;
+              C_B.opacity = 0;
+              Z_B.opacity = 0;
+              Pad1.opacity = 0;
               game.pushScene(Chat_Scene(Value[Object.keys(Value)[i]].text));
+              X_B.opacity = Pad_opacity;
+              C_B.opacity = Pad_opacity;
+              Z_B.opacity = Pad_opacity;
+              Pad1.opacity = Pad_opacity;
               break;
             }
           }
@@ -253,6 +263,7 @@ function Game_load(width,height){
       var E_E = null;
 
       scene.addEventListener("touchstart",function(e){
+        Pad_opacity = 1;
         E_X = Math.floor(e.x);
         E_Y = Math.floor(e.y);
       });
@@ -424,9 +435,96 @@ function Game_load(width,height){
             if(Image[Images_Data.人].acceleration > 20) Image[Images_Data.人].acceleration -= Friction;
           }
         }
+        pad_keydown();
       });
 
-       return scene;
+      var Pad1 = new Pad("image/pad.png",500);
+      Pad1.y = height-500;
+      Pad1.opacity = Pad_opacity;
+      scene.addChild(Pad1);
+
+      var X_B = new Sprite();
+      X_B._element = document.createElement("img");
+      X_B._element.src = "image/x.png";
+      X_B.width = 250;
+      X_B.height = 250;
+      X_B.x = width - 250;
+      X_B.y = height - 500;
+      X_B.opacity = Pad_opacity;
+      scene.addChild(X_B);
+
+      var C_B = new Sprite();
+      C_B._element = document.createElement("img");
+      C_B._element.src = "image/c.png";
+      C_B.width = 250;
+      C_B.height = 250;
+      C_B.x = width - 500;
+      C_B.y = height - 250;
+      C_B.opacity = Pad_opacity;
+      scene.addChild(C_B);
+
+      var Z_B = new Sprite();
+      Z_B._element = document.createElement("img");
+      Z_B._element.src = "image/z.png";
+      Z_B.width = 250;
+      Z_B.height = 250;
+      Z_B.x = width - 250;
+      Z_B.y = height - 250;
+      Z_B.opacity = Pad_opacity;
+      scene.addChild(Z_B);
+
+      X_B.addEventListener("touchstart",function(){
+        Key_x = true;
+        return;
+      });
+
+      X_B.addEventListener("touchend",function(){
+        Key_x = false;
+        return;
+      });
+
+      C_B.addEventListener("touchstart",function(){
+        Key_c = true;
+        return;
+      });
+
+      C_B.addEventListener("touchend",function(){
+        Key_c = false;
+        return;
+      });
+
+      Z_B.addEventListener("touchstart",function(){
+        Key_z = true;
+        return;
+      });
+
+      Z_B.addEventListener("touchend",function(){
+        Key_z = false;
+        return;
+      });
+
+      function pad_keydown(){
+        Pad1._element.src = "image/pad.png";
+        if(game.input.up){
+          Pad1.rotation = 0;
+          Pad1._element.src = "image/pad_keydown.png";
+        }
+        if(game.input.down){
+          Pad1.rotation = 180;
+          Pad1._element.src = "image/pad_keydown.png";
+        }
+        if(game.input.right){
+          Pad1.rotation = 90;
+          Pad1._element.src = "image/pad_keydown.png";
+        }
+        if(game.input.left){
+          Pad1.rotation = 270;
+          Pad1._element.src = "image/pad_keydown.png";
+        }
+        return;
+      }
+
+      return scene;
     };
     var Chat_Scene = function(Datas){
       var scene = new Scene();
@@ -633,6 +731,31 @@ function Game_load(width,height){
         }
         return;
       }
+
+      var Pad1 = new Pad("image/pad.png",500);
+      Pad1.y = height-500;
+      Pad1.opacity = Pad_opacity;
+      scene.addChild(Pad1);
+
+      var C_B = new Sprite();
+      C_B._element = document.createElement("img");
+      C_B._element.src = "image/c.png";
+      C_B.width = 250;
+      C_B.height = 250;
+      C_B.x = width - 500;
+      C_B.y = height - 250;
+      C_B.opacity = Pad_opacity;
+      scene.addChild(C_B);
+
+      C_B.addEventListener("touchstart",function(){
+        Key_c = true;
+        return;
+      });
+
+      C_B.addEventListener("touchend",function(){
+        Key_c = false;
+        return;
+      });
 
       return scene;
     };
