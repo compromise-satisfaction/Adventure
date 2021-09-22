@@ -223,6 +223,13 @@ function Game_load(width,height){
             }
             if(Value[Object.keys(Value)[i]].ステージ移動){
               Stage = Value[Object.keys(Value)[i]].ステージ移動;
+              Key_z = false;
+              Key_x = false;
+              Key_c = false;
+              game.input.up = false;
+              game.input.down = false;
+              game.input.left = false;
+              game.input.right = false;
               game.replaceScene(Main_Scene(Stage_Datas[Stage]));
               return;
             }
@@ -236,6 +243,10 @@ function Game_load(width,height){
               Key_z = false;
               Key_x = false;
               Key_c = false;
+              game.input.up = false;
+              game.input.down = false;
+              game.input.left = false;
+              game.input.right = false;
               game.pushScene(Chat_Scene(Value[Object.keys(Value)[i]].text));
               X_B.opacity = Pad_opacity;
               C_B.opacity = Pad_opacity;
@@ -313,6 +324,13 @@ function Game_load(width,height){
               if(Datas.移動データ.右x) Character_X = Datas.移動データ.右x;
               else Character_X = 0;
               Stage = Datas.移動データ.右;
+              Key_z = false;
+              Key_x = false;
+              Key_c = false;
+              game.input.up = false;
+              game.input.down = false;
+              game.input.left = false;
+              game.input.right = false;
               game.replaceScene(Main_Scene(Stage_Datas[Stage]));
             }
           }
@@ -326,6 +344,13 @@ function Game_load(width,height){
               if(Datas.移動データ.左x) Character_X = Datas.移動データ.左x;
               else Character_X = 1600-Image[Images_Data.人].width;
               Stage = Datas.移動データ.左;
+              Key_z = false;
+              Key_x = false;
+              Key_c = false;
+              game.input.up = false;
+              game.input.down = false;
+              game.input.left = false;
+              game.input.right = false;
               game.replaceScene(Main_Scene(Stage_Datas[Stage]));
             }
           }
@@ -339,6 +364,13 @@ function Game_load(width,height){
               if(Datas.移動データ.上向き) Character = Datas.移動データ.上向き;
               if(Datas.移動データ.上x!=undefined) Character_X = Datas.移動データ.上x;
               Stage = Datas.移動データ.上;
+              Key_z = false;
+              Key_x = false;
+              Key_c = false;
+              game.input.up = false;
+              game.input.down = false;
+              game.input.left = false;
+              game.input.right = false;
               game.replaceScene(Main_Scene(Stage_Datas[Stage]));
             }
           }
@@ -737,6 +769,13 @@ function Game_load(width,height){
             if(Datas[k].x) Character_X = Datas[k].x;
             if(Datas[k].向き) Character = Datas[k].向き;
             Stage = Datas[k].ステージ移動;
+            Key_z = false;
+            Key_x = false;
+            Key_c = false;
+            game.input.up = false;
+            game.input.down = false;
+            game.input.left = false;
+            game.input.right = false;
             game.replaceScene(Main_Scene(Stage_Datas[Stage]));
           }
         }
