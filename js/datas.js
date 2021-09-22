@@ -36,9 +36,6 @@ Message_Datas.夢看板2 = {
 Message_Datas.表札 = {
   1:{text:"表札:φφφφφφφφφφφφφφφなんとか学園。",音:"ポポポ(男).wav"}
 };
-Message_Datas.氷 = {
-  1:{"text":"氷を見つけた！","音":"ポポポ(男).wav"}
-};
 Message_Datas.カード = {
   1:{フラグ:"カード拾い","固定値":0},
   2:{"text":"カードを10枚拾った！","音":"ポポポ(男).wav",フラグ:"カード","増加量":10}
@@ -54,12 +51,16 @@ Message_Datas.ベッド = {
   1:{text:"My bed.",音:"ポポポ(男).wav"},
   寝:{フラグ:"カード拾い","固定値":1,next:"月",text:"寝た！",音:"ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
   月:{フラグ:"睡眠回数","増加量":1,x:820,向き:-1,ステージ移動:"月",text:"夢を見た！",音:"ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
+  セーブ:{text:"セーブしました。",音:"ポポポ(男).wav",セーブ:"セーブ"},
+  セーブ削除:{text:"既存セーブを削除しました。φφφφφゲームは続けることができます。",音:"ポポポ(男).wav",セーブ:"削除"},
   2:{
     text:"Do you sleep?",
     音:"ポポポ(男).wav",
     選択肢:{
-      1:{text:"いいえ"},
-      2:{text:"はい",next:"寝"},
+      1:{text:"セーブ削除",next:"セーブ削除"},
+      2:{text:"セーブ",next:"セーブ"},
+      3:{text:"いいえ"},
+      4:{text:"はい",next:"寝"},
     }
   }
 };
@@ -102,6 +103,7 @@ var width = 1600;
 var height = 900;
 
 Stage_Datas.最初 = {
+  物理:{ジャンプ音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ガン.wav"},
   画像:{
     操作説明:{width:450,height:450,x:0,y:0,src:"image/key1.png",opacity:0},
     操作説明触れる:{width:450,height:450,x:0,y:height-450,src:"image/透明.png"},

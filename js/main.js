@@ -6,14 +6,12 @@ var Key_x = false;
 var Character = -1;
 var Character_X = 0;
 var Flag = {};
+var Stage = "最初";
 var COOLTime = {c_key:0,run:0,down:0,right:0,left:0,up:0};
 var Run = false;
 
 var SE = document.createElement("audio");
-SE.src = "";
-
 var SE2 = document.createElement("audio");
-SE2.src = "ジャンプ.wav";
 
 window.addEventListener("keydown",function(e){
   switch(e.key){
@@ -90,7 +88,6 @@ function Game_load(width,height){
       };
 
       fetch(URL,Options).then(res => res.json()).then(result => {
-        console.log(result);
         return;
       },);
 
@@ -222,10 +219,13 @@ function Game_load(width,height){
               Image[Images_Data.人].scaleX = Character;
             }
             if(Value[Object.keys(Value)[i]].ステージ移動){
-              game.replaceScene(Main_Scene(Stage_Datas[Value[Object.keys(Value)[i]].ステージ移動]));
+              Stage = Value[Object.keys(Value)[i]].ステージ移動;
+              game.replaceScene(Main_Scene(Stage_Datas[Stage]));
               return;
             }
             if(Value[Object.keys(Value)[i]].text){
+              Character = Image[Images_Data.人].scaleX
+              Character_X = Image[Images_Data.人].x
               game.pushScene(Chat_Scene(Value[Object.keys(Value)[i]].text));
               break;
             }
@@ -245,6 +245,7 @@ function Game_load(width,height){
         if(Datas.物理.重力) Gravity = Datas.物理.重力;
         if(Datas.物理.摩擦) Friction = Datas.物理.摩擦;
         if(Datas.物理.ジャンプ) Jump_s = Datas.物理.ジャンプ;
+        if(Datas.物理.ジャンプ音) SE2.src = Datas.物理.ジャンプ音;
       }
       var Jump = Jump_s;
       var E_X = 0;
@@ -278,8 +279,10 @@ function Game_load(width,height){
           if(Jump){
             Image[Images_Data.人].Number = "空中";
             if(Pe_S >= 0){
-              if(SE2.paused) SE2.play();
-              else SE2.currentTime = 0;
+              if(SE2.src){
+                if(SE2.paused) SE2.play();
+                else SE2.currentTime = 0;
+              }
               Jump--;
               Pe_S -= 50;
             }
@@ -290,7 +293,8 @@ function Game_load(width,height){
             if(Image[Images_Data.人].x >= 1600){
               if(Datas.移動データ.右x) Character_X = Datas.移動データ.右x;
               else Character_X = 0;
-              game.replaceScene(Main_Scene(Stage_Datas[Datas.移動データ.右]));
+              Stage = Datas.移動データ.右;
+              game.replaceScene(Main_Scene(Stage_Datas[Stage]));
             }
           }
           else{
@@ -302,7 +306,8 @@ function Game_load(width,height){
             if(Image[Images_Data.人].x <= -Image[Images_Data.人].width){
               if(Datas.移動データ.左x) Character_X = Datas.移動データ.左x;
               else Character_X = 1600-Image[Images_Data.人].width;
-              game.replaceScene(Main_Scene(Stage_Datas[Datas.移動データ.左]));
+              Stage = Datas.移動データ.左;
+              game.replaceScene(Main_Scene(Stage_Datas[Stage]));
             }
           }
           else{
@@ -314,7 +319,8 @@ function Game_load(width,height){
             if(Image[Images_Data.人].y <= -Image[Images_Data.人].height){
               if(Datas.移動データ.上向き) Character = Datas.移動データ.上向き;
               if(Datas.移動データ.上x!=undefined) Character_X = Datas.移動データ.上x;
-              game.replaceScene(Main_Scene(Stage_Datas[Datas.移動データ.上]));
+              Stage = Datas.移動データ.上;
+              game.replaceScene(Main_Scene(Stage_Datas[Stage]));
             }
           }
         }
@@ -475,9 +481,9 @@ function Game_load(width,height){
         ChoiceText[Number]._style.font  = "60px monospace";
         ChoiceText[Number]._style.color = "white";
         ChoiceText[Number].x = 1000;
-        ChoiceText[Number].y = 380 - Number * 120;
+        ChoiceText[Number].y = 390 - Number * 120;
         ChoiceText[Number].opacity = 0;
-        Images(width,height,0,- Number * 120,"image/choicebox.png","選択肢"+Number);
+        Images(width,height,0,10 - Number * 120,"image/choicebox.png","選択肢"+Number);
         Image[Images_Data["選択肢"+Number]].opacity = 0;
         scene.addChild(ChoiceText[Number]);
       }
@@ -510,8 +516,10 @@ function Game_load(width,height){
           COOLTime.c_key = 5;
         }
         if(Write==2) Text_write();
-        if(SE.paused) SE.play();
-        else SE.currentTime = 0;
+        if(SE.src){
+          if(SE.paused) SE.play();
+          else SE.currentTime = 0;
+        }
         return;
       }
 
@@ -590,6 +598,19 @@ function Game_load(width,height){
             if(Datas[k].増加量!=undefined) Flag[Datas[k].フラグ] += Datas[k].増加量;
             if(Datas[k].固定値!=undefined) Flag[Datas[k].フラグ] = Datas[k].固定値;
           }
+          if(Datas[k].セーブ){
+            switch(Datas[k].セーブ){
+              case "削除":
+                window.localStorage.clear();
+                break;
+              default:
+                window.localStorage.setItem("Flag",JSON.stringify(Flag));
+                window.localStorage.setItem("Stage",JSON.stringify(Stage));
+                window.localStorage.setItem("Character",JSON.stringify(Character));
+                window.localStorage.setItem("Character_X",JSON.stringify(Character_X));
+                break;
+            }
+          }
           i = 0;
           for(var a = 0; a < 90; a++){
             Text[a]._element.textContent = "";
@@ -606,7 +627,8 @@ function Game_load(width,height){
           if(Datas[k].ステージ移動){
             if(Datas[k].x) Character_X = Datas[k].x;
             if(Datas[k].向き) Character = Datas[k].向き;
-            game.replaceScene(Main_Scene(Stage_Datas[Datas[k].ステージ移動]));
+            Stage = Datas[k].ステージ移動;
+            game.replaceScene(Main_Scene(Stage_Datas[Stage]));
           }
         }
         return;
@@ -614,7 +636,7 @@ function Game_load(width,height){
 
       return scene;
     };
-    //game.replaceScene(Start_Scene());
+
     var URL = "https://script.google.com/macros/s/AKfycbzQm1rsU9qHfmOCRgPguLLifPIPc4Ip6NMbei5rX0EGu8-XfJj8/exec";
     var Options = {
       method: "POST",
@@ -626,7 +648,17 @@ function Game_load(width,height){
       for (var i = 0; i < result.length; i++) {
         Stage_Datas[result[i].名前] = JSON.parse(result[i].ステージ);
       }
-      game.replaceScene(Main_Scene(Stage_Datas["最初"]));
+      if(window.localStorage.length){
+        Flag = window.localStorage.getItem("Flag");
+        Stage = window.localStorage.getItem("Stage");
+        Character = window.localStorage.getItem("Character");
+        Character_X = window.localStorage.getItem("Character_X");
+        Flag = JSON.parse(Flag);
+        Stage = JSON.parse(Stage);
+        Character = JSON.parse(Character);
+        Character_X = JSON.parse(Character_X);
+      }
+      game.replaceScene(Main_Scene(Stage_Datas[Stage]));
       return;
     },);
   }
