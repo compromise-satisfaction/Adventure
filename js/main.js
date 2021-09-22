@@ -792,6 +792,7 @@ function Game_load(width,height){
         Character_X = JSON.parse(Character_X);
       }
       if(!Stage_Datas[Stage]) Stage = "最初";
+      console.log(Stage);
       game.replaceScene(Main_Scene(Stage_Datas[Stage]));
       return;
     },);
