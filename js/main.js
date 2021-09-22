@@ -264,6 +264,10 @@ function Game_load(width,height){
 
       scene.addEventListener("touchstart",function(e){
         Pad_opacity = 1;
+        X_B.opacity = Pad_opacity;
+        C_B.opacity = Pad_opacity;
+        Z_B.opacity = Pad_opacity;
+        Pad1.opacity = Pad_opacity;
         E_X = Math.floor(e.x);
         E_Y = Math.floor(e.y);
       });
@@ -757,6 +761,12 @@ function Game_load(width,height){
         return;
       });
 
+      scene.addEventListener("touchstart",function(e){
+        Pad_opacity = 1;
+        C_B.opacity = Pad_opacity;
+        Pad1.opacity = Pad_opacity;
+      });
+
       return scene;
     };
 
@@ -781,6 +791,7 @@ function Game_load(width,height){
         Character = JSON.parse(Character);
         Character_X = JSON.parse(Character_X);
       }
+      if(!Stage_Datas[Stage]) Stage = "最初";
       game.replaceScene(Main_Scene(Stage_Datas[Stage]));
       return;
     },);
