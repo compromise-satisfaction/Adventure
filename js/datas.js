@@ -1,0 +1,477 @@
+var Stage_Datas = {};
+var Message_Datas = {};
+Message_Datas.看板 = {
+  "image":{0:{name:"その1",src:"image/透明.png",width:1600,height:900,x:0,y:0}},
+  1:{"text":"看板:φφφφφφφφφφφφφφφ操作は大丈夫みたいですね。","音":"ポポポ(男).wav",フラグ:"既読","固定値":1},
+  2:{"text":"看板:φφφφφφφφφφφφφφφ左右キーを二連打する事でもφφφφφ走ることが出来ます。","音":"ポポポ(男).wav"},
+  3:{"text":"看板:φφφφφφφφφφφφφφφ扉などに入るときはφφφφφφφφφ↑キーを使おうと思っています。","音":"ポポポ(男).wav"},
+  4:{"text":"看板:φφφφφφφφφφφφφφφ右に行くといいでしょう。","音":"ポポポ(男).wav"},
+  はい:{"text":"看板:φφφφφφφφφφφφφφφご理解感謝。","音":"ポポポ(男).wav"},
+  たぶん:{"text":"看板:φφφφφφφφφφφφφφφまあ、やってりゃわかりますよ。φφφたぶん。","音":"ポポポ(男).wav"},
+  オッケー:{"text":"看板:φφφφφφφφφφφφφφφ元気がいいですね。結構な事です。","音":"ポポポ(男).wav"},
+  5:{
+    text:"看板:φφφφφφφφφφφφφφφご理解いただけましたか？",
+    音:"ポポポ(男).wav",
+    選択肢:{
+      1:{text:"いいえ",next:2},
+      2:{text:"はい",next:"はい"},
+      3:{text:"たぶん",next:"たぶん"},
+      4:{text:"オッケー！",next:"オッケー"},
+    }
+  }
+};
+Message_Datas.看板2 = {
+  1:{"text":"看板:φφφφφφφφφφφφφφφまた会いましょう。","音":"ポポポ(男).wav"},
+};
+Message_Datas.海看板 = {
+  1:{"text":"看板:φφφφφφφφφφφφφφφ目覚めるには浮上しろ。","音":"ポポポ(男).wav"},
+};
+Message_Datas.夢看板 = {
+  1:{"text":"看板:φφφφφφφφφφφφφφφよう！また会ったな！φφφφφφφφもう操作はバッチリっぽいな！","音":"ポポポ(男).wav"},
+  2:{"text":"看板:φφφφφφφφφφφφφφφ起きたきゃまた右に行くんだぜ！","音":"ポポポ(男).wav"},
+};
+Message_Datas.夢看板2 = {
+  1:{"text":"看板:φφφφφφφφφφφφφφφまた来たのか。φφφφφφφφφφφちょっと寝すぎじゃね？","音":"ポポポ(男).wav"}
+};
+Message_Datas.表札 = {
+  1:{text:"表札:φφφφφφφφφφφφφφφなんとか学園。",音:"ポポポ(男).wav"}
+};
+Message_Datas.氷 = {
+  1:{"text":"氷を見つけた！","音":"ポポポ(男).wav"}
+};
+Message_Datas.カード = {
+  1:{フラグ:"カード拾い","固定値":0},
+  2:{"text":"カードを10枚拾った！","音":"ポポポ(男).wav",フラグ:"カード","増加量":10}
+};
+Message_Datas.カードない = {
+  1:{"text":"カードが流れてきそうな空間だ。","音":"ポポポ(男).wav"}
+};
+Message_Datas.百円 = {
+  1:{text:"百円玉を見つけた！",音:"ポポポ(男).wav",フラグ:"所持金",増加量:100}
+};
+Message_Datas.ベッド = {
+  "image":{0:{name:"闇",src:"image/透明.png",width:1600,height:900,x:0,y:0}},
+  1:{text:"My bed.",音:"ポポポ(男).wav"},
+  寝:{フラグ:"カード拾い","固定値":1,next:"月",text:"寝た！",音:"ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
+  月:{フラグ:"睡眠回数","増加量":1,x:820,向き:-1,ステージ移動:"月",text:"夢を見た！",音:"ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
+  2:{
+    text:"Do you sleep?",
+    音:"ポポポ(男).wav",
+    選択肢:{
+      1:{text:"いいえ"},
+      2:{text:"はい",next:"寝"},
+    }
+  }
+};
+Message_Datas.ミミ = {
+  "image":{0:{name:"ミミ",src:"image/331.png",width:1600,height:900,x:0,y:0}},
+  1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"ポポポ(女).wav"},
+  2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"ポポポ(女).wav"},
+  3:{"text":"ミミ:φφφφφφφφφφφφφφφただ、理由もなく変わってもらうわけにいかないわね。","音":"ポポポ(女).wav"},
+  5:{"text":"ミミ:φφφφφφφφφφφφφφφデッキを持ってない？φφφφφφφφじゃあ仕方ないわね。φφφφφφφφさっさと終わらせて帰るわ。","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"image/331.png",width:1600,height:900,x:0,y:0}}},
+  4:{"text":"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"image/332.png",width:1600,height:900,x:0,y:0}}}
+};
+Message_Datas.ミミ2 = {
+  "image":{0:{name:"ミミ",src:"image/331.png",width:1600,height:900,x:0,y:0}},
+  1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"ポポポ(女).wav"},
+  2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"ポポポ(女).wav"},
+  3:{"text":"ミミ:φφφφφφφφφφφφφφφただ、理由もなく変わってもらうわけにいかないわね。","音":"ポポポ(女).wav"},
+  4:{"text":"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"image/332.png",width:1600,height:900,x:0,y:0}}},
+  5:{"text":"ミミ:φφφφφφφφφφφφφφφあら？カードが足りないみたいね。φφデッキは最低40枚いるわよ。φφφφこれじゃ仕方ないわね。φφφφφφφさっさと終わらせて帰るわ。","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"image/331.png",width:1600,height:900,x:0,y:0}}},
+};
+Message_Datas.ミミ3 = {
+  "image":{0:{name:"ミミ",src:"image/331.png",width:1600,height:900,x:0,y:0}},
+  1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"ポポポ(女).wav"},
+  2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"ポポポ(女).wav"},
+  3:{"text":"ミミ:φφφφφφφφφφφφφφφただ、理由もなく変わってもらうわけにいかないわね。","音":"ポポポ(女).wav"},
+  4:{
+    選択肢:{
+      1:{text:"いいえ",next:"しない"},
+      2:{text:"はい",next:"デュエル！"},
+      3:{text:"デュエル！",next:"デュエル！"}
+    },
+  text:"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"image/332.png",width:1600,height:900,x:0,y:0}}},
+  "デュエル！":{next:"負け",text:"ミミ:φφφφφφφφφφφφφφφラッシュデュエル！","音":"ポポポ(女).wav"},
+  負け:{next:"負け2",text:"負けてしまった！","音":"ポポポ(男).wav","image":{0:{name:"ミミ",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
+  負け2:{next:"負け3",text:"ミミ:φφφφφφφφφφφφφφφあたちの勝ちね。φφφφφφφφφφそれじゃ約束通り…","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"image/331.png",width:1600,height:900,x:0,y:0}}},
+  負け3:{next:"しない",text:"ミミ:φφφφφφφφφφφφφφφえ？勝った方がするって約束？φφφφ確かにそう言っちゃった気がするわね。","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"image/331.png",width:1600,height:900,x:0,y:0}}},
+  しない:{"text":"ミミ:φφφφφφφφφφφφφφφそう…。じゃ仕方ないわね。φφφφφさっさと終わらせて帰るわ。","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"image/331.png",width:1600,height:900,x:0,y:0}}},
+};
+
+var width = 1600;
+var height = 900;
+
+Stage_Datas.最初 = {
+  画像:{
+    操作説明:{width:450,height:450,x:0,y:0,src:"image/key1.png",opacity:0},
+    操作説明触れる:{width:450,height:450,x:0,y:height-450,src:"image/透明.png"},
+    看板ポップ:{width:450,height:450,x:width-450,y:0,src:"image/key2.png",opacity:0},
+    看板:{width:450,height:450,x:width-450,y:height-450,src:"image/kanba.png"},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"}
+  },
+  接触:{
+    1:{
+      接触:"看板",
+      対象:"看板ポップ",
+      データ:"opacity",
+      真値:1,
+      偽値:0
+    },
+    2:{
+      接触:"操作説明触れる",
+      対象:"操作説明",
+      データ:"opacity",
+      真値:1,
+      偽値:0
+    },
+  },
+  cキー:{
+    1:{
+      1:{接触:"看板"},
+      2:{フラグ:"睡眠回数","=":0},
+      2:{フラグ:"既読","=":0},
+      対象:"看板ポップ",
+      データ:"opacity",
+      値:0,
+      text:Message_Datas.看板
+    },
+    2:{
+      1:{接触:"看板"},
+      2:{フラグ:"睡眠回数",">":3},
+      対象:"看板ポップ",
+      データ:"opacity",
+      値:0,
+      text:Message_Datas.夢看板2
+    },
+    3:{
+      1:{接触:"看板"},
+      2:{フラグ:"睡眠回数",">":0},
+      対象:"看板ポップ",
+      データ:"opacity",
+      値:0,
+      text:Message_Datas.夢看板
+    },
+    4:{
+      1:{接触:"看板"},
+      2:{フラグ:"既読",">":0},
+      対象:"看板ポップ",
+      データ:"opacity",
+      値:0,
+      text:Message_Datas.看板2
+    }
+  },
+  移動データ:{右:"部屋",右x:700}
+};
+Stage_Datas.部屋 = {
+  画像:{
+    百円:{width:221,height:120,x:40,y:693,src:"image./透明.png"},
+    ベッド:{width:680,height:320,x:531,y:418,src:"image./透明.png"},
+    背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/2016/03/1455796171918.jpg"},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"},
+    "？":{width:300,height:300,x:0,y:360,src:"image./？.png",opacity:0},
+    コマンド:{width:450,height:450,x:650,y:0,src:"image./key5.png",opacity:0},
+  },
+  接触:{
+    1:{
+      接触:"百円",
+      対象:"？",
+      データ:"opacity",
+      フラグ:"所持金",
+      "=":0,
+      真値:1,
+      偽値:0
+    },
+    2:{
+      接触:"ベッド",
+      対象:"コマンド",
+      データ:"opacity",
+      真値:1,
+      偽値:0
+    },
+  },
+  cキー:{
+    1:{
+      1:{接触:"百円"},
+      2:{フラグ:"所持金","<":100},
+      対象:"？",
+      データ:"opacity",
+      値:0,
+      text:Message_Datas.百円
+    },
+    2:{
+      1:{接触:"ベッド"},
+      対象:"コマンド",
+      データ:"opacity",
+      値:0,
+      text:Message_Datas.ベッド
+    }
+  },
+  移動データ:{右:"玄関"}
+};
+Stage_Datas.玄関 = {
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/2016/07/iehaikei049.jpg"},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"},
+  },
+  移動データ:{右:"家",右x:600,左:"部屋"}
+};
+Stage_Datas.家 = {
+  画像:{
+    入口:{width:400,height:400,x:600,y:400,src:"image./透明.png"},
+    背景:{width:width,height:height,x:0,y:0,src:"image./家01.png"},
+    入口ポップ:{width:450,height:450,x:650,y:0,src:"image./key3.png",opacity:0},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"}
+  },
+  接触:{
+    1:{
+      接触:"入口",
+      対象:"入口ポップ",
+      データ:"opacity",
+      真値:1,
+      偽値:0
+    },
+  },
+  上キー:{
+    1:{
+      1:{接触:"入口"},
+      対象:"入口ポップ",
+      データ:"opacity",
+      値:0,
+      ステージ移動:"玄関",
+      x:1600-295,
+      向き:1
+    }
+  },
+  移動データ:{右:"道",左:"森1"}
+};
+Stage_Datas.道 = {
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"image./道01.png"},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"}
+  },
+  移動データ:{左:"家",右:"学校入口"}
+};
+Stage_Datas.学校入口 = {
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"image./bg2.png"},
+    学校名前:{width:60,height:280,x:1370,y:415,src:"image./透明.png"},
+    学校入口:{width:510,height:360,x:640,y:455,src:"image./透明.png"},
+    学校ポップ:{width:450,height:450,x:width-450,y:0,src:"image./key2.png",opacity:0},
+    入口ポップ:{width:450,height:450,x:650,y:0,src:"image./key3.png",opacity:0},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"}
+  },
+  接触:{
+    1:{
+      接触:"学校入口",
+      対象:"入口ポップ",
+      データ:"opacity",
+      真値:1,
+      偽値:0
+    },
+    2:{
+      接触:"学校名前",
+      対象:"学校ポップ",
+      データ:"opacity",
+      真値:1,
+      偽値:0
+    },
+  },
+  上キー:{
+    1:{
+      1:{接触:"学校入口"},
+      対象:"学校ポップ",
+      データ:"opacity",
+      値:0,
+      ステージ移動:"学校中庭",
+      x:0,
+      向き:-1
+    }
+  },
+  cキー:{
+    1:{
+      1:{接触:"学校名前"},
+      対象:"学校ポップ",
+      データ:"opacity",
+      値:0,
+      text:Message_Datas.表札
+    }
+  },
+  移動データ:{左:"道",右:"森3"}
+};
+Stage_Datas.学校中庭 = {
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"image./bg3.png"},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"}
+  },
+  移動データ:{左:"学校入口",左x:760,右:"学校玄関"}
+};
+Stage_Datas.学校玄関 = {
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"image./bg4.png"},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"}
+  },
+  移動データ:{左:"学校中庭",右:"学校廊下"}
+};
+Stage_Datas.学校廊下 = {
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"image./bg5.png"},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"}
+  },
+  移動データ:{左:"学校玄関",右:"学校教室"}
+};
+Stage_Datas.学校教室 = {
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"image./bg6.png"},
+    ミミポップ:{width:450,height:450,x:width-450,y:0,src:"image./key4.png",opacity:0},
+    ミミ:{width:373,height:420,x:width-373,y:height-420,src:"image./ミミ.png"},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"}
+  },
+  接触:{
+    1:{
+      接触:"ミミ",
+      対象:"ミミポップ",
+      データ:"opacity",
+      真値:1,
+      偽値:0
+    },
+  },
+  cキー:{
+    1:{
+      1:{接触:"ミミ"},
+      2:{フラグ:"カード","=":0},
+      対象:"ミミポップ",
+      データ:"opacity",
+      値:0,
+      x:880,
+      向き:-1,
+      text:Message_Datas.ミミ
+    },
+    2:{
+      1:{接触:"ミミ"},
+      2:{フラグ:"カード","<":40},
+      対象:"ミミポップ",
+      データ:"opacity",
+      値:0,
+      x:880,
+      向き:-1,
+      text:Message_Datas.ミミ2
+    },
+    3:{
+      1:{接触:"ミミ"},
+      2:{フラグ:"カード",">":39},
+      対象:"ミミポップ",
+      データ:"opacity",
+      値:0,
+      x:880,
+      向き:-1,
+      text:Message_Datas.ミミ3
+    }
+  },
+  移動データ:{左:"学校廊下"}
+};
+Stage_Datas.氷河 = {
+  物理:{摩擦:0.05},
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"image./bg7.png"},
+    人:{width:295/2,height:450/2,x:0,y:height-450/2,src:"image./pe1.png"}
+  },
+  移動データ:{右:"海底",左:"月"}
+};
+Stage_Datas.月 = {
+  物理:{重力:2},
+  画像:{
+    カード:{width:127,height:106,x:214,y:48,src:"image./透明.png"},
+    背景:{width:width,height:height,x:0,y:0,src:"image./bg8.png"},
+    人:{width:295/2,height:450/2,x:0,y:height-450/2,src:"image./pe1.png"},
+    "？":{width:300,height:300,x:214,y:48,src:"image./？.png",opacity:0}
+  },
+  接触:{
+    1:{
+      接触:"カード",
+      対象:"？",
+      データ:"opacity",
+      真値:1,
+      偽値:0
+    },
+  },
+  cキー:{
+    1:{
+      1:{接触:"カード"},
+      2:{フラグ:"カード拾い","=":1},
+      対象:"？",
+      データ:"opacity",
+      値:0,
+      text:Message_Datas.カード
+    },
+    2:{
+      1:{接触:"カード"},
+      2:{フラグ:"カード拾い","=":0},
+      対象:"？",
+      データ:"opacity",
+      値:0,
+      text:Message_Datas.カードない
+    }
+  },
+  移動データ:{右:"氷河",左:"海底"}
+};
+Stage_Datas.森1 = {
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-17.jpg"},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"},
+    草:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-6.png"},
+  },
+  移動データ:{右:"家",左:"森2"}
+};
+Stage_Datas.森2 = {
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-5-1.jpg"},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"},
+    草:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-6.png"},
+  },
+  移動データ:{右:"森1",左:"森1"}
+};
+Stage_Datas.森3 = {
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-17.jpg"},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"},
+    草:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-6.png"},
+  },
+  移動データ:{右:"森4",左:"学校入口"}
+};
+Stage_Datas.森4 = {
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-5-1.jpg"},
+    人:{width:295,height:450,x:0,y:height-450,src:"image./pe1.png"},
+    草:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-6.png"},
+  },
+  移動データ:{右:"森3",左:"森3"}
+};
+Stage_Datas.海底 = {
+  物理:{重力:6,ジャンプ:100},
+  画像:{
+    背景:{width:width,height:height,x:0,y:0,src:"image./bg10.png"},
+    看板:{width:450/2,height:450/2,x:760,y:height-450/2,src:"image/kanba.png"},
+    人:{width:295/2,height:450/2,x:0,y:height-450/2,src:"image./pe1.png"},
+    水:{width:width,height:height,x:0,y:0,src:"image./bg11.png"},
+    看板ポップ:{width:450/2,height:450/2,x:760,y:height-450,src:"image/key2.png",opacity:0}
+  },
+  接触:{
+    1:{
+      接触:"看板",
+      対象:"看板ポップ",
+      データ:"opacity",
+      真値:1,
+      偽値:0
+    },
+  },
+  cキー:{
+    1:{
+      1:{接触:"看板"},
+      対象:"看板ポップ",
+      データ:"opacity",
+      値:0,
+      text:Message_Datas.海看板
+    }
+  },
+  移動データ:{右:"月",左:"氷河",上:"最初",上x:0,上向き:-1}
+};
