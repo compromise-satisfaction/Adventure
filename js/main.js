@@ -279,7 +279,7 @@ function Game_load(width,height){
       });
 
       scene.addEventListener("touchend",function(e){
-        E_E = ':{width:'+(Math.floor(e.x)-E_X)+',height:'+(Math.floor(e.y)-E_Y)+',x:'+E_X+',y:'+E_Y+',src:""},';
+        E_E = ':{width:'+(Math.floor(e.x)-E_X)+',height:'+(Math.floor(e.y)-E_Y)+',x:'+E_X+',y:'+E_Y+',src:"image/透明.png"},';
         console.log(E_E);
       });
 
