@@ -10,7 +10,6 @@ var Stage = "最初";
 var COOLTime = {c_key:0,run:0,down:0,right:0,left:0,up:0};
 var Run = false;
 var Pad_opacity = 1;
-var Stage_Datas = {};
 
 var SE = document.createElement("audio");
 var SE2 = document.createElement("audio");
@@ -498,7 +497,7 @@ function Game_load(width,height){
       C_B._element.src = "image/c.png";
       C_B.width = 250;
       C_B.height = 250;
-      C_B.x = width - 500;
+      C_B.x = width - 250;
       C_B.y = height - 250;
       C_B.opacity = Pad_opacity;
       scene.addChild(C_B);
@@ -508,7 +507,7 @@ function Game_load(width,height){
       Z_B._element.src = "image/z.png";
       Z_B.width = 250;
       Z_B.height = 250;
-      Z_B.x = width - 250;
+      Z_B.x = width - 500;
       Z_B.y = height - 250;
       Z_B.opacity = Pad_opacity;
       scene.addChild(Z_B);
@@ -783,7 +782,6 @@ function Game_load(width,height){
       }
 
       var Pad1 = new Pad("image/pad.png",500);
-      Pad1.y = height-500;
       Pad1.opacity = Pad_opacity;
       scene.addChild(Pad1);
 
@@ -792,7 +790,7 @@ function Game_load(width,height){
       C_B._element.src = "image/c.png";
       C_B.width = 250;
       C_B.height = 250;
-      C_B.x = width - 500;
+      C_B.x = width - 250;
       C_B.y = height - 250;
       C_B.opacity = Pad_opacity;
       scene.addChild(C_B);
@@ -816,10 +814,20 @@ function Game_load(width,height){
       return scene;
     };
 
+    switch (HTML) {
+      case "管理者":
+        var Body = "書き込み" + JSON.stringify(Stage_Datas);
+        break;
+      default:
+        Stage_Datas = {};
+        var Body = "読み込み";
+        break;
+    }
+
     var URL = "https://script.google.com/macros/s/AKfycbzQm1rsU9qHfmOCRgPguLLifPIPc4Ip6NMbei5rX0EGu8-XfJj8/exec";
     var Options = {
       method: "POST",
-      body:JSON.stringify(Stage_Datas)
+      body:Body
     };
 
     fetch(URL,Options).then(res => res.json()).then(result => {
