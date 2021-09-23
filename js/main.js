@@ -829,7 +829,7 @@ function Game_load(width,height){
         return;
       });
 
-      Image[Images_Data.背景].addEventListener("touchend",function(e){
+      scene.addEventListener("touchend",function(e){
         Key_c = false;
         return;
       });
