@@ -107,10 +107,10 @@ var height = 900;
 Stage_Datas.最初 = {
   物理:{ジャンプ音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ガン.wav"},
   画像:{
-    操作説明:{width:450,height:450,x:0,y:0,src:"image/key1.png",opacity:0},
+    操作説明:{width:450,height:450,x:0,y:0,src:"image/操作説明.png",opacity:0},
     操作説明触れる:{width:450,height:450,x:0,y:height-450,src:"image/透明.png"},
-    看板ポップ:{width:450,height:450,x:width-450,y:0,src:"image/key2.png",opacity:0},
-    看板:{width:450,height:450,x:width-450,y:height-450,src:"image/kanba.png"},
+    看板ポップ:{width:450,height:450,x:width-450,y:0,src:"image/読む.png",opacity:0},
+    看板:{width:450,height:450,x:width-450,y:height-450,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/アイテム/看板.png"},
     人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
   },
   接触:{
@@ -173,7 +173,7 @@ Stage_Datas.部屋 = {
     背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/2016/03/1455796171918.jpg"},
     人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"},
     "？":{width:300,height:300,x:0,y:360,src:"image/？.png",opacity:0},
-    コマンド:{width:450,height:450,x:650,y:0,src:"image/key5.png",opacity:0},
+    調べる:{width:450,height:450,x:650,y:0,src:"image/調べる.png",opacity:0},
   },
   接触:{
     1:{
@@ -187,7 +187,7 @@ Stage_Datas.部屋 = {
     },
     2:{
       接触:"ベッド",
-      対象:"コマンド",
+      対象:"調べる",
       データ:"opacity",
       真値:1,
       偽値:0
@@ -204,7 +204,7 @@ Stage_Datas.部屋 = {
     },
     2:{
       1:{接触:"ベッド"},
-      対象:"コマンド",
+      対象:"調べる",
       データ:"opacity",
       値:0,
       text:Message_Datas.ベッド
@@ -222,8 +222,8 @@ Stage_Datas.玄関 = {
 Stage_Datas.家 = {
   画像:{
     入口:{width:400,height:400,x:600,y:400,src:"image/透明.png"},
-    背景:{width:width,height:height,x:0,y:0,src:"image/家01.png"},
-    入口ポップ:{width:450,height:450,x:650,y:0,src:"image/key3.png",opacity:0},
+    背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/家01.png"},
+    入口ポップ:{width:450,height:450,x:650,y:0,src:"image/入る.png",opacity:0},
     人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
   },
   接触:{
@@ -250,18 +250,18 @@ Stage_Datas.家 = {
 };
 Stage_Datas.道 = {
   画像:{
-    背景:{width:width,height:height,x:0,y:0,src:"image/道01.png"},
+    背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/道01.png"},
     人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
   },
   移動データ:{左:"家",右:"学校入口"}
 };
 Stage_Datas.学校入口 = {
   画像:{
-    背景:{width:width,height:height,x:0,y:0,src:"image/bg2.png"},
+    背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/学校背景002.png"},
     学校名前:{width:60,height:280,x:1370,y:415,src:"image/透明.png"},
     学校入口:{width:510,height:360,x:640,y:455,src:"image/透明.png"},
-    学校ポップ:{width:450,height:450,x:width-450,y:0,src:"image/key2.png",opacity:0},
-    入口ポップ:{width:450,height:450,x:650,y:0,src:"image/key3.png",opacity:0},
+    学校ポップ:{width:450,height:450,x:width-450,y:0,src:"image/読む.png",opacity:0},
+    入口ポップ:{width:450,height:450,x:650,y:0,src:"image/入る.png",opacity:0},
     人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
   },
   接触:{
@@ -304,29 +304,29 @@ Stage_Datas.学校入口 = {
 };
 Stage_Datas.学校中庭 = {
   画像:{
-    背景:{width:width,height:height,x:0,y:0,src:"image/bg3.png"},
+    背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/学校背景014.png"},
     人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
   },
   移動データ:{左:"学校入口",左x:760,右:"学校玄関"}
 };
 Stage_Datas.学校玄関 = {
   画像:{
-    背景:{width:width,height:height,x:0,y:0,src:"image/bg4.png"},
+    背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/学校背景009.png"},
     人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
   },
   移動データ:{左:"学校中庭",右:"学校廊下"}
 };
 Stage_Datas.学校廊下 = {
   画像:{
-    背景:{width:width,height:height,x:0,y:0,src:"image/bg5.png"},
+    背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/学校背景047.png"},
     人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
   },
   移動データ:{左:"学校玄関",右:"学校教室"}
 };
 Stage_Datas.学校教室 = {
   画像:{
-    背景:{width:width,height:height,x:0,y:0,src:"image/bg6.png"},
-    ミミポップ:{width:450,height:450,x:width-450,y:0,src:"image/key4.png",opacity:0},
+    背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/教室.png"},
+    ミミポップ:{width:450,height:450,x:width-450,y:0,src:"image/話す.png",opacity:0},
     ミミ:{width:373,height:420,x:width-373,y:height-420,src:"image/ミミ.png"},
     人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
   },
@@ -376,7 +376,7 @@ Stage_Datas.学校教室 = {
 Stage_Datas.氷河 = {
   物理:{摩擦:0.05},
   画像:{
-    背景:{width:width,height:height,x:0,y:0,src:"image/bg7.png"},
+    背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/氷河.png"},
     人:{width:295/2,height:450/2,x:0,y:height-450/2,src:"image/pe1.png"}
   },
   移動データ:{右:"海底",左:"月"}
@@ -385,7 +385,7 @@ Stage_Datas.月 = {
   物理:{重力:2},
   画像:{
     カード:{width:127,height:106,x:214,y:48,src:"image/透明.png"},
-    背景:{width:width,height:height,x:0,y:0,src:"image/bg8.png"},
+    背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/宇宙.png"},
     人:{width:295/2,height:450/2,x:0,y:height-450/2,src:"image/pe1.png"},
     "？":{width:300,height:300,x:214,y:48,src:"image/？.png",opacity:0}
   },
@@ -453,11 +453,11 @@ Stage_Datas.森4 = {
 Stage_Datas.海底 = {
   物理:{重力:6,ジャンプ:100},
   画像:{
-    背景:{width:width,height:height,x:0,y:0,src:"image/bg10.png"},
-    看板:{width:450/2,height:450/2,x:760,y:height-450/2,src:"image/kanba.png"},
+    背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/海底.png"},
+    看板:{width:450/2,height:450/2,x:760,y:height-450/2,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/アイテム/看板.png"},
     人:{width:295/2,height:450/2,x:0,y:height-450/2,src:"image/pe1.png"},
-    水:{width:width,height:height,x:0,y:0,src:"image/bg11.png"},
-    看板ポップ:{width:450/2,height:450/2,x:760,y:height-450,src:"image/key2.png",opacity:0}
+    水:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/水.png"},
+    看板ポップ:{width:450/2,height:450/2,x:760,y:height-450,src:"image/読む.png",opacity:0}
   },
   接触:{
     1:{
