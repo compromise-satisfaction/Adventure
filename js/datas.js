@@ -101,6 +101,23 @@ Message_Datas.ミミ3 = {
   しない:{"text":"ミミ:φφφφφφφφφφφφφφφそう…。じゃ仕方ないわね。φφφφφさっさと終わらせて帰るわ。","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
 };
 
+var Nizinizi = {
+  左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/pe1.png",
+  空中左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/pe4.png",
+  歩左:{
+    1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/pe6.png",
+    2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/pe2.png",
+    3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/pe6.png",
+    4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/pe7.png",
+    5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/pe3.png",
+    6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/pe7.png"
+  },
+  走左:{
+    1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/pe2.png",
+    2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/pe3.png"
+  }
+};
+
 var width = 1600;
 var height = 900;
 
@@ -114,22 +131,22 @@ Stage_Datas.最初 = {
     人:{width:295,height:450,x:0,y:height-450}
   },
   人:{
-    左:"image/キャラ/歩く棒人間_3.png",
-    空中右:"image/キャラ/飛ぶ棒人間.png",
+    左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png",
+    空中右:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/飛ぶ棒人間.png",
     歩左:{
-      1:"image/キャラ/歩く棒人間_1.png",
-      2:"image/キャラ/歩く棒人間_2.png",
-      3:"image/キャラ/歩く棒人間_3.png"
+      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
+      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_2.png",
+      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png"
     },
     走右:{
-      1:"image/キャラ/走る棒人間_1.png",
-      2:"image/キャラ/走る棒人間_2.png",
-      3:"image/キャラ/走る棒人間_3.png",
-      4:"image/キャラ/走る棒人間_4.png",
-      5:"image/キャラ/走る棒人間_5.png",
-      6:"image/キャラ/走る棒人間_6.png",
-      7:"image/キャラ/走る棒人間_7.png",
-      8:"image/キャラ/走る棒人間_8.png"
+      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_1.png",
+      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_2.png",
+      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_3.png",
+      4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_4.png",
+      5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_5.png",
+      6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_6.png",
+      7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_7.png",
+      8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_8.png"
     }
   },
   接触:{
@@ -190,7 +207,7 @@ Stage_Datas.部屋 = {
     百円:{width:221,height:120,x:40,y:693,src:"image/透明.png"},
     ベッド:{width:680,height:320,x:531,y:418,src:"image/透明.png"},
     背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/2016/03/1455796171918.jpg"},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"},
+    人:{width:295,height:450,x:0,y:height-450},
     "？":{width:300,height:300,x:0,y:360,src:"image/？.png",opacity:0},
     調べる:{width:450,height:450,x:650,y:0,src:"image/調べる.png",opacity:0},
   },
@@ -229,13 +246,15 @@ Stage_Datas.部屋 = {
       text:Message_Datas.ベッド
     }
   },
+  人:Nizinizi,
   移動データ:{右:"玄関"}
 };
 Stage_Datas.玄関 = {
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/2016/07/iehaikei049.jpg"},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"},
+    人:{width:295,height:450,x:0,y:height-450},
   },
+  人:Nizinizi,
   移動データ:{右:"家",右x:600,左:"部屋"}
 };
 Stage_Datas.家 = {
@@ -243,8 +262,9 @@ Stage_Datas.家 = {
     入口:{width:400,height:400,x:600,y:400,src:"image/透明.png"},
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/家01.png"},
     入口ポップ:{width:450,height:450,x:650,y:0,src:"image/入る.png",opacity:0},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
+    人:{width:295,height:450,x:0,y:height-450}
   },
+  人:Nizinizi,
   接触:{
     1:{
       接触:"入口",
@@ -268,20 +288,22 @@ Stage_Datas.家 = {
   移動データ:{右:"道",左:"森1"}
 };
 Stage_Datas.道 = {
+  人:Nizinizi,
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/道01.png"},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
+    人:{width:295,height:450,x:0,y:height-450}
   },
   移動データ:{左:"家",右:"学校入口"}
 };
 Stage_Datas.学校入口 = {
+  人:Nizinizi,
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/学校背景002.png"},
     学校名前:{width:60,height:280,x:1370,y:415,src:"image/透明.png"},
     学校入口:{width:510,height:360,x:640,y:455,src:"image/透明.png"},
     学校ポップ:{width:450,height:450,x:width-450,y:0,src:"image/読む.png",opacity:0},
     入口ポップ:{width:450,height:450,x:650,y:0,src:"image/入る.png",opacity:0},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
+    人:{width:295,height:450,x:0,y:height-450}
   },
   接触:{
     1:{
@@ -322,32 +344,36 @@ Stage_Datas.学校入口 = {
   移動データ:{左:"道",右:"森3"}
 };
 Stage_Datas.学校中庭 = {
+  人:Nizinizi,
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/学校背景014.png"},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
+    人:{width:295,height:450,x:0,y:height-450}
   },
   移動データ:{左:"学校入口",左x:760,右:"学校玄関"}
 };
 Stage_Datas.学校玄関 = {
+  人:Nizinizi,
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/学校背景009.png"},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
+    人:{width:295,height:450,x:0,y:height-450}
   },
   移動データ:{左:"学校中庭",右:"学校廊下"}
 };
 Stage_Datas.学校廊下 = {
+  人:Nizinizi,
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/学校背景047.png"},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
+    人:{width:295,height:450,x:0,y:height-450}
   },
   移動データ:{左:"学校玄関",右:"学校教室"}
 };
 Stage_Datas.学校教室 = {
+  人:Nizinizi,
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/教室.png"},
     ミミポップ:{width:450,height:450,x:width-450,y:0,src:"image/話す.png",opacity:0},
-    ミミ:{width:373,height:420,x:width-373,y:height-420,src:"image/ミミ.png"},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
+    ミミ:{width:373,height:420,x:width-373,y:height-420,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/ミミ.png"},
+    人:{width:295,height:450,x:0,y:height-450}
   },
   接触:{
     1:{
@@ -394,56 +420,56 @@ Stage_Datas.学校教室 = {
 };
 Stage_Datas.氷河 = {
   人:{
-    左:"image/キャラ/歩く棒人間_3.png",
-    空中右:"image/キャラ/飛ぶ棒人間.png",
+    左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png",
+    空中右:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/飛ぶ棒人間.png",
     歩左:{
-      1:"image/キャラ/歩く棒人間_1.png",
-      2:"image/キャラ/歩く棒人間_2.png",
-      3:"image/キャラ/歩く棒人間_3.png"
+      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
+      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_2.png",
+      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png"
     },
     走右:{
-      1:"image/キャラ/走る棒人間_1.png",
-      2:"image/キャラ/走る棒人間_2.png",
-      3:"image/キャラ/走る棒人間_3.png",
-      4:"image/キャラ/走る棒人間_4.png",
-      5:"image/キャラ/走る棒人間_5.png",
-      6:"image/キャラ/走る棒人間_6.png",
-      7:"image/キャラ/走る棒人間_7.png",
-      8:"image/キャラ/走る棒人間_8.png"
+      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_1.png",
+      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_2.png",
+      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_3.png",
+      4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_4.png",
+      5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_5.png",
+      6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_6.png",
+      7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_7.png",
+      8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_8.png"
     }
   },
   物理:{摩擦:0.05},
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/氷河.png"},
-    人:{width:295/2,height:450/2,x:0,y:height-450/2,src:"image/pe1.png"}
+    人:{width:295/2,height:450/2,x:0,y:height-450/2}
   },
   移動データ:{右:"海底",左:"月"}
 };
 Stage_Datas.月 = {
   人:{
-    左:"image/キャラ/歩く棒人間_3.png",
-    空中右:"image/キャラ/飛ぶ棒人間.png",
+    左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png",
+    空中右:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/飛ぶ棒人間.png",
     歩左:{
-      1:"image/キャラ/歩く棒人間_1.png",
-      2:"image/キャラ/歩く棒人間_2.png",
-      3:"image/キャラ/歩く棒人間_3.png"
+      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
+      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_2.png",
+      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png"
     },
     走右:{
-      1:"image/キャラ/走る棒人間_1.png",
-      2:"image/キャラ/走る棒人間_2.png",
-      3:"image/キャラ/走る棒人間_3.png",
-      4:"image/キャラ/走る棒人間_4.png",
-      5:"image/キャラ/走る棒人間_5.png",
-      6:"image/キャラ/走る棒人間_6.png",
-      7:"image/キャラ/走る棒人間_7.png",
-      8:"image/キャラ/走る棒人間_8.png"
+      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_1.png",
+      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_2.png",
+      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_3.png",
+      4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_4.png",
+      5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_5.png",
+      6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_6.png",
+      7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_7.png",
+      8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_8.png"
     }
   },
-  物理:{重力:2},
+  物理:{重力:2,回転:30},
   画像:{
     カード:{width:127,height:106,x:214,y:48,src:"image/透明.png"},
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/宇宙.png"},
-    人:{width:295/2,height:450/2,x:0,y:height-450/2,src:"image/pe1.png"},
+    人:{width:295/2,height:450/2,x:0,y:height-450/2},
     "？":{width:300,height:300,x:214,y:48,src:"image/？.png",opacity:0}
   },
   接触:{
@@ -478,7 +504,7 @@ Stage_Datas.月 = {
 Stage_Datas.森1 = {
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-17.jpg"},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"},
+    人:{width:295,height:450,x:0,y:height-450},
     草:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-6.png"},
   },
   移動データ:{右:"家",左:"森2"}
@@ -486,7 +512,7 @@ Stage_Datas.森1 = {
 Stage_Datas.森2 = {
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-5-1.jpg"},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"},
+    人:{width:295,height:450,x:0,y:height-450},
     草:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-6.png"},
   },
   移動データ:{右:"森1",左:"森1"}
@@ -494,7 +520,7 @@ Stage_Datas.森2 = {
 Stage_Datas.森3 = {
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-17.jpg"},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"},
+    人:{width:295,height:450,x:0,y:height-450},
     草:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-6.png"},
   },
   移動データ:{右:"森4",左:"学校入口"}
@@ -502,36 +528,36 @@ Stage_Datas.森3 = {
 Stage_Datas.森4 = {
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-5-1.jpg"},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"},
+    人:{width:295,height:450,x:0,y:height-450},
     草:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/mori01-6.png"},
   },
   移動データ:{右:"森3",左:"森3"}
 };
 Stage_Datas.海底 = {
   人:{
-    左:"image/キャラ/歩く棒人間_3.png",
-    空中右:"image/キャラ/飛ぶ棒人間.png",
+    左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png",
+    空中右:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/飛ぶ棒人間.png",
     歩左:{
-      1:"image/キャラ/歩く棒人間_1.png",
-      2:"image/キャラ/歩く棒人間_2.png",
-      3:"image/キャラ/歩く棒人間_3.png"
+      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
+      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_2.png",
+      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png"
     },
     走右:{
-      1:"image/キャラ/走る棒人間_1.png",
-      2:"image/キャラ/走る棒人間_2.png",
-      3:"image/キャラ/走る棒人間_3.png",
-      4:"image/キャラ/走る棒人間_4.png",
-      5:"image/キャラ/走る棒人間_5.png",
-      6:"image/キャラ/走る棒人間_6.png",
-      7:"image/キャラ/走る棒人間_7.png",
-      8:"image/キャラ/走る棒人間_8.png"
+      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_1.png",
+      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_2.png",
+      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_3.png",
+      4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_4.png",
+      5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_5.png",
+      6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_6.png",
+      7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_7.png",
+      8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_8.png"
     }
   },
   物理:{重力:6,ジャンプ:100},
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/海底.png"},
     看板:{width:450/2,height:450/2,x:760,y:height-450/2,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/アイテム/看板.png"},
-    人:{width:295/2,height:450/2,x:0,y:height-450/2,src:"image/pe1.png"},
+    人:{width:295/2,height:450/2,x:0,y:height-450/2},
     水:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/水.png"},
     看板ポップ:{width:450/2,height:450/2,x:760,y:height-450,src:"image/読む.png",opacity:0}
   },

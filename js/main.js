@@ -107,7 +107,7 @@ function Game_load(width,height){
         Image[i]._element = document.createElement("img");
         if(Object.keys(Datas.画像)[i]=="人"){
           if(Datas.人){
-            if(Datas.人.右 || Datas.人.右){
+            if(Datas.人.左 || Datas.人.右){
               if(Datas.人.右) Image[i]._element.src = Datas.人.右;
               if(Datas.人.左) Image[i]._element.src = Datas.人.左;
             }
@@ -387,14 +387,18 @@ function Game_load(width,height){
 
       var Z_Run = false;
       var Pe_S = 0;
+      var Rotate = 0;
       var Gravity = 9.8;
       var Jump_s = 1;
+      var Jump_power = 50;
       var Friction = 10;
       if(Datas.物理){
+        if(Datas.物理.回転) Rotate = Datas.物理.回転;
         if(Datas.物理.重力) Gravity = Datas.物理.重力;
         if(Datas.物理.摩擦) Friction = Datas.物理.摩擦;
         if(Datas.物理.ジャンプ) Jump_s = Datas.物理.ジャンプ;
         if(Datas.物理.ジャンプ音) SE2.src = Datas.物理.ジャンプ音;
+        if(Datas.物理.ジャンプ力) Jump_power = Datas.物理.ジャンプ力;
       }
       var Jump = Jump_s;
       var E_X = 0;
@@ -442,7 +446,7 @@ function Game_load(width,height){
                 else SE2.currentTime = 0;
               }
               Jump--;
-              Pe_S -= 50;
+              Pe_S -= Jump_power;
             }
           }
         }
@@ -556,12 +560,16 @@ function Game_load(width,height){
         Image[Images_Data.人].y += Pe_S;
         if(Image[Images_Data.人].y < height - Image[Images_Data.人].height){
           Pe_S += Gravity;
+          Image[Images_Data.人].rotation += Rotate;
         }
         else{
           Jump = Jump_s;
           Pe_S = 0;
           Image[Images_Data.人].y = height - Image[Images_Data.人].height;
-          if(Image[Images_Data.人].Number == "空中") Image[Images_Data.人].Number = "地上";
+          if(Image[Images_Data.人].Number == "空中"){
+            Image[Images_Data.人].Number = "地上";
+            Image[Images_Data.人].rotation = 0;
+          }
         }
         if(game.input.down){
           if(COOLTime.down==0) //console.log(Flag);
@@ -572,6 +580,9 @@ function Game_load(width,height){
           if(Datas.上キー) keydown(Datas.上キー);
         }
         if(game.input.left && !game.input.right){
+          if(Datas.物理) {
+            if(Datas.物理.回転) Rotate = - Datas.物理.回転;
+          }
           Character_direction = "左";
           Frame_advance();
           if(COOLTime.left > 0 && COOLTime.left != 4) Run = true;
@@ -587,6 +598,9 @@ function Game_load(width,height){
           }
         }
         if(game.input.right && !game.input.left){
+          if(Datas.物理) {
+            if(Datas.物理.回転) Rotate = Datas.物理.回転;
+          }
           Character_direction = "右";
           Frame_advance();
           if(COOLTime.right > 0 && COOLTime.right != 4) Run = true;
