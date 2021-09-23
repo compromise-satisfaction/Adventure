@@ -618,16 +618,16 @@ function Game_load(width,height){
         ChoiceText[Number]._style.font  = "60px monospace";
         ChoiceText[Number]._style.color = "white";
         ChoiceText[Number].x = 1000;
-        ChoiceText[Number].y = 390 - Number * 120;
+        ChoiceText[Number].y = 400 - Number * 90;
         ChoiceText[Number].opacity = 0;
-        Images(width,height,0,10 - Number * 120,"image/choicebox.png","選択肢"+Number);
-        Image[Images_Data["選択肢"+Number]].opacity = 0;
+        Images(600,80,ChoiceText[Number].x-20,ChoiceText[Number].y-10,"image/choicebox.png","選択肢"+Number);
         scene.addChild(ChoiceText[Number]);
+        Image[Images_Data["選択肢"+Number]].opacity = 0;
       }
 
       for(var i = 0; i < 90; i++) Texts();
 
-      for(var j = 0; j < 4; j++) Choice(j);
+      for(var j = 0; j < 5; j++) Choice(j);
 
       var k = 1;
       if(Datas[k].音) SE.src = Datas[k].音;
@@ -672,23 +672,36 @@ function Game_load(width,height){
             i = Image.length;
             for(var j = 0; j < Object.keys(Datas[k].選択肢).length; j++){
               ChoiceText[j]._element.textContent = Datas[k].選択肢[Object.keys(Datas[k].選択肢)[j]].text;
+              ChoiceText[j].Number = j;
               ChoiceText[j].opacity = 1;
+              ChoiceText[j].選択 = false;
+              Image[Images_Data["選択肢"+j]].Number = j;
+              Image[Images_Data["選択肢"+j]].next = Datas[k].選択肢[Object.keys(Datas[k].選択肢)[j]].next;
+              Image[Images_Data["選択肢"+j]].text = ChoiceText[j]._element.textContent;
               Image[Images_Data["選択肢"+j]].opacity = 0.5;
             }
+            ChoiceText[j-1].選択 = true;
             ChoiceText[j-1]._element.textContent = "▶ " + ChoiceText[j-1]._element.textContent;
             Datas[k].next = Datas[k].選択肢[Object.keys(Datas[k].選択肢)[j-1]].next;
             C_N = j-1;
             Write = false;
           }
           else Text_write();
+          if(Key_c && COOLTime.c_key == 0){
+            Key_c = false;
+            COOLTime.c_key = 5;
+            Write = 2;
+          }
         }
         else{
           if(Datas[k].選択肢){
             if(game.input.down){
               if(COOLTime.down==0){
                 if(C_N){
+                  ChoiceText[C_N].選択 = false;
                   ChoiceText[C_N]._element.textContent = ChoiceText[C_N]._element.textContent.substring(2);
                   C_N--;
+                  ChoiceText[C_N].選択 = true;
                   ChoiceText[C_N]._element.textContent = "▶ " + ChoiceText[C_N]._element.textContent;
                   Datas[k].next = Datas[k].選択肢[C_N+1].next;
                 }
@@ -698,8 +711,10 @@ function Game_load(width,height){
             if(game.input.up){
               if(COOLTime.up==0){
                 if(C_N < Object.keys(Datas[k].選択肢).length-1){
+                  ChoiceText[C_N].選択 = false;
                   ChoiceText[C_N]._element.textContent = ChoiceText[C_N]._element.textContent.substring(2);
                   C_N++;
+                  ChoiceText[C_N].選択 = true;
                   ChoiceText[C_N]._element.textContent = "▶ " + ChoiceText[C_N]._element.textContent;
                   Datas[k].next = Datas[k].選択肢[C_N+1].next;
                 }
@@ -708,8 +723,9 @@ function Game_load(width,height){
             }
           }
           if(Key_c && COOLTime.c_key == 0){
+            Key_c = false;
             COOLTime.c_key = 5;
-            for(var j = 0; j < 4; j++){
+            for(var j = 0; j < 5; j++){
               ChoiceText[j].opacity = 0;
               Image[Images_Data["選択肢"+j]].opacity = 0;
             }
@@ -781,34 +797,45 @@ function Game_load(width,height){
         return;
       }
 
-      var Pad1 = new Pad("image/pad.png",500);
-      Pad1.opacity = Pad_opacity;
-      scene.addChild(Pad1);
+      for(var j = 0; j < 5; j++){
+        Image[Images_Data["選択肢"+j]].addEventListener("touchstart",function(e){
+          if(this.opacity) Choice_Choice(this);
+          return;
+        });
+        ChoiceText[j].addEventListener("touchstart",function(e){
+          if(this.opacity) Choice_Choice(Image[Images_Data["選択肢"+this.Number]]);
+          return;
+        });
+      }
 
-      var C_B = new Sprite();
-      C_B._element = document.createElement("img");
-      C_B._element.src = "image/c.png";
-      C_B.width = 250;
-      C_B.height = 250;
-      C_B.x = width - 250;
-      C_B.y = height - 250;
-      C_B.opacity = Pad_opacity;
-      scene.addChild(C_B);
+      function Choice_Choice(image){
+        if(ChoiceText[image.Number].選択){
+          for(var a = 0; a < 5; a++){
+            ChoiceText[a].opacity = 0;
+            Image[Images_Data["選択肢"+a]].opacity = 0;
+          }
+          Keydown_c();
+        }
+        else{
+          for(var a = 0; a < 5; a++){
+            ChoiceText[a].選択 = false;
+            ChoiceText[a]._element.textContent = Image[Images_Data["選択肢"+a]].text;
+          }
+          C_N = image.Number;
+          Datas[k].next = image.next;
+          ChoiceText[image.Number].選択 = true;
+          ChoiceText[image.Number]._element.textContent = "▶ " + image.text;
+        }
+      }
 
-      C_B.addEventListener("touchstart",function(){
-        Key_c = true;
+      Image[Images_Data.背景].addEventListener("touchstart",function(e){
+        if(!Datas[k].選択肢) Key_c = true;
         return;
       });
 
-      C_B.addEventListener("touchend",function(){
+      Image[Images_Data.背景].addEventListener("touchend",function(e){
         Key_c = false;
         return;
-      });
-
-      scene.addEventListener("touchstart",function(e){
-        Pad_opacity = 1;
-        C_B.opacity = Pad_opacity;
-        Pad1.opacity = Pad_opacity;
       });
 
       return scene;
