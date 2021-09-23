@@ -536,7 +536,7 @@ Stage_Datas.森4 = {
 Stage_Datas.海底 = {
   人:{
     左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png",
-    空中右:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/飛ぶ棒人間.png",
+    空中左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/泳ぐ棒人間.png",
     歩左:{
       1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
       2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_2.png",

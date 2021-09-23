@@ -450,6 +450,7 @@ function Game_load(width,height){
             }
           }
         }
+        Character_direction_decision();
         if(Datas.移動データ){
           if(Datas.移動データ.右){
             if(Image[Images_Data.人].x >= 1600){
@@ -515,7 +516,6 @@ function Game_load(width,height){
             Image[Images_Data.人].x = 1600 - Image[Images_Data.人].width;
           }
         }
-
         switch(Image[Images_Data.人].Number){
           default:
             switch(Character_direction){
@@ -571,6 +571,7 @@ function Game_load(width,height){
             Image[Images_Data.人].rotation = 0;
           }
         }
+        Character_direction_decision();
         if(game.input.down){
           if(COOLTime.down==0) //console.log(Flag);
           COOLTime.down = 5;
