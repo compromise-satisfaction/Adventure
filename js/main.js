@@ -665,6 +665,7 @@ function Game_load(width,height){
         }
         if(Write){
           if(Write=="選択肢"){
+            Key_c = false;
             i = Image.length;
             for(var j = 0; j < Object.keys(Datas[k].選択肢).length; j++){
               ChoiceText[j]._element.textContent = Datas[k].選択肢[Object.keys(Datas[k].選択肢)[j]].text;
@@ -684,7 +685,6 @@ function Game_load(width,height){
           }
           else Text_write();
           if(Key_c && COOLTime.c_key == 0){
-            Key_c = false;
             COOLTime.c_key = 5;
             Write = 2;
           }
@@ -719,7 +719,6 @@ function Game_load(width,height){
             }
           }
           if(Key_c && COOLTime.c_key == 0){
-            Key_c = false;
             COOLTime.c_key = 5;
             for(var j = 0; j < 5; j++){
               ChoiceText[j].opacity = 0;
@@ -794,11 +793,11 @@ function Game_load(width,height){
       }
 
       for(var j = 0; j < 5; j++){
-        Image[Images_Data["選択肢"+j]].addEventListener("touchstart",function(e){
+        Image[Images_Data["選択肢"+j]].addEventListener("touchend",function(e){
           if(this.opacity) Choice_Choice(this);
           return;
         });
-        ChoiceText[j].addEventListener("touchstart",function(e){
+        ChoiceText[j].addEventListener("touchend",function(e){
           if(this.opacity) Choice_Choice(Image[Images_Data["選択肢"+this.Number]]);
           return;
         });
