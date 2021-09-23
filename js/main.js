@@ -247,10 +247,6 @@ function Game_load(width,height){
               game.input.left = false;
               game.input.right = false;
               game.pushScene(Chat_Scene(Value[Object.keys(Value)[i]].text));
-              X_B.opacity = Pad_opacity;
-              C_B.opacity = Pad_opacity;
-              Z_B.opacity = Pad_opacity;
-              Pad1.opacity = Pad_opacity;
               break;
             }
           }
@@ -278,10 +274,6 @@ function Game_load(width,height){
 
       scene.addEventListener("touchstart",function(e){
         Pad_opacity = 1;
-        X_B.opacity = Pad_opacity;
-        C_B.opacity = Pad_opacity;
-        Z_B.opacity = Pad_opacity;
-        Pad1.opacity = Pad_opacity;
         E_X = Math.floor(e.x);
         E_Y = Math.floor(e.y);
       });
@@ -292,6 +284,10 @@ function Game_load(width,height){
       });
 
       scene.addEventListener("enterframe",function(){
+        X_B.opacity = Pad_opacity;
+        C_B.opacity = Pad_opacity;
+        Z_B.opacity = Pad_opacity;
+        Pad1.opacity = Pad_opacity;
         for(var i = 0; i < Object.keys(COOLTime).length; i++){
           if(COOLTime[Object.keys(COOLTime)[i]] > 0) COOLTime[Object.keys(COOLTime)[i]]--;
         }
