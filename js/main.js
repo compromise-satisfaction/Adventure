@@ -9,7 +9,7 @@ var Flag = {};
 var Stage = "最初";
 var COOLTime = {c_key:0,run:0,down:0,right:0,left:0,up:0};
 var Run = false;
-var Pad_opacity = 1;
+var Pad_opacity = 0;
 
 var SE = document.createElement("audio");
 var SE2 = document.createElement("audio");
@@ -824,7 +824,7 @@ function Game_load(width,height){
         }
       }
 
-      Image[Images_Data.背景].addEventListener("touchstart",function(e){
+      scene.addEventListener("touchstart",function(e){
         if(!Datas[k].選択肢) Key_c = true;
         return;
       });
