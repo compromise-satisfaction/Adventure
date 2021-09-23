@@ -3,8 +3,8 @@ enchant()
 var Key_z = false;
 var Key_x = false;
 var Key_c = false;
-var Character = -1;
 var Character_X = 0;
+var Character_direction = "右";
 var Flag = {};
 var Stage = "最初";
 var COOLTime = {c_key:0,run:0,down:0,right:0,left:0,up:0};
@@ -105,7 +105,17 @@ function Game_load(width,height){
       function Images(){
         Image[i] = new Sprite();
         Image[i]._element = document.createElement("img");
-        Image[i]._element.src = Datas.画像[Object.keys(Datas.画像)[i]].src;
+        if(Object.keys(Datas.画像)[i]=="人"){
+          if(Datas.人){
+            if(Datas.人.右 || Datas.人.右){
+              if(Datas.人.右) Image[i]._element.src = Datas.人.右;
+              if(Datas.人.左) Image[i]._element.src = Datas.人.左;
+            }
+            else Image[i]._element.src = "image/model1.png";
+          }
+          else Image[i]._element.src = "image/model1.png";
+        }
+        else Image[i]._element.src = Datas.画像[Object.keys(Datas.画像)[i]].src;
         Image[i].width = Datas.画像[Object.keys(Datas.画像)[i]].width;
         Image[i].height = Datas.画像[Object.keys(Datas.画像)[i]].height;
         Image[i].x = Datas.画像[Object.keys(Datas.画像)[i]].x;
@@ -114,7 +124,95 @@ function Game_load(width,height){
         Images_Data[Object.keys(Datas.画像)[i]] = i;
         scene.addChild(Image[i]);
         return;
+      };
+
+      function Character_direction_decision(){
+        switch(Image[Images_Data.人].Number){
+          case "空中":
+            if(Character_direction == "右"){
+              if(Image[Images_Data.人].空中右) Image[Images_Data.人].scaleX = 1;
+              else Image[Images_Data.人].scaleX = -1;
+              //console.log("空中で右を向いてる");
+            }
+            else{
+              if(Image[Images_Data.人].空中左) Image[Images_Data.人].scaleX = 1;
+              else Image[Images_Data.人].scaleX = -1;
+              //console.log("空中で左を向いてる");
+            }
+            break;
+          case "地上":
+            if(Character_direction == "右"){
+              if(Image[Images_Data.人].右) Image[Images_Data.人].scaleX = 1;
+              else Image[Images_Data.人].scaleX = -1;
+              //console.log("右を向いて立ってる");
+            }
+            else{
+              if(Image[Images_Data.人].左) Image[Images_Data.人].scaleX = 1;
+              else Image[Images_Data.人].scaleX = -1;
+              //console.log("左を向いて立ってる");
+            }
+            break;
+          default:
+            if(Run||Z_Run){
+              if(Character_direction == "右"){
+                if(Image[Images_Data.人].走右) Image[Images_Data.人].scaleX = 1;
+                else Image[Images_Data.人].scaleX = -1;
+                //console.log("右に走ってる");
+              }
+              else{
+                if(Image[Images_Data.人].走左) Image[Images_Data.人].scaleX = 1;
+                else Image[Images_Data.人].scaleX = -1;
+                //console.log("左に走ってる");
+              }
+            }
+            else{
+              if(Character_direction == "右"){
+                if(Image[Images_Data.人].歩右) Image[Images_Data.人].scaleX = 1;
+                else Image[Images_Data.人].scaleX = -1;
+                //console.log("右に歩いてる");
+              }
+              else{
+                if(Image[Images_Data.人].歩左) Image[Images_Data.人].scaleX = 1;
+                else Image[Images_Data.人].scaleX = -1;
+                //console.log("左に歩いてる");
+              }
+            }
+            break;
+        }
+        return;
       }
+
+      function Frame_advance(){
+        if(Image[Images_Data.人].Number=="地上") Image[Images_Data.人].Number = 1;
+        Character_direction_decision();
+        var Direction = Character_direction;
+        if(Image[Images_Data.人].Number=="空中") return;
+        if(Run||Z_Run) Direction = "走" + Direction;
+        else Direction = "歩" + Direction;
+        if(!Image[Images_Data.人][Direction]){
+          Direction = Direction.replace(/右/g,"左");
+        }
+        if(!Image[Images_Data.人][Direction]){
+          Direction = Direction.replace(/左/g,"右");
+        }
+        if(Image[Images_Data.人][Direction]){
+          for(var i = 1; i < Object.keys(Image[Images_Data.人][Direction]).length + 1; i++){
+            if(Image[Images_Data.人].Number == "地上" || i >= Object.keys(Image[Images_Data.人][Direction]).length){
+              Image[Images_Data.人].Number = 1;
+              Image[Images_Data.人]._element.src = Image[Images_Data.人][Direction][1];
+              break;
+            }
+            if(Image[Images_Data.人].Number == i){
+              if(Object.keys(Image[Images_Data.人][Direction]).length == i) i = 1;
+              else i++;
+              Image[Images_Data.人].Number = i;
+              Image[Images_Data.人]._element.src = Image[Images_Data.人][Direction][i];
+              break;
+            }
+          }
+        }
+        return;
+      };
 
       function Touch(a,b){
         var c = Image[Images_Data[b.対象]];
@@ -137,7 +235,7 @@ function Game_load(width,height){
           c[b.データ] = b.偽値;
         }
         return;
-      }
+      };
 
       for(var i = 0; i < Object.keys(Datas.画像).length; i++){
         if(Datas.画像[Object.keys(Datas.画像)[i]].フラグ){
@@ -158,11 +256,43 @@ function Game_load(width,height){
           }
         }
         else Images();
+      };
+
+      if(Datas.人){
+        if(Datas.人.右) Image[Images_Data.人].右 = Datas.人.右;
+        else Image[Images_Data.人].右 = false;
+        if(Datas.人.左) Image[Images_Data.人].左 = Datas.人.左;
+        else Image[Images_Data.人].左 = false;
+        if(Datas.人.歩右) Image[Images_Data.人].歩右 = Datas.人.歩右;
+        else Image[Images_Data.人].右 = false;
+        if(Datas.人.歩左) Image[Images_Data.人].歩左 = Datas.人.歩左;
+        else Image[Images_Data.人].右 = false;
+        if(Datas.人.走右) Image[Images_Data.人].走右 = Datas.人.走右;
+        else Image[Images_Data.人].右 = false;
+        if(Datas.人.走左) Image[Images_Data.人].走左 = Datas.人.走左;
+        else Image[Images_Data.人].右 = false;
+        if(Datas.人.空中右) Image[Images_Data.人].空中右 = Datas.人.空中右;
+        else Image[Images_Data.人].空中右 = false;
+        if(Datas.人.空中左) Image[Images_Data.人].空中左 = Datas.人.空中左;
+        else Image[Images_Data.人].空中左 = false;
       }
+      if(!Image[Images_Data.人].左&&!Image[Images_Data.人].右){
+        Image[Images_Data.人].左 = "image/model1.png";
+      }
+      if(!Image[Images_Data.人].歩左&&!Image[Images_Data.人].歩右){
+        Image[Images_Data.人].歩左 = {1:"image/model2.png",2:"image/model3.png"};
+      }
+      if(!Image[Images_Data.人].走左&&!Image[Images_Data.人].走右){
+        Image[Images_Data.人].走左 = {1:"image/model2.png",2:"image/model3.png"};
+      }
+      if(!Image[Images_Data.人].空中左&&!Image[Images_Data.人].空中右){
+        Image[Images_Data.人].空中左 = "image/model4.png";
+      }
+
       Image[Images_Data.人].Number = "地上";
-      Image[Images_Data.人].scaleX = Character;
       Image[Images_Data.人].x = Character_X;
       Image[Images_Data.人].acceleration = 0;
+      Character_direction_decision();
 
       var Ui_Button = [];
 
@@ -181,7 +311,7 @@ function Game_load(width,height){
         Ui_Button[i].addEventListener("touchend",function(e){
 
         });
-      }
+      };
 
       function keydown(Value){
         var k = 1;
@@ -217,8 +347,8 @@ function Game_load(width,height){
               Image[Images_Data.人].x = Character_X;
             }
             if(Value[Object.keys(Value)[i]].向き){
-              Character = Value[Object.keys(Value)[i]].向き;
-              Image[Images_Data.人].scaleX = Character;
+              Character_direction = Value[Object.keys(Value)[i]].向き;
+              Character_direction_decision();
             }
             if(Value[Object.keys(Value)[i]].ステージ移動){
               Stage = Value[Object.keys(Value)[i]].ステージ移動;
@@ -233,7 +363,6 @@ function Game_load(width,height){
               return;
             }
             if(Value[Object.keys(Value)[i]].text){
-              Character = Image[Images_Data.人].scaleX;
               Character_X = Image[Images_Data.人].x;
               X_B.opacity = 0;
               C_B.opacity = 0;
@@ -280,10 +409,14 @@ function Game_load(width,height){
 
       scene.addEventListener("touchend",function(e){
         E_E = ':{width:'+(Math.floor(e.x)-E_X)+',height:'+(Math.floor(e.y)-E_Y)+',x:'+E_X+',y:'+E_Y+',src:"image/透明.png"},';
-        console.log(E_E);
+        //console.log(E_E);
       });
 
       scene.addEventListener("enterframe",function(){
+        if(!game.input.right && !game.input.left){
+          if(Image[Images_Data.人].Number != "空中") Image[Images_Data.人].Number = "地上";
+        }
+        Character_direction_decision();
         X_B.opacity = Pad_opacity;
         C_B.opacity = Pad_opacity;
         Z_B.opacity = Pad_opacity;
@@ -356,8 +489,8 @@ function Game_load(width,height){
           }
           if(Datas.移動データ.上){
             if(Image[Images_Data.人].y <= -Image[Images_Data.人].height){
-              if(Datas.移動データ.上向き) Character = Datas.移動データ.上向き;
               if(Datas.移動データ.上x!=undefined) Character_X = Datas.移動データ.上x;
+              if(Datas.移動データ.上向き) Character_direction = Datas.移動データ.上向き;
               Stage = Datas.移動データ.上;
               Key_z = false;
               Key_x = false;
@@ -381,10 +514,28 @@ function Game_load(width,height){
 
         switch(Image[Images_Data.人].Number){
           default:
-            Image[Images_Data.人]._element.src = "image/pe1.png";
+            switch(Character_direction){
+              case "右":
+                if(Image[Images_Data.人].右) Image[Images_Data.人]._element.src = Image[Images_Data.人].右;
+                else Image[Images_Data.人]._element.src = Image[Images_Data.人].左;
+                break;
+              case "左":
+                if(Image[Images_Data.人].左) Image[Images_Data.人]._element.src = Image[Images_Data.人].左;
+                else Image[Images_Data.人]._element.src = Image[Images_Data.人].右;
+                break;
+            }
             break;
           case "空中":
-            Image[Images_Data.人]._element.src = "image/pe4.png";
+            switch(Character_direction){
+              case "右":
+                if(Image[Images_Data.人].空中右) Image[Images_Data.人]._element.src = Image[Images_Data.人].空中右;
+                else Image[Images_Data.人]._element.src = Image[Images_Data.人].空中左;
+                break;
+              case "左":
+                if(Image[Images_Data.人].空中左) Image[Images_Data.人]._element.src = Image[Images_Data.人].空中左;
+                else Image[Images_Data.人]._element.src = Image[Images_Data.人].空中右;
+                break;
+            }
             break;
         }
         Z_Run = Key_z;
@@ -413,7 +564,7 @@ function Game_load(width,height){
           if(Image[Images_Data.人].Number == "空中") Image[Images_Data.人].Number = "地上";
         }
         if(game.input.down){
-          if(COOLTime.down==0) console.log(Flag);
+          if(COOLTime.down==0) //console.log(Flag);
           COOLTime.down = 5;
         }
         if(game.input.up && COOLTime.up == 0){
@@ -421,18 +572,8 @@ function Game_load(width,height){
           if(Datas.上キー) keydown(Datas.上キー);
         }
         if(game.input.left && !game.input.right){
-          switch(Image[Images_Data.人].Number){
-            case "地上":
-              Image[Images_Data.人].Number = 2;
-              Image[Images_Data.人]._element.src = "image/pe2.png";
-              break;
-            case 2:
-              Image[Images_Data.人].Number = "地上";
-              Image[Images_Data.人]._element.src = "image/pe3.png";
-              break;
-          }
-          Character = 1;
-          Image[Images_Data.人].scaleX = 1;
+          Character_direction = "左";
+          Frame_advance();
           if(COOLTime.left > 0 && COOLTime.left != 4) Run = true;
           COOLTime.left = 5;
           COOLTime.right = 0;
@@ -446,18 +587,8 @@ function Game_load(width,height){
           }
         }
         if(game.input.right && !game.input.left){
-          switch(Image[Images_Data.人].Number){
-            case "地上":
-              Image[Images_Data.人].Number = 2;
-              Image[Images_Data.人]._element.src = "image/pe2.png";
-              break;
-            case 2:
-              Image[Images_Data.人].Number = "地上";
-              Image[Images_Data.人]._element.src = "image/pe3.png";
-              break;
-          }
-          Character = -1;
-          Image[Images_Data.人].scaleX = -1;
+          Character_direction = "右";
+          Frame_advance();
           if(COOLTime.right > 0 && COOLTime.right != 4) Run = true;
           COOLTime.left = 0;
           COOLTime.right = 5;
@@ -754,8 +885,8 @@ function Game_load(width,height){
               default:
                 window.localStorage.setItem("Flag",JSON.stringify(Flag));
                 window.localStorage.setItem("Stage",JSON.stringify(Stage));
-                window.localStorage.setItem("Character",JSON.stringify(Character));
                 window.localStorage.setItem("Character_X",JSON.stringify(Character_X));
+                window.localStorage.setItem("Character_direction",JSON.stringify(Character_direction));
                 break;
             }
           }
@@ -777,7 +908,7 @@ function Game_load(width,height){
           game.popScene();
           if(Datas[k].ステージ移動){
             if(Datas[k].x) Character_X = Datas[k].x;
-            if(Datas[k].向き) Character = Datas[k].向き;
+            if(Datas[k].向き) Character_direction = Datas[k].向き;
             Stage = Datas[k].ステージ移動;
             Key_z = false;
             Key_x = false;
@@ -864,13 +995,13 @@ function Game_load(width,height){
         Stage = window.localStorage.getItem("Stage");
         Stage = JSON.parse(Stage);
       }
-      if(window.localStorage.getItem("Character")){
-        Character = window.localStorage.getItem("Character");
-        Character = JSON.parse(Character);
-      }
       if(window.localStorage.getItem("Character_X")){
         Character_X = window.localStorage.getItem("Character_X");
         Character_X = JSON.parse(Character_X);
+      }
+      if(window.localStorage.getItem("Character_direction")){
+        Character_direction = window.localStorage.getItem("Character_direction");
+        Character_direction = JSON.parse(Character_direction);
       }
       if(!Stage_Datas[Stage]) Stage = "最初";
       game.replaceScene(Main_Scene(Stage_Datas[Stage]));

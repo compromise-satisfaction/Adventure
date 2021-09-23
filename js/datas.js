@@ -52,7 +52,7 @@ Message_Datas.ベッド = {
   "image":{0:{name:"闇",src:"image/透明.png",width:1600,height:900,x:0,y:0}},
   1:{text:"My bed.",音:"ポポポ(男).wav"},
   寝:{フラグ:"カード拾い","固定値":1,next:"月",text:"寝た！",音:"ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
-  月:{フラグ:"睡眠回数","増加量":1,x:820,向き:-1,ステージ移動:"月",text:"夢を見た！",音:"ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
+  月:{フラグ:"睡眠回数","増加量":1,x:820,向き:"右",ステージ移動:"月",text:"夢を見た！",音:"ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
   セーブ:{text:"セーブしました。",音:"ポポポ(男).wav",セーブ:"セーブ"},
   セーブ削除:{text:"既存セーブを削除しました。φφφφφゲームは続けることができます。",音:"ポポポ(男).wav",セーブ:"削除"},
   2:{
@@ -111,7 +111,26 @@ Stage_Datas.最初 = {
     操作説明触れる:{width:450,height:450,x:0,y:height-450,src:"image/透明.png"},
     看板ポップ:{width:450,height:450,x:width-450,y:0,src:"image/読む.png",opacity:0},
     看板:{width:450,height:450,x:width-450,y:height-450,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/アイテム/看板.png"},
-    人:{width:295,height:450,x:0,y:height-450,src:"image/pe1.png"}
+    人:{width:295,height:450,x:0,y:height-450}
+  },
+  人:{
+    左:"image/キャラ/歩く棒人間_3.png",
+    空中右:"image/キャラ/飛ぶ棒人間.png",
+    歩左:{
+      1:"image/キャラ/歩く棒人間_1.png",
+      2:"image/キャラ/歩く棒人間_2.png",
+      3:"image/キャラ/歩く棒人間_3.png"
+    },
+    走右:{
+      1:"image/キャラ/走る棒人間_1.png",
+      2:"image/キャラ/走る棒人間_2.png",
+      3:"image/キャラ/走る棒人間_3.png",
+      4:"image/キャラ/走る棒人間_4.png",
+      5:"image/キャラ/走る棒人間_5.png",
+      6:"image/キャラ/走る棒人間_6.png",
+      7:"image/キャラ/走る棒人間_7.png",
+      8:"image/キャラ/走る棒人間_8.png"
+    }
   },
   接触:{
     1:{
@@ -243,7 +262,7 @@ Stage_Datas.家 = {
       値:0,
       ステージ移動:"玄関",
       x:1600-295,
-      向き:1
+      向き:"左"
     }
   },
   移動データ:{右:"道",左:"森1"}
@@ -288,7 +307,7 @@ Stage_Datas.学校入口 = {
       値:0,
       ステージ移動:"学校中庭",
       x:0,
-      向き:-1
+      向き:"右"
     }
   },
   cキー:{
@@ -347,7 +366,7 @@ Stage_Datas.学校教室 = {
       データ:"opacity",
       値:0,
       x:880,
-      向き:-1,
+      向き:"右",
       text:Message_Datas.ミミ
     },
     2:{
@@ -357,7 +376,7 @@ Stage_Datas.学校教室 = {
       データ:"opacity",
       値:0,
       x:880,
-      向き:-1,
+      向き:"右",
       text:Message_Datas.ミミ2
     },
     3:{
@@ -367,13 +386,32 @@ Stage_Datas.学校教室 = {
       データ:"opacity",
       値:0,
       x:880,
-      向き:-1,
+      向き:"右",
       text:Message_Datas.ミミ3
     }
   },
   移動データ:{左:"学校廊下"}
 };
 Stage_Datas.氷河 = {
+  人:{
+    左:"image/キャラ/歩く棒人間_3.png",
+    空中右:"image/キャラ/飛ぶ棒人間.png",
+    歩左:{
+      1:"image/キャラ/歩く棒人間_1.png",
+      2:"image/キャラ/歩く棒人間_2.png",
+      3:"image/キャラ/歩く棒人間_3.png"
+    },
+    走右:{
+      1:"image/キャラ/走る棒人間_1.png",
+      2:"image/キャラ/走る棒人間_2.png",
+      3:"image/キャラ/走る棒人間_3.png",
+      4:"image/キャラ/走る棒人間_4.png",
+      5:"image/キャラ/走る棒人間_5.png",
+      6:"image/キャラ/走る棒人間_6.png",
+      7:"image/キャラ/走る棒人間_7.png",
+      8:"image/キャラ/走る棒人間_8.png"
+    }
+  },
   物理:{摩擦:0.05},
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/氷河.png"},
@@ -382,6 +420,25 @@ Stage_Datas.氷河 = {
   移動データ:{右:"海底",左:"月"}
 };
 Stage_Datas.月 = {
+  人:{
+    左:"image/キャラ/歩く棒人間_3.png",
+    空中右:"image/キャラ/飛ぶ棒人間.png",
+    歩左:{
+      1:"image/キャラ/歩く棒人間_1.png",
+      2:"image/キャラ/歩く棒人間_2.png",
+      3:"image/キャラ/歩く棒人間_3.png"
+    },
+    走右:{
+      1:"image/キャラ/走る棒人間_1.png",
+      2:"image/キャラ/走る棒人間_2.png",
+      3:"image/キャラ/走る棒人間_3.png",
+      4:"image/キャラ/走る棒人間_4.png",
+      5:"image/キャラ/走る棒人間_5.png",
+      6:"image/キャラ/走る棒人間_6.png",
+      7:"image/キャラ/走る棒人間_7.png",
+      8:"image/キャラ/走る棒人間_8.png"
+    }
+  },
   物理:{重力:2},
   画像:{
     カード:{width:127,height:106,x:214,y:48,src:"image/透明.png"},
@@ -451,6 +508,25 @@ Stage_Datas.森4 = {
   移動データ:{右:"森3",左:"森3"}
 };
 Stage_Datas.海底 = {
+  人:{
+    左:"image/キャラ/歩く棒人間_3.png",
+    空中右:"image/キャラ/飛ぶ棒人間.png",
+    歩左:{
+      1:"image/キャラ/歩く棒人間_1.png",
+      2:"image/キャラ/歩く棒人間_2.png",
+      3:"image/キャラ/歩く棒人間_3.png"
+    },
+    走右:{
+      1:"image/キャラ/走る棒人間_1.png",
+      2:"image/キャラ/走る棒人間_2.png",
+      3:"image/キャラ/走る棒人間_3.png",
+      4:"image/キャラ/走る棒人間_4.png",
+      5:"image/キャラ/走る棒人間_5.png",
+      6:"image/キャラ/走る棒人間_6.png",
+      7:"image/キャラ/走る棒人間_7.png",
+      8:"image/キャラ/走る棒人間_8.png"
+    }
+  },
   物理:{重力:6,ジャンプ:100},
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/海底.png"},
@@ -477,5 +553,5 @@ Stage_Datas.海底 = {
       text:Message_Datas.海看板
     }
   },
-  移動データ:{右:"月",左:"氷河",上:"最初",上x:0,上向き:-1}
+  移動データ:{右:"月",左:"氷河",上:"最初",上x:0,上向き:"右"}
 };
