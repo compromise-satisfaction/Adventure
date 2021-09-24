@@ -72,7 +72,7 @@ Message_Datas.ミミ = {
   2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"ポポポ(女).wav"},
   3:{"text":"ミミ:φφφφφφφφφφφφφφφただ、理由もなく変わってもらうわけにいかないわね。","音":"ポポポ(女).wav"},
   5:{"text":"ミミ:φφφφφφφφφφφφφφφデッキを持ってない？φφφφφφφφじゃあ仕方ないわね。φφφφφφφφさっさと終わらせて帰るわ。","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
-  4:{"text":"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ2.png",width:1600,height:900,x:0,y:0}}}
+  4:{BGM:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/BGM/VS 天上院明日香.wav",BGMED:38.015,"text":"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ2.png",width:1600,height:900,x:0,y:0}}}
 };
 Message_Datas.ミミ2 = {
   "image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}},
@@ -125,7 +125,16 @@ var Nizinizi = {
 };
 
 var Stick_figure = {
-  左:{1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png"},
+  左:{
+    1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png",
+    2:50,
+    3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_2.png",
+    4:50,
+    5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
+    6:50,
+    7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_2.png",
+    8:50
+  },
   空中右:{1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/飛ぶ棒人間.png"},
   歩左:{
     1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
@@ -147,7 +156,10 @@ var Stick_figure_sea = {
   左:{1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png"},
   空中左:{
     1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/泳ぐ棒人間1.png",
-    2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/泳ぐ棒人間2.png"
+    2:10,
+    3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/泳ぐ棒人間2.png",
+    4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/泳ぐ棒人間2.png",
+    5:9
   },
   歩左:{
     1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
@@ -233,6 +245,7 @@ Stage_Datas.最初 = {
   移動データ:{右:"部屋",右x:700}
 };
 Stage_Datas.部屋 = {
+  設定:{BGM:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/BGM/逆転姉妹.wav",BGMED:10.390},
   画像:{
     百円:{width:221,height:120,x:40,y:693,src:"image/透明.png"},
     ベッド:{width:680,height:320,x:531,y:418,src:"image/透明.png"},

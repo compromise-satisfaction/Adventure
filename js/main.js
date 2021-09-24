@@ -11,9 +11,15 @@ var COOLTime = {c_key:0,run:0,down:0,right:0,left:0,up:0};
 var Run = false;
 var Pad_opacity = 0;
 
-var SE = document.createElement("audio");
+var SE1 = document.createElement("audio");
 var SE2 = document.createElement("audio");
 var BGM = document.createElement("audio");
+var BGM = document.createElement("audio");
+
+BGM.addEventListener("ended",function(e){
+  BGM.currentTime = BGM.id;
+  BGM.play();
+});
 
 window.addEventListener("keydown",function(e){
   Pad_opacity = 0;
@@ -116,12 +122,15 @@ function Game_load(width,height){
       var E_E = null;
       if(Datas.設定){
         if(Datas.設定.BGM){
-          BGM.src = Datas.設定.BGM;
-          if(BGM.name != BGM.src){
-            BGM.name = BGM.src;
+          BGM.name1 = Datas.設定.BGM;
+          if(BGM.name1 != BGM.name2){
+            BGM.src = BGM.name1;
+            BGM.name2 = BGM.name1;
             if(BGM.src){
               if(BGM.paused) BGM.play();
               else BGM.currentTime = 0;
+              if(Datas.設定.BGMED) BGM.id = Datas.設定.BGMED;
+              else BGM.id = 0;
             }
           }
         }
@@ -164,24 +173,20 @@ function Game_load(width,height){
             if(Character_direction == "右"){
               if(Image[Images_Data.人].空中右) Image[Images_Data.人].scaleX = 1;
               else Image[Images_Data.人].scaleX = -1;
-              //console.log("空中で右を向いてる");
             }
             else{
               if(Image[Images_Data.人].空中左) Image[Images_Data.人].scaleX = 1;
               else Image[Images_Data.人].scaleX = -1;
-              //console.log("空中で左を向いてる");
             }
             break;
           case "停止":
             if(Character_direction == "右"){
               if(Image[Images_Data.人].右) Image[Images_Data.人].scaleX = 1;
               else Image[Images_Data.人].scaleX = -1;
-              //console.log("右を向いて立ってる");
             }
             else{
               if(Image[Images_Data.人].左) Image[Images_Data.人].scaleX = 1;
               else Image[Images_Data.人].scaleX = -1;
-              //console.log("左を向いて立ってる");
             }
             break;
           default:
@@ -189,24 +194,20 @@ function Game_load(width,height){
               if(Character_direction == "右"){
                 if(Image[Images_Data.人].走右) Image[Images_Data.人].scaleX = 1;
                 else Image[Images_Data.人].scaleX = -1;
-                //console.log("右に走ってる");
               }
               else{
                 if(Image[Images_Data.人].走左) Image[Images_Data.人].scaleX = 1;
                 else Image[Images_Data.人].scaleX = -1;
-                //console.log("左に走ってる");
               }
             }
             else{
               if(Character_direction == "右"){
                 if(Image[Images_Data.人].歩右) Image[Images_Data.人].scaleX = 1;
                 else Image[Images_Data.人].scaleX = -1;
-                //console.log("右に歩いてる");
               }
               else{
                 if(Image[Images_Data.人].歩左) Image[Images_Data.人].scaleX = 1;
                 else Image[Images_Data.人].scaleX = -1;
-                //console.log("左に歩いてる");
               }
             }
             break;
@@ -214,9 +215,11 @@ function Game_load(width,height){
         return;
       }
 
+      var Frame_wait = 0;
+      var Frame_status = null;
+      var Frame_wait_Number = null;
+
       function Frame_advance(){
-        if(Image[Images_Data.人].状態=="停止") Image[Images_Data.人].Number = 0;
-        Character_direction_decision();
         var Direction = Character_direction;
         if(Image[Images_Data.人].状態!="停止"){
           if(Image[Images_Data.人].状態=="空中"){
@@ -235,22 +238,73 @@ function Game_load(width,height){
         }
         if(Image[Images_Data.人][Direction]){
           for(var i = 1; i < Object.keys(Image[Images_Data.人][Direction]).length + 1; i++){
+            if(Frame_wait){
+              if(Frame_wait==1) Image[Images_Data.人].Number = Frame_wait_Number + 2;
+              Frame_wait--;
+              if(Frame_wait){
+                Image[Images_Data.人].Number = Frame_wait_Number;
+                Image[Images_Data.人]._element.src = Image[Images_Data.人][Direction][Frame_wait_Number];
+                Character_direction_decision();
+                return;
+              }
+            }
             if(i >= Object.keys(Image[Images_Data.人][Direction]).length){
               Image[Images_Data.人].Number = 1;
               Image[Images_Data.人]._element.src = Image[Images_Data.人][Direction][1];
+              Character_direction_decision();
               break;
             }
             if(Image[Images_Data.人].Number == i){
               if(Object.keys(Image[Images_Data.人][Direction]).length == i) i = 1;
               else i++;
-              Image[Images_Data.人].Number = i;
-              Image[Images_Data.人]._element.src = Image[Images_Data.人][Direction][i];
+              if(Frame_wait==0){
+                if(JSON.stringify((Image[Images_Data.人][Direction][i])).match(/^\d/)){
+                  Frame_wait_Number = i - 1;
+                  Frame_wait = Image[Images_Data.人][Direction][i];
+                }
+                else{
+                  Image[Images_Data.人].Number = i;
+                  Image[Images_Data.人]._element.src = Image[Images_Data.人][Direction][i];
+                  Character_direction_decision();
+                }
+              }
               break;
             }
           }
         }
         return;
       };
+
+      function State_change(a){
+        if(Frame_status!=a){
+          Frame_status = a;
+          Image[Images_Data.人].状態 = a;
+          Frame_wait = 0;
+          Image[Images_Data.人].Number = 1;
+          switch(a){
+            case "空中":
+              if(Character_direction=="右") console.log("空中で右を向いている。");
+              else console.log("空中で左を向いている。");
+              break;
+            case "動":
+              if(Character_direction=="右") console.log("右に歩いている。");
+              else console.log("左に歩いている。");
+              break;
+            case "走":
+              if(Character_direction=="右") console.log("右に走っている。");
+              else console.log("左に走っている。");
+              break;
+            case "停止":
+              if(Character_direction=="右") console.log("右を向いている。");
+              else console.log("左を向いている。");
+              break;
+            default:
+              console.log("キャラ不明。");
+              break;
+          }
+        }
+        return;
+      }
 
       function Touch(a,b){
         var c = Image[Images_Data[b.対象]];
@@ -341,10 +395,10 @@ function Game_load(width,height){
       }
 
       if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
-        Image[Images_Data.人].状態 = "空中";
+        State_change("空中");
         Jump = Jump_s - 1;
       }
-      else Image[Images_Data.人].状態 = "停止";
+      else State_change("停止");
 
       Image[Images_Data.人].Number = 1;
       Image[Images_Data.人].x = Character_X;
@@ -450,7 +504,7 @@ function Game_load(width,height){
 
       scene.addEventListener("touchend",function(e){
         E_E = ':{width:'+(Math.floor(e.x)-E_X)+',height:'+(Math.floor(e.y)-E_Y)+',x:'+E_X+',y:'+E_Y+',src:"image/透明.png"},';
-        //console.log(E_E);
+        console.log(E_E);
       });
 
       scene.addEventListener("enterframe",function(){
@@ -472,7 +526,7 @@ function Game_load(width,height){
         }
         if(Key_x){
           if(Jump){
-            Image[Images_Data.人].状態 = "空中";
+            State_change("空中");
             if(Pe_S >= 0){
               if(SE2.src){
                 if(SE2.paused) SE2.play();
@@ -560,7 +614,7 @@ function Game_load(width,height){
           Pe_S = 0;
           Image[Images_Data.人].y = height - Image[Images_Data.人].height - Ground;
           if(Image[Images_Data.人].状態 == "空中"){
-            Image[Images_Data.人].状態 = "停止";
+            State_change("停止");
             Image[Images_Data.人].rotation = 0;
           }
         }
@@ -569,7 +623,7 @@ function Game_load(width,height){
           if(Datas.上キー) keydown(Datas.上キー);
         }
         if(game.input.down){
-          if(COOLTime.down==0) //console.log(Flag);
+          if(COOLTime.down==0) console.log(Flag);
           COOLTime.down = 5;
         }
         if(game.input.left == game.input.right){
@@ -585,10 +639,10 @@ function Game_load(width,height){
               if(Image[Images_Data.人].acceleration > 0) Image[Images_Data.人].acceleration = 0;
             }
           }
-          if(Image[Images_Data.人].状態 != "空中") Image[Images_Data.人].状態 = "停止";
+          if(Image[Images_Data.人].状態 != "空中") State_change("停止");
         }
         if(game.input.left && !game.input.right){
-          if(Image[Images_Data.人].状態 != "空中") Image[Images_Data.人].状態 = "動";
+          if(Image[Images_Data.人].状態 != "空中") State_change("動");
           if(Datas.設定) {
             if(Datas.設定.回転) Rotate = - Datas.設定.回転;
           }
@@ -606,7 +660,7 @@ function Game_load(width,height){
           }
         }
         if(game.input.right && !game.input.left){
-          if(Image[Images_Data.人].状態 != "空中") Image[Images_Data.人].状態 = "動";
+          if(Image[Images_Data.人].状態 != "空中") State_change("動");
           if(Datas.設定) {
             if(Datas.設定.回転) Rotate = Datas.設定.回転;
           }
@@ -780,11 +834,24 @@ function Game_load(width,height){
       for(var j = 0; j < 5; j++) Choice(j);
 
       var k = 1;
-      if(Datas[k].音) SE.src = Datas[k].音;
+      if(Datas[k].音) SE1.src = Datas[k].音;
       if(Datas[k].フラグ){
         if(!Flag[Datas[k].フラグ]) Flag[Datas[k].フラグ] = 0;
         if(Datas[k].増加量!=undefined) Flag[Datas[k].フラグ] += Datas[k].増加量;
         if(Datas[k].固定値!=undefined) Flag[Datas[k].フラグ] = Datas[k].固定値;
+      }
+      if(Datas[k].BGM){
+        BGM.name1 = Datas[k].BGM;
+        if(BGM.name1 != BGM.name2){
+          BGM.src = BGM.name1;
+          BGM.name2 = BGM.name1;
+          if(BGM.src){
+            if(BGM.paused) BGM.play();
+            else BGM.currentTime = 0;
+            if(Datas[k].BGMED) BGM.id = Datas[k].BGMED;
+            else BGM.id = 0;
+          }
+        }
       }
       if(Datas[k].text){
         if(Datas[k].text.indexOf(":")==-1) var Write = 1;
@@ -803,9 +870,9 @@ function Game_load(width,height){
           COOLTime.c_key = 5;
         }
         if(Write==2) Text_write();
-        if(SE.src){
-          if(SE.paused) SE.play();
-          else SE.currentTime = 0;
+        if(SE1.src){
+          if(SE1.paused) SE1.play();
+          else SE1.currentTime = 0;
         }
         return;
       }
@@ -888,7 +955,7 @@ function Game_load(width,height){
           if(Datas[k].next) k = Datas[k].next;
           else k++;
           i = 0;
-          if(Datas[k].音) SE.src = Datas[k].音;
+          if(Datas[k].音) SE1.src = Datas[k].音;
           if(Datas[k].image){
             while(Datas[k].image[i]){
               Image[Images_Data[Datas[k].image[i].name]]._element.src = Datas[k].image[i].src;
@@ -899,6 +966,19 @@ function Game_load(width,height){
             if(!Flag[Datas[k].フラグ]) Flag[Datas[k].フラグ] = 0;
             if(Datas[k].増加量!=undefined) Flag[Datas[k].フラグ] += Datas[k].増加量;
             if(Datas[k].固定値!=undefined) Flag[Datas[k].フラグ] = Datas[k].固定値;
+          }
+          if(Datas[k].BGM){
+            BGM.name1 = Datas[k].BGM;
+            if(BGM.name1 != BGM.name2){
+              BGM.src = BGM.name1;
+              BGM.name2 = BGM.name1;
+              if(BGM.src){
+                if(BGM.paused) BGM.play();
+                else BGM.currentTime = 0;
+                if(Datas[k].BGMED) BGM.id = Datas[k].BGMED;
+                else BGM.id = 0;
+              }
+            }
           }
           if(Datas[k].セーブ){
             switch(Datas[k].セーブ){
