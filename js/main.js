@@ -13,6 +13,7 @@ var Pad_opacity = 0;
 
 var SE = document.createElement("audio");
 var SE2 = document.createElement("audio");
+var BGM = document.createElement("audio");
 
 window.addEventListener("keydown",function(e){
   Pad_opacity = 0;
@@ -101,6 +102,37 @@ function Game_load(width,height){
       var i = 0;
       var Image = [];
       var Images_Data = {};
+      var Z_Run = false;
+      var Pe_S = 0;
+      var Rotate = 0;
+      var Ground = 0;
+      var Gravity = 9.8;
+      var Jump_s = 1;
+      var Jump_power = 50;
+      var Friction = 10;
+      var Jump = Jump_s;
+      var E_X = 0;
+      var E_Y = 0;
+      var E_E = null;
+      if(Datas.設定){
+        if(Datas.設定.BGM){
+          BGM.src = Datas.設定.BGM;
+          if(BGM.name != BGM.src){
+            BGM.name = BGM.src;
+            if(BGM.src){
+              if(BGM.paused) BGM.play();
+              else BGM.currentTime = 0;
+            }
+          }
+        }
+        if(Datas.設定.地面) Ground = Datas.設定.地面;
+        if(Datas.設定.回転) Rotate = Datas.設定.回転;
+        if(Datas.設定.重力) Gravity = Datas.設定.重力;
+        if(Datas.設定.摩擦) Friction = Datas.設定.摩擦;
+        if(Datas.設定.ジャンプ) Jump_s = Datas.設定.ジャンプ;
+        if(Datas.設定.ジャンプ音) SE2.src = Datas.設定.ジャンプ音;
+        if(Datas.設定.ジャンプ力) Jump_power = Datas.設定.ジャンプ力;
+      }
 
       function Images(){
         Image[i] = new Sprite();
@@ -308,8 +340,13 @@ function Game_load(width,height){
         Image[Images_Data.人].空中左 = {1:"image/model9.png"};
       }
 
+      if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
+        Image[Images_Data.人].状態 = "空中";
+        Jump = Jump_s - 1;
+      }
+      else Image[Images_Data.人].状態 = "停止";
+
       Image[Images_Data.人].Number = 1;
-      Image[Images_Data.人].状態 = "停止";
       Image[Images_Data.人].x = Character_X;
       Image[Images_Data.人].acceleration = 0;
       Character_direction_decision();
@@ -404,26 +441,6 @@ function Game_load(width,height){
         }
         return;
       };
-
-      var Z_Run = false;
-      var Pe_S = 0;
-      var Rotate = 0;
-      var Gravity = 9.8;
-      var Jump_s = 1;
-      var Jump_power = 50;
-      var Friction = 10;
-      if(Datas.物理){
-        if(Datas.物理.回転) Rotate = Datas.物理.回転;
-        if(Datas.物理.重力) Gravity = Datas.物理.重力;
-        if(Datas.物理.摩擦) Friction = Datas.物理.摩擦;
-        if(Datas.物理.ジャンプ) Jump_s = Datas.物理.ジャンプ;
-        if(Datas.物理.ジャンプ音) SE2.src = Datas.物理.ジャンプ音;
-        if(Datas.物理.ジャンプ力) Jump_power = Datas.物理.ジャンプ力;
-      }
-      var Jump = Jump_s;
-      var E_X = 0;
-      var E_Y = 0;
-      var E_E = null;
 
       scene.addEventListener("touchstart",function(e){
         Pad_opacity = 1;
@@ -534,14 +551,14 @@ function Game_load(width,height){
         Z_Run = Key_z;
         Image[Images_Data.人].x += Image[Images_Data.人].acceleration;
         Image[Images_Data.人].y += Pe_S;
-        if(Image[Images_Data.人].y < height - Image[Images_Data.人].height){
+        if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
           Pe_S += Gravity;
           Image[Images_Data.人].rotation += Rotate;
         }
         else{
           Jump = Jump_s;
           Pe_S = 0;
-          Image[Images_Data.人].y = height - Image[Images_Data.人].height;
+          Image[Images_Data.人].y = height - Image[Images_Data.人].height - Ground;
           if(Image[Images_Data.人].状態 == "空中"){
             Image[Images_Data.人].状態 = "停止";
             Image[Images_Data.人].rotation = 0;
@@ -572,8 +589,8 @@ function Game_load(width,height){
         }
         if(game.input.left && !game.input.right){
           if(Image[Images_Data.人].状態 != "空中") Image[Images_Data.人].状態 = "動";
-          if(Datas.物理) {
-            if(Datas.物理.回転) Rotate = - Datas.物理.回転;
+          if(Datas.設定) {
+            if(Datas.設定.回転) Rotate = - Datas.設定.回転;
           }
           Character_direction = "左";
           if(COOLTime.left > 0 && COOLTime.left != 4) Run = true;
@@ -590,8 +607,8 @@ function Game_load(width,height){
         }
         if(game.input.right && !game.input.left){
           if(Image[Images_Data.人].状態 != "空中") Image[Images_Data.人].状態 = "動";
-          if(Datas.物理) {
-            if(Datas.物理.回転) Rotate = Datas.物理.回転;
+          if(Datas.設定) {
+            if(Datas.設定.回転) Rotate = Datas.設定.回転;
           }
           Character_direction = "右";
           if(COOLTime.right > 0 && COOLTime.right != 4) Run = true;
