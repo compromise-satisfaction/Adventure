@@ -71,7 +71,14 @@ $(function(){
 
   //ゲーム内の画面サイズ
   var gameWidth = 1600;
-  var gameHeight = 900;
+  switch(HTML){
+    case "編集":
+    var gameHeight = 1800;
+    break;
+    default:
+    var gameHeight = 900;
+    break;
+  }
   //回転時の処理
   var orientationChange = function(){
     //画面サイズ設定
