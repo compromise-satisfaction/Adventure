@@ -2,17 +2,17 @@ var Stage_Datas = {};
 var Message_Datas = {};
 Message_Datas.看板 = {
   "image":{0:{name:"その1",src:"image/透明.png",width:1600,height:900,x:0,y:0}},
-  1:{"text":"看板:φφφφφφφφφφφφφφφ操作は大丈夫みたいですね。","音":"ポポポ(男).wav",フラグ:"既読","固定値":1},
-  2:{"text":"看板:φφφφφφφφφφφφφφφ左右キーを二連打する事でもφφφφφ走ることが出来ます。","音":"ポポポ(男).wav"},
-  3:{"text":"看板:φφφφφφφφφφφφφφφ扉などに入るときはφφφφφφφφφ↑キーを使おうと思っています。","音":"ポポポ(男).wav"},
-  4:{"text":"看板:φφφφφφφφφφφφφφφ右に行くといいでしょう。","音":"ポポポ(男).wav"},
-  はい:{"text":"看板:φφφφφφφφφφφφφφφご理解感謝。","音":"ポポポ(男).wav"},
-  たぶん:{"text":"看板:φφφφφφφφφφφφφφφまあ、やってりゃわかりますよ。φφφたぶん。","音":"ポポポ(男).wav"},
-  オッケー:{"text":"看板:φφφφφφφφφφφφφφφ元気がいいですね。結構な事です。","音":"ポポポ(男).wav"},
-  無言:{"text":"看板:φφφφφφφφφφφφφφφ…無口な方ですね。","音":"ポポポ(男).wav"},
+  1:{"text":"看板:φφφφφφφφφφφφφφφ操作は大丈夫みたいですね。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",フラグ:"既読","固定値":1},
+  2:{"text":"看板:φφφφφφφφφφφφφφφ左右キーを二連打する事でもφφφφφ走ることが出来ます。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
+  3:{"text":"看板:φφφφφφφφφφφφφφφ扉などに入るときはφφφφφφφφφ↑キーを使おうと思っています。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
+  4:{"text":"看板:φφφφφφφφφφφφφφφ右に行くといいでしょう。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
+  はい:{"text":"看板:φφφφφφφφφφφφφφφご理解感謝。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
+  たぶん:{"text":"看板:φφφφφφφφφφφφφφφまあ、やってりゃわかりますよ。φφφたぶん。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
+  オッケー:{"text":"看板:φφφφφφφφφφφφφφφ元気がいいですね。結構な事です。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
+  無言:{"text":"看板:φφφφφφφφφφφφφφφ…無口な方ですね。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
   5:{
     text:"看板:φφφφφφφφφφφφφφφご理解いただけましたか？",
-    音:"ポポポ(男).wav",
+    音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",
     選択肢:{
       1:{text:"…。",next:"無言"},
       2:{text:"いいえ",next:2},
@@ -23,41 +23,41 @@ Message_Datas.看板 = {
   }
 };
 Message_Datas.看板2 = {
-  1:{"text":"看板:φφφφφφφφφφφφφφφまた会いましょう。","音":"ポポポ(男).wav"},
+  1:{"text":"看板:φφφφφφφφφφφφφφφまた会いましょう。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
 };
 Message_Datas.海看板 = {
-  1:{"text":"看板:φφφφφφφφφφφφφφφ目覚めるには浮上しろ。","音":"ポポポ(男).wav"},
+  1:{"text":"看板:φφφφφφφφφφφφφφφ目覚めるには浮上しろ。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
 };
 Message_Datas.夢看板 = {
-  1:{"text":"看板:φφφφφφφφφφφφφφφよう！また会ったな！φφφφφφφφもう操作はバッチリっぽいな！","音":"ポポポ(男).wav"},
-  2:{"text":"看板:φφφφφφφφφφφφφφφ起きたきゃまた右に行くんだぜ！","音":"ポポポ(男).wav"},
+  1:{"text":"看板:φφφφφφφφφφφφφφφよう！また会ったな！φφφφφφφφもう操作はバッチリっぽいな！","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
+  2:{"text":"看板:φφφφφφφφφφφφφφφ起きたきゃまた右に行くんだぜ！","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
 };
 Message_Datas.夢看板2 = {
-  1:{"text":"看板:φφφφφφφφφφφφφφφまた来たのか。φφφφφφφφφφφちょっと寝すぎじゃね？","音":"ポポポ(男).wav"}
+  1:{"text":"看板:φφφφφφφφφφφφφφφまた来たのか。φφφφφφφφφφφちょっと寝すぎじゃね？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"}
 };
 Message_Datas.表札 = {
-  1:{text:"表札:φφφφφφφφφφφφφφφなんとか学園。",音:"ポポポ(男).wav"}
+  1:{text:"表札:φφφφφφφφφφφφφφφなんとか学園。",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"}
 };
 Message_Datas.カード = {
   1:{フラグ:"カード拾い","固定値":0},
-  2:{"text":"カードを10枚拾った！","音":"ポポポ(男).wav",フラグ:"カード","増加量":10}
+  2:{"text":"カードを10枚拾った！","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",フラグ:"カード","増加量":10}
 };
 Message_Datas.カードない = {
-  1:{"text":"カードが流れてきそうな空間だ。","音":"ポポポ(男).wav"}
+  1:{"text":"カードが流れてきそうな空間だ。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"}
 };
 Message_Datas.百円 = {
-  1:{text:"百円玉を見つけた！",音:"ポポポ(男).wav",フラグ:"所持金",増加量:100}
+  1:{text:"百円玉を見つけた！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",フラグ:"所持金",増加量:100}
 };
 Message_Datas.ベッド = {
   "image":{0:{name:"闇",src:"image/透明.png",width:1600,height:900,x:0,y:0}},
-  1:{text:"My bed.",音:"ポポポ(男).wav"},
-  寝:{フラグ:"カード拾い","固定値":1,next:"月",text:"寝た！",音:"ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
-  月:{フラグ:"睡眠回数","増加量":1,x:820,向き:"右",ステージ移動:"月",text:"夢を見た！",音:"ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
-  セーブ:{text:"セーブしました。",音:"ポポポ(男).wav",セーブ:"セーブ"},
-  セーブ削除:{text:"既存セーブを削除しました。φφφφφゲームは続けることができます。",音:"ポポポ(男).wav",セーブ:"削除"},
+  1:{text:"My bed.",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
+  寝:{フラグ:"カード拾い","固定値":1,next:"月",text:"寝た！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
+  月:{フラグ:"睡眠回数","増加量":1,x:820,向き:"右",ステージ移動:"月",text:"夢を見た！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
+  セーブ:{text:"セーブしました。",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",セーブ:"セーブ"},
+  セーブ削除:{text:"既存セーブを削除しました。φφφφφゲームは続けることができます。",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",セーブ:"削除"},
   2:{
     text:"Do you sleep?",
-    音:"ポポポ(男).wav",
+    音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",
     選択肢:{
       1:{text:"セーブ削除",next:"セーブ削除"},
       2:{text:"セーブ",next:"セーブ"},
@@ -68,37 +68,37 @@ Message_Datas.ベッド = {
 };
 Message_Datas.ミミ = {
   "image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}},
-  1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"ポポポ(女).wav"},
-  2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"ポポポ(女).wav"},
-  3:{"text":"ミミ:φφφφφφφφφφφφφφφただ、理由もなく変わってもらうわけにいかないわね。","音":"ポポポ(女).wav"},
-  5:{"text":"ミミ:φφφφφφφφφφφφφφφデッキを持ってない？φφφφφφφφじゃあ仕方ないわね。φφφφφφφφさっさと終わらせて帰るわ。","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
-  4:{BGM:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/BGM/VS 天上院明日香.wav",BGMED:38.015,"text":"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ2.png",width:1600,height:900,x:0,y:0}}}
+  1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
+  2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
+  3:{"text":"ミミ:φφφφφφφφφφφφφφφただ、理由もなく変わってもらうわけにいかないわね。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
+  5:{"text":"ミミ:φφφφφφφφφφφφφφφデッキを持ってない？φφφφφφφφじゃあ仕方ないわね。φφφφφφφφさっさと終わらせて帰るわ。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
+  4:{BGM:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/BGM/VS 天上院明日香.wav",BGMED:38.015,"text":"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ2.png",width:1600,height:900,x:0,y:0}}}
 };
 Message_Datas.ミミ2 = {
   "image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}},
-  1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"ポポポ(女).wav"},
-  2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"ポポポ(女).wav"},
-  3:{"text":"ミミ:φφφφφφφφφφφφφφφただ、理由もなく変わってもらうわけにいかないわね。","音":"ポポポ(女).wav"},
-  4:{"text":"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ2.png",width:1600,height:900,x:0,y:0}}},
-  5:{"text":"ミミ:φφφφφφφφφφφφφφφあら？カードが足りないみたいね。φφデッキは最低40枚いるわよ。φφφφこれじゃ仕方ないわね。φφφφφφφさっさと終わらせて帰るわ。","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
+  1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
+  2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
+  3:{"text":"ミミ:φφφφφφφφφφφφφφφただ、理由もなく変わってもらうわけにいかないわね。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
+  4:{"text":"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ2.png",width:1600,height:900,x:0,y:0}}},
+  5:{"text":"ミミ:φφφφφφφφφφφφφφφあら？カードが足りないみたいね。φφデッキは最低40枚いるわよ。φφφφこれじゃ仕方ないわね。φφφφφφφさっさと終わらせて帰るわ。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
 };
 Message_Datas.ミミ3 = {
   "image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}},
-  1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"ポポポ(女).wav"},
-  2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"ポポポ(女).wav"},
-  3:{"text":"ミミ:φφφφφφφφφφφφφφφただ、理由もなく変わってもらうわけにいかないわね。","音":"ポポポ(女).wav"},
+  1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
+  2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
+  3:{"text":"ミミ:φφφφφφφφφφφφφφφただ、理由もなく変わってもらうわけにいかないわね。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
   4:{
     選択肢:{
       1:{text:"いいえ",next:"しない"},
       2:{text:"はい",next:"デュエル！"},
       3:{text:"デュエル！",next:"デュエル！"}
     },
-  text:"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ2.png",width:1600,height:900,x:0,y:0}}},
-  "デュエル！":{next:"負け",text:"ミミ:φφφφφφφφφφφφφφφラッシュデュエル！","音":"ポポポ(女).wav"},
-  負け:{next:"負け2",text:"負けてしまった！","音":"ポポポ(男).wav","image":{0:{name:"ミミ",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
-  負け2:{next:"負け3",text:"ミミ:φφφφφφφφφφφφφφφあたちの勝ちね。φφφφφφφφφφそれじゃ約束通り…","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
-  負け3:{next:"しない",text:"ミミ:φφφφφφφφφφφφφφφえ？勝った方がするって約束？φφφφ確かにそう言っちゃった気がするわね。","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
-  しない:{"text":"ミミ:φφφφφφφφφφφφφφφそう…。じゃ仕方ないわね。φφφφφさっさと終わらせて帰るわ。","音":"ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
+  text:"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ2.png",width:1600,height:900,x:0,y:0}}},
+  "デュエル！":{next:"負け",text:"ミミ:φφφφφφφφφφφφφφφラッシュデュエル！","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
+  負け:{next:"負け2",text:"負けてしまった！","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav","image":{0:{name:"ミミ",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
+  負け2:{next:"負け3",text:"ミミ:φφφφφφφφφφφφφφφあたちの勝ちね。φφφφφφφφφφそれじゃ約束通り…","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
+  負け3:{next:"しない",text:"ミミ:φφφφφφφφφφφφφφφえ？勝った方がするって約束？φφφφ確かにそう言っちゃった気がするわね。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
+  しない:{"text":"ミミ:φφφφφφφφφφφφφφφそう…。じゃ仕方ないわね。φφφφφさっさと終わらせて帰るわ。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
 };
 
 var Nizinizi = {
