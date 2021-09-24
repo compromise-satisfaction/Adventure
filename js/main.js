@@ -280,13 +280,26 @@ function Game_load(width,height){
         Image[Images_Data.人].左 = "image/model1.png";
       }
       if(!Image[Images_Data.人].歩左&&!Image[Images_Data.人].歩右){
-        Image[Images_Data.人].歩左 = {1:"image/model2.png",2:"image/model3.png"};
+        Image[Images_Data.人].歩左 = {
+          1:"image/model2.png",
+          2:"image/model3.png",
+          3:"image/model4.png",
+          4:"image/model5.png",
+          5:"image/model6.png",
+          6:"image/model7.png",
+          7:"image/model8.png",
+          8:"image/model7.png",
+          9:"image/model6.png",
+          10:"image/model5.png",
+          11:"image/model4.png",
+          12:"image/model3.png"
+        };
       }
       if(!Image[Images_Data.人].走左&&!Image[Images_Data.人].走右){
-        Image[Images_Data.人].走左 = {1:"image/model2.png",2:"image/model3.png"};
+        Image[Images_Data.人].走左 = {1:"image/model2.png",2:"image/model8.png"};
       }
       if(!Image[Images_Data.人].空中左&&!Image[Images_Data.人].空中右){
-        Image[Images_Data.人].空中左 = "image/model4.png";
+        Image[Images_Data.人].空中左 = "image/model9.png";
       }
 
       Image[Images_Data.人].Number = "地上";
