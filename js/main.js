@@ -1345,9 +1345,7 @@ function Game_load(width,height){
         }
         else{
           Stage_Datas = {};
-          Stage = "最初";
-          game.replaceScene(Main_Scene(Stage_Datas[Stage]));
-          return;
+          var Body = "読み込み";
         }
         break;
       default:
