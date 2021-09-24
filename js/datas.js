@@ -102,8 +102,8 @@ Message_Datas.ミミ3 = {
 };
 
 var Nizinizi = {
-  左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/0.png",
-  空中左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/8.png",
+  左:{1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/0.png"},
+  空中左:{1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/8.png"},
   歩左:{
     1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/1.png",
     2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/2.png",
@@ -124,6 +124,26 @@ var Nizinizi = {
   }
 };
 
+var Stick_figure = {
+  左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png",
+  空中右:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/飛ぶ棒人間.png",
+  歩左:{
+    1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
+    2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_2.png",
+    3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png"
+  },
+  走右:{
+    1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_1.png",
+    2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_2.png",
+    3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_3.png",
+    4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_4.png",
+    5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_5.png",
+    6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_6.png",
+    7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_7.png",
+    8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_8.png"
+  }
+};
+
 var width = 1600;
 var height = 900;
 
@@ -135,25 +155,6 @@ Stage_Datas.最初 = {
     看板ポップ:{width:450,height:450,x:width-450,y:0,src:"image/読む.png",opacity:0},
     看板:{width:450,height:450,x:width-450,y:height-450,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/アイテム/看板.png"},
     人:{width:290,height:450,x:0,y:height-450}
-  },
-  人:{
-    左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png",
-    空中右:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/飛ぶ棒人間.png",
-    歩左:{
-      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
-      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_2.png",
-      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png"
-    },
-    走右:{
-      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_1.png",
-      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_2.png",
-      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_3.png",
-      4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_4.png",
-      5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_5.png",
-      6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_6.png",
-      7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_7.png",
-      8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_8.png"
-    }
   },
   接触:{
     1:{
@@ -425,25 +426,6 @@ Stage_Datas.学校教室 = {
   移動データ:{左:"学校廊下"}
 };
 Stage_Datas.氷河 = {
-  人:{
-    左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png",
-    空中右:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/飛ぶ棒人間.png",
-    歩左:{
-      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
-      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_2.png",
-      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png"
-    },
-    走右:{
-      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_1.png",
-      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_2.png",
-      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_3.png",
-      4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_4.png",
-      5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_5.png",
-      6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_6.png",
-      7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_7.png",
-      8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_8.png"
-    }
-  },
   物理:{摩擦:0.05},
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/氷河.png"},
@@ -452,25 +434,6 @@ Stage_Datas.氷河 = {
   移動データ:{右:"海底",左:"月"}
 };
 Stage_Datas.月 = {
-  人:{
-    左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png",
-    空中右:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/飛ぶ棒人間.png",
-    歩左:{
-      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
-      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_2.png",
-      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png"
-    },
-    走右:{
-      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_1.png",
-      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_2.png",
-      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_3.png",
-      4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_4.png",
-      5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_5.png",
-      6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_6.png",
-      7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_7.png",
-      8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_8.png"
-    }
-  },
   物理:{重力:2,回転:30},
   画像:{
     カード:{width:127,height:106,x:214,y:48,src:"image/透明.png"},
@@ -540,25 +503,6 @@ Stage_Datas.森4 = {
   移動データ:{右:"森3",左:"森3"}
 };
 Stage_Datas.海底 = {
-  人:{
-    左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png",
-    空中左:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/泳ぐ棒人間.png",
-    歩左:{
-      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_1.png",
-      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_2.png",
-      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png"
-    },
-    走右:{
-      1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_1.png",
-      2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_2.png",
-      3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_3.png",
-      4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_4.png",
-      5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_5.png",
-      6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_6.png",
-      7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_7.png",
-      8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/走る棒人間_8.png"
-    }
-  },
   物理:{重力:6,ジャンプ:100},
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/海底.png"},
