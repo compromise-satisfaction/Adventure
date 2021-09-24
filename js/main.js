@@ -1338,7 +1338,17 @@ function Game_load(width,height){
         var Body = "書き込み" + JSON.stringify(Stage_Datas);
         break;
       case "編集":
-        var Body = "編集" + JSON.stringify(Stage_Datas);
+        if(window.localStorage.getItem("ローカルステージデータ")){
+          Stage_Datas = window.localStorage.getItem("ローカルステージデータ");
+          Stage_Datas = JSON.parse(Stage_Datas);
+          var Body = "編集" + JSON.stringify(Stage_Datas);
+        }
+        else{
+          Stage_Datas = {};
+          Stage = "最初";
+          game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+          return;
+        }
         break;
       default:
         Stage_Datas = {};
