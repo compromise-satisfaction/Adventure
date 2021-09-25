@@ -103,7 +103,6 @@ function Game_load(width,height){
       var Image = [];
       var Images_Data = {};
       var Z_Run = false;
-      var Pe_S = 0;
       var Rotate = 0;
       var Ground = 0;
       if(HTML=="編集") var Ground = 900;
@@ -318,10 +317,10 @@ function Game_load(width,height){
           }
         }
         if(a.intersect(Image[Images_Data[b.接触]]) && d){
-          c[b.データ] = b.真値;
+          if(b.真値!=undefined) c[b.データ] = b.真値;
         }
         else{
-          c[b.データ] = b.偽値;
+          if(b.偽値!=undefined) c[b.データ] = b.偽値;
         }
         return;
       };
@@ -401,6 +400,7 @@ function Game_load(width,height){
         Image[Images_Data.人].Number = 1;
         Image[Images_Data.人].x = Character_X;
         Image[Images_Data.人].acceleration = 0;
+        Image[Images_Data.人].acceleration_G = 0;
         Character_direction_decision();
       }
 
@@ -496,8 +496,8 @@ function Game_load(width,height){
 
       scene.addEventListener("touchend",function(e){
         if(Object_mood){
-          if(Change_object != Pull_down._element.value){
-            Change_object = Pull_down._element.value;
+          if(Change_object != Pull_down1._element.value){
+            Change_object = Pull_down1._element.value;
             Inputs[10]._element.value = Image[Images_Data[Change_object]]._element.src;
             Inputs[11]._element.value = Image[Images_Data[Change_object]].x;
             Inputs[12]._element.value = Image[Images_Data[Change_object]].y;
@@ -550,26 +550,26 @@ function Game_load(width,height){
             if(Key_x){
               if(Jump){
                 State_change("空中");
-                if(Pe_S >= 0){
+                if(Image[Images_Data.人].acceleration_G >= 0){
                   if(SE2.src){
                     if(SE2.paused) SE2.play();
                     else SE2.currentTime = 0;
                   }
                   Jump--;
-                  Pe_S -= Jump_power;
+                  Image[Images_Data.人].acceleration_G -= Jump_power;
                 }
               }
             }
             Z_Run = Key_z;
             Image[Images_Data.人].x += Image[Images_Data.人].acceleration;
-            Image[Images_Data.人].y += Pe_S;
+            Image[Images_Data.人].y += Image[Images_Data.人].acceleration_G;
             if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
-              Pe_S += Gravity;
+              Image[Images_Data.人].acceleration_G += Gravity;
               Image[Images_Data.人].rotation += Rotate;
             }
             else{
               Jump = Jump_s;
-              Pe_S = 0;
+              Image[Images_Data.人].acceleration_G = 0;
               Image[Images_Data.人].y = height - Image[Images_Data.人].height - Ground;
               if(Image[Images_Data.人].状態 == "空中"){
                 State_change("停止");
@@ -857,31 +857,48 @@ function Game_load(width,height){
         Input(width/4*1,height/10*3,width/4,height/10,"","ジャンプ回数");
         Input(width/4*2,height/10*3,width/4,height/10,"","ジャンプ音のURL");
         Input(width/4*3,height/10*3,width/4,height/10,"","ジャンプ時の回転角度");
+        Input(width/4*1,height/10*1,width/4,height/10,"","変化するデータ");
+        Input(width/4*1,height/10*2,width/4,height/10,"","接触時");
+        Input(width/4*1,height/10*3,width/4,height/10,"","非接触時");
 
-        var Pull_down = new Entity();
-        Pull_down.moveTo(0,height/10*1+900);
-        Pull_down.width = width/4;
-        Pull_down.height = height/10;
-        Pull_down._element = document.createElement("select");
-        Pull_down._style["font-size"] = 60;
-        var Option = [];
+        var Pull_down1 = new Entity();
+        Pull_down1.moveTo(0,height/10*1+900);
+        Pull_down1.width = width/4;
+        Pull_down1.height = height/10;
+        Pull_down1._element = document.createElement("select");
+        Pull_down1._style["font-size"] = 60;
+        var Option1 = [];
         for (var k = 0; k < Image.length; k++){
-          Option[k] = document.createElement("option");
-          Option[k].text =  Image[k].name;
-          Option[k].value = Image[k].name;
-          Pull_down._element.appendChild(Option[k]);
+          Option1[k] = document.createElement("option");
+          Option1[k].text =  Image[k].name;
+          Option1[k].value = Image[k].name;
+          Pull_down1._element.appendChild(Option1[k]);
         }
 
-        function Buttons(x,y,a,i){
-          Ui_Button[i] = new Button(a,"light",width/4,height/10);
-          Ui_Button[i].moveTo(x,y);
-          Ui_Button[i]._style["font-size"] = height/20;
-          scene.addChild(Ui_Button[i]);
-          Ui_Button[i].addEventListener("touchstart",function(e){
+        var Pull_down2 = new Entity();
+        Pull_down2.moveTo(width/4*1,height/10*0+900);
+        Pull_down2.width = width/4;
+        Pull_down2.height = height/10;
+        Pull_down2._element = document.createElement("select");
+        Pull_down2._style["font-size"] = 60;
+        var Option2 = [];
+        for (var k = 0; k < Image.length; k++){
+          Option2[k] = document.createElement("option");
+          Option2[k].text =  Image[k].name;
+          Option2[k].value = Image[k].name;
+          Pull_down2._element.appendChild(Option2[k]);
+        }
+
+        function Buttons(x,y,a){
+          Ui_Button[Ui_Button.length] = new Button(a,"light",width/4,height/10);
+          Ui_Button[Ui_Button.length-1].moveTo(x,y);
+          Ui_Button[Ui_Button.length-1]._style["font-size"] = height/20;
+          scene.addChild(Ui_Button[Ui_Button.length-1]);
+          Ui_Button[Ui_Button.length-1].addEventListener("touchstart",function(e){
             Pad_opacity = 0;
             Hensyu_mood = true;
           });
-          Ui_Button[i].addEventListener("touchstart",function(e){
+          Ui_Button[Ui_Button.length-1].addEventListener("touchstart",function(e){
             switch(this.text){
               case "物体":
                 Object_mood = true;
@@ -893,18 +910,18 @@ function Game_load(width,height){
                 Ui_Button[2].text = "削除する";
                 Ui_Button[3].text = "変更する";
                 Ui_Button[4].text = "";
-                scene.addChild(Pull_down);
-                Inputs[10]._element.value = Image[Images_Data[Pull_down._element.value]]._element.src;
+                scene.addChild(Pull_down1);
+                Inputs[10]._element.value = Image[Images_Data[Pull_down1._element.value]]._element.src;
                 scene.addChild(Inputs[10]);
-                Inputs[11]._element.value = Image[Images_Data[Pull_down._element.value]].x;
+                Inputs[11]._element.value = Image[Images_Data[Pull_down1._element.value]].x;
                 scene.addChild(Inputs[11]);
-                Inputs[12]._element.value = Image[Images_Data[Pull_down._element.value]].y;
+                Inputs[12]._element.value = Image[Images_Data[Pull_down1._element.value]].y;
                 scene.addChild(Inputs[12]);
-                Inputs[13]._element.value = Image[Images_Data[Pull_down._element.value]].width;
+                Inputs[13]._element.value = Image[Images_Data[Pull_down1._element.value]].width;
                 scene.addChild(Inputs[13]);
-                Inputs[14]._element.value = Image[Images_Data[Pull_down._element.value]].height;
+                Inputs[14]._element.value = Image[Images_Data[Pull_down1._element.value]].height;
                 scene.addChild(Inputs[14]);
-                Inputs[15]._element.value = Image[Images_Data[Pull_down._element.value]].opacity;
+                Inputs[15]._element.value = Image[Images_Data[Pull_down1._element.value]].opacity;
                 scene.addChild(Inputs[15]);
                 break;
               case "配置":
@@ -952,7 +969,9 @@ function Game_load(width,height){
                 Ui_Button[2].text = "物理";
                 Ui_Button[3].text = "戻る";
                 Ui_Button[4].text = "移動";
+                Ui_Button[5].text = "接触";
                 Ui_Button[4].opacity = 1;
+                Ui_Button[5].opacity = 1;
                 break;
               case "物理":
                 Ui_Button[0].opacity = 0;
@@ -1061,7 +1080,9 @@ function Game_load(width,height){
                 Ui_Button[2].text = "読み込み";
                 Ui_Button[3].text = "設定";
                 Ui_Button[4].text = "";
+                Ui_Button[5].text = "";
                 Ui_Button[4].opacity = 0;
+                Ui_Button[5].opacity = 0;
                 break;
               case "人":
                 Ui_Button[0].opacity = 0;
@@ -1120,16 +1141,76 @@ function Game_load(width,height){
                   return;
                 }
                 break;
+              case "全部削除":
+                delete Datas.接触;
+                Stage_Datas[Stage] = Datas;
+                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                return;
+                break;
+              case "追加する":
+                var aaa = 1;
+                switch(Inputs[34]._element.value){
+                  case "透明度":
+                    Inputs[34]._element.value = "opacity";
+                    break;
+                  case "横加速度":
+                    Inputs[34]._element.value = "acceleration";
+                    break;
+                  case "縦加速度":
+                    Inputs[34]._element.value = "acceleration_G";
+                    if(Inputs[35]._element.value!="") Inputs[35]._element.value*=-1;
+                    if(Inputs[36]._element.value!="") Inputs[36]._element.value*=-1;
+                    break;
+                }
+                if(Inputs[35]._element.value=="") Inputs[35]._element.value = "無し";
+                if(Inputs[36]._element.value=="") Inputs[36]._element.value = "無し";
+                if(Datas.接触) aaa = Object.keys(Datas.接触).length+1;
+                else Datas.接触 = {};
+                Datas.接触[aaa] = {
+                  接触:Pull_down1._element.value,
+                  対象:Pull_down2._element.value,
+                  データ:Inputs[34]._element.value,
+                  真値:Inputs[35]._element.value*1,
+                  偽値:Inputs[36]._element.value*1
+                }
+                if(Datas.接触[aaa].真値==null) delete Datas.接触[aaa].真値;
+                if(Datas.接触[aaa].偽値==null) delete Datas.接触[aaa].偽値;
+                Datas.接触[aaa] = JSON.stringify(Datas.接触[aaa]);
+                Datas.接触[aaa] = JSON.parse(Datas.接触[aaa]);
+                Stage_Datas[Stage] = Datas;
+                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                return;
+                break;
+              case "接触":
+                Object_mood = true;
+                Ui_Button[0].opacity = 0;
+                Ui_Button[1].opacity = 0;
+                Ui_Button[4].opacity = 0;
+                Ui_Button[5].opacity = 0;
+                Ui_Button[0].text = "";
+                Ui_Button[1].text = "";
+                Ui_Button[2].text = "全部削除";
+                Ui_Button[3].text = "追加する";
+                Ui_Button[4].text = "";
+                Ui_Button[5].text = "";
+                scene.addChild(Pull_down1);
+                scene.addChild(Pull_down2);
+                scene.addChild(Inputs[34]);
+                scene.addChild(Inputs[35]);
+                scene.addChild(Inputs[36]);
+                break;
             }
           });
         };
 
-        Buttons(width/4*0,height/10*0 + 900,"配置",0);
-        Buttons(width/4*1,height/10*0 + 900,"保存",1);
-        Buttons(width/4*2,height/10*0 + 900,"読み込み",2);
-        Buttons(width/4*3,height/10*0 + 900,"設定",3);
-        Buttons(width/4*0,height/10*1 + 900,"",4);
+        Buttons(width/4*0,height/10*0 + 900,"配置");
+        Buttons(width/4*1,height/10*0 + 900,"保存");
+        Buttons(width/4*2,height/10*0 + 900,"読み込み");
+        Buttons(width/4*3,height/10*0 + 900,"設定");
+        Buttons(width/4*0,height/10*1 + 900,"");
+        Buttons(width/4*1,height/10*1 + 900,"");
         Ui_Button[4].opacity = 0;
+        Ui_Button[5].opacity = 0;
       }
 
       return scene;
