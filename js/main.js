@@ -14,7 +14,6 @@ var Pad_opacity = 0;
 var SE1 = document.createElement("audio");
 var SE2 = document.createElement("audio");
 var BGM = document.createElement("audio");
-var BGM = document.createElement("audio");
 
 BGM.addEventListener("ended",function(e){
   BGM.currentTime = BGM.id;
@@ -478,7 +477,7 @@ function Game_load(width,height){
       };
 
       var Object_mood = false;
-      var Change_object = null;
+      var Change_object = false;
 
       scene.addEventListener("touchstart",function(e){
         if(Hensyu_mood){
@@ -497,19 +496,14 @@ function Game_load(width,height){
 
       scene.addEventListener("touchend",function(e){
         if(Object_mood){
-          for(var c = 0; c < Image.length; c++){
-            Image[c].addEventListener("touchstart",function(e){
-              Change_object = this;
-            });
-          }
-          if(Change_object){
-            Inputs[10]._element.value = Change_object._element.src;
-            Inputs[11]._element.value = Change_object.x;
-            Inputs[12]._element.value = Change_object.y;
-            Inputs[13]._element.value = Change_object.width;
-            Inputs[14]._element.value = Change_object.height;
-            if(Change_object.opacity!=undefined) Inputs[15]._element.value = Change_object.opacity;
-            else Inputs[15]._element.value = 1;
+          if(Change_object != Pull_down._element.value){
+            Change_object = Pull_down._element.value;
+            Inputs[10]._element.value = Image[Images_Data[Change_object]]._element.src;
+            Inputs[11]._element.value = Image[Images_Data[Change_object]].x;
+            Inputs[12]._element.value = Image[Images_Data[Change_object]].y;
+            Inputs[13]._element.value = Image[Images_Data[Change_object]].width;
+            Inputs[14]._element.value = Image[Images_Data[Change_object]].height;
+            Inputs[15]._element.value = Image[Images_Data[Change_object]].opacity;
           }
         }
         else{
@@ -549,10 +543,10 @@ function Game_load(width,height){
           }
           if(Image[Images_Data.人]){
             if(Datas.接触){
-            for(var i = 0; i < Object.keys(Datas.接触).length; i++){
-              Touch(Image[Images_Data.人],Datas.接触[Object.keys(Datas.接触)[i]]);
+              for(var i = 0; i < Object.keys(Datas.接触).length; i++){
+                Touch(Image[Images_Data.人],Datas.接触[Object.keys(Datas.接触)[i]]);
+              }
             }
-          }
             if(Key_x){
               if(Jump){
                 State_change("空中");
@@ -566,6 +560,82 @@ function Game_load(width,height){
                 }
               }
             }
+            Z_Run = Key_z;
+            Image[Images_Data.人].x += Image[Images_Data.人].acceleration;
+            Image[Images_Data.人].y += Pe_S;
+            if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
+              Pe_S += Gravity;
+              Image[Images_Data.人].rotation += Rotate;
+            }
+            else{
+              Jump = Jump_s;
+              Pe_S = 0;
+              Image[Images_Data.人].y = height - Image[Images_Data.人].height - Ground;
+              if(Image[Images_Data.人].状態 == "空中"){
+                State_change("停止");
+                Image[Images_Data.人].rotation = 0;
+              }
+            }
+            if(game.input.up && COOLTime.up == 0){
+              COOLTime.up = 5;
+              if(Datas.上キー) keydown(Datas.上キー);
+            };
+            if(game.input.down){
+              if(COOLTime.down==0) console.log(Flag);
+              COOLTime.down = 5;
+            };
+            if(game.input.left == game.input.right){
+              Run = false;
+              Z_Run = false;
+              if(Image[Images_Data.人].acceleration != 0){
+                if(Image[Images_Data.人].acceleration > 0){
+                  Image[Images_Data.人].acceleration -= Friction;
+                  if(Image[Images_Data.人].acceleration < 0) Image[Images_Data.人].acceleration = 0;
+                }
+                else if(Image[Images_Data.人].acceleration < 0){
+                  Image[Images_Data.人].acceleration += Friction;
+                  if(Image[Images_Data.人].acceleration > 0) Image[Images_Data.人].acceleration = 0;
+                }
+              }
+              if(Image[Images_Data.人].状態 != "空中") State_change("停止");
+            };
+            if(game.input.left && !game.input.right){
+              if(Image[Images_Data.人].状態 != "空中") State_change("動");
+              if(Datas.設定) {
+                if(Datas.設定.回転) Rotate = - Datas.設定.回転;
+              }
+              Character_direction = "左";
+              if(COOLTime.left > 0 && COOLTime.left != 4) Run = true;
+              COOLTime.left = 5;
+              COOLTime.right = 0;
+              if(Run||Z_Run){
+                Image[Images_Data.人].acceleration -= Friction * 4;
+                if(Image[Images_Data.人].acceleration < -40) Image[Images_Data.人].acceleration = -40;
+              }
+              else{
+                if(Image[Images_Data.人].acceleration > -20) Image[Images_Data.人].acceleration -= Friction;
+                if(Image[Images_Data.人].acceleration < -20) Image[Images_Data.人].acceleration += Friction;
+              }
+            };
+            if(game.input.right && !game.input.left){
+              if(Image[Images_Data.人].状態 != "空中") State_change("動");
+              if(Datas.設定) {
+                if(Datas.設定.回転) Rotate = Datas.設定.回転;
+              }
+              Character_direction = "右";
+              if(COOLTime.right > 0 && COOLTime.right != 4) Run = true;
+              COOLTime.left = 0;
+              COOLTime.right = 5;
+              if(Run||Z_Run){
+                Image[Images_Data.人].acceleration += Friction * 4;
+                if(Image[Images_Data.人].acceleration > 40) Image[Images_Data.人].acceleration = 40;
+              }
+              else{
+                if(Image[Images_Data.人].acceleration < 20) Image[Images_Data.人].acceleration += Friction;
+                if(Image[Images_Data.人].acceleration > 20) Image[Images_Data.人].acceleration -= Friction;
+              }
+            };
+            Frame_advance();
             if(Datas.移動データ){
               if(Datas.移動データ.右){
                 if(Image[Images_Data.人].x >= 1600){
@@ -631,82 +701,6 @@ function Game_load(width,height){
                 Image[Images_Data.人].x = 1600 - Image[Images_Data.人].width;
               }
             }
-            Z_Run = Key_z;
-            Image[Images_Data.人].x += Image[Images_Data.人].acceleration;
-            Image[Images_Data.人].y += Pe_S;
-            if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
-              Pe_S += Gravity;
-              Image[Images_Data.人].rotation += Rotate;
-            }
-            else{
-              Jump = Jump_s;
-              Pe_S = 0;
-              Image[Images_Data.人].y = height - Image[Images_Data.人].height - Ground;
-              if(Image[Images_Data.人].状態 == "空中"){
-                State_change("停止");
-                Image[Images_Data.人].rotation = 0;
-              }
-            }
-            if(game.input.up && COOLTime.up == 0){
-              COOLTime.up = 5;
-              if(Datas.上キー) keydown(Datas.上キー);
-            }
-            if(game.input.down){
-              if(COOLTime.down==0) console.log(Flag);
-              COOLTime.down = 5;
-            }
-            if(game.input.left == game.input.right){
-              Run = false;
-              Z_Run = false;
-              if(Image[Images_Data.人].acceleration != 0){
-                if(Image[Images_Data.人].acceleration > 0){
-                  Image[Images_Data.人].acceleration -= Friction;
-                  if(Image[Images_Data.人].acceleration < 0) Image[Images_Data.人].acceleration = 0;
-                }
-                else if(Image[Images_Data.人].acceleration < 0){
-                  Image[Images_Data.人].acceleration += Friction;
-                  if(Image[Images_Data.人].acceleration > 0) Image[Images_Data.人].acceleration = 0;
-                }
-              }
-              if(Image[Images_Data.人].状態 != "空中") State_change("停止");
-            }
-            if(game.input.left && !game.input.right){
-              if(Image[Images_Data.人].状態 != "空中") State_change("動");
-              if(Datas.設定) {
-                if(Datas.設定.回転) Rotate = - Datas.設定.回転;
-              }
-              Character_direction = "左";
-              if(COOLTime.left > 0 && COOLTime.left != 4) Run = true;
-              COOLTime.left = 5;
-              COOLTime.right = 0;
-              if(Run||Z_Run){
-                Image[Images_Data.人].acceleration -= Friction * 4;
-                if(Image[Images_Data.人].acceleration < -40) Image[Images_Data.人].acceleration = -40;
-              }
-              else{
-                if(Image[Images_Data.人].acceleration > -20) Image[Images_Data.人].acceleration -= Friction;
-                if(Image[Images_Data.人].acceleration < -20) Image[Images_Data.人].acceleration += Friction;
-              }
-            }
-            if(game.input.right && !game.input.left){
-              if(Image[Images_Data.人].状態 != "空中") State_change("動");
-              if(Datas.設定) {
-                if(Datas.設定.回転) Rotate = Datas.設定.回転;
-              }
-              Character_direction = "右";
-              if(COOLTime.right > 0 && COOLTime.right != 4) Run = true;
-              COOLTime.left = 0;
-              COOLTime.right = 5;
-              if(Run||Z_Run){
-                Image[Images_Data.人].acceleration += Friction * 4;
-                if(Image[Images_Data.人].acceleration > 40) Image[Images_Data.人].acceleration = 40;
-              }
-              else{
-                if(Image[Images_Data.人].acceleration < 20) Image[Images_Data.人].acceleration += Friction;
-                if(Image[Images_Data.人].acceleration > 20) Image[Images_Data.人].acceleration -= Friction;
-              }
-            }
-            Frame_advance();
           }
           pad_keydown();
         }
@@ -823,12 +817,11 @@ function Game_load(width,height){
           Inputs[Inputs.length-1].moveTo(x,y+900);
           Inputs[Inputs.length-1].width = w;
           Inputs[Inputs.length-1].height = h;
-          Inputs[Inputs.length-1]._element = document.createElement('input');
-          Inputs[Inputs.length-1]._element.type = "text";
-          Inputs[Inputs.length-1]._element.name = "myText";
+          Inputs[Inputs.length-1]._element = document.createElement("textarea");
+          Inputs[Inputs.length-1]._style["font-size"] = 60;
           Inputs[Inputs.length-1]._element.value = v;
           Inputs[Inputs.length-1]._element.placeholder = p;
-        }
+        };
 
         Input(width/4*0,height/10*0,width/4,height/10,"人","配置オブジェクトの名称");
         Input(width/4*1,height/10*0,width/4,height/10,"image/配置.png","配置オブジェクトの画像URL");
@@ -846,8 +839,38 @@ function Game_load(width,height){
         Input(width/4*1,height/10*2,width/4,height/10,"","変更後の幅");
         Input(width/4*1,height/10*3,width/4,height/10,"","変更後の高さ");
         Input(width/4*1,height/10*4,width/4,height/10,"","変更後の初期透明度");
-        Input(width/4*0,height/10*0,width/4,height/10,"","左への移動");
-        Input(width/4*1,height/10*0,width/4,height/10,"","右への移動");
+        Input(width/4*0,height/10*1,width/4,height/10,"","左への移動");
+        Input(width/4*1,height/10*1,width/4,height/10,"","右への移動");
+        Input(width/4*2,height/10*1,width/4,height/10,"","上への移動");
+        Input(width/4*0,height/10*2,width/4,height/10,"","左への移動後のx");
+        Input(width/4*1,height/10*2,width/4,height/10,"","右への移動後のx");
+        Input(width/4*2,height/10*2,width/4,height/10,"","上への移動後のx");
+        Input(width/4*0,height/10*3,width/4,height/10,"","左への移動後の向き");
+        Input(width/4*1,height/10*3,width/4,height/10,"","右への移動後の向き");
+        Input(width/4*2,height/10*3,width/4,height/10,"","上への移動後の向き");
+        Input(width/4*0,height/10*1,width/4,height/10,"","BGMのURL");
+        Input(width/4*1,height/10*1,width/4,height/10,"","BGMのループ開始箇所");
+        Input(width/4*0,height/10*2,width/4,height/10,"","重力");
+        Input(width/4*1,height/10*2,width/4,height/10,"","摩擦");
+        Input(width/4*2,height/10*2,width/4,height/10,"","地面の高さ");
+        Input(width/4*0,height/10*3,width/4,height/10,"","ジャンプ力");
+        Input(width/4*1,height/10*3,width/4,height/10,"","ジャンプ回数");
+        Input(width/4*2,height/10*3,width/4,height/10,"","ジャンプ音のURL");
+        Input(width/4*3,height/10*3,width/4,height/10,"","ジャンプ時の回転角度");
+
+        var Pull_down = new Entity();
+        Pull_down.moveTo(0,height/10*1+900);
+        Pull_down.width = width/4;
+        Pull_down.height = height/10;
+        Pull_down._element = document.createElement("select");
+        Pull_down._style["font-size"] = 60;
+        var Option = [];
+        for (var k = 0; k < Image.length; k++){
+          Option[k] = document.createElement("option");
+          Option[k].text =  Image[k].name;
+          Option[k].value = Image[k].name;
+          Pull_down._element.appendChild(Option[k]);
+        }
 
         function Buttons(x,y,a,i){
           Ui_Button[i] = new Button(a,"light",width/4,height/10);
@@ -864,16 +887,24 @@ function Game_load(width,height){
                 Object_mood = true;
                 Ui_Button[0].opacity = 0;
                 Ui_Button[1].opacity = 0;
-                Ui_Button[2].opacity = 0;
+                Ui_Button[4].opacity = 0;
                 Ui_Button[0].text = "";
                 Ui_Button[1].text = "";
-                Ui_Button[2].text = "";
+                Ui_Button[2].text = "削除する";
                 Ui_Button[3].text = "変更する";
+                Ui_Button[4].text = "";
+                scene.addChild(Pull_down);
+                Inputs[10]._element.value = Image[Images_Data[Pull_down._element.value]]._element.src;
                 scene.addChild(Inputs[10]);
+                Inputs[11]._element.value = Image[Images_Data[Pull_down._element.value]].x;
                 scene.addChild(Inputs[11]);
+                Inputs[12]._element.value = Image[Images_Data[Pull_down._element.value]].y;
                 scene.addChild(Inputs[12]);
+                Inputs[13]._element.value = Image[Images_Data[Pull_down._element.value]].width;
                 scene.addChild(Inputs[13]);
+                Inputs[14]._element.value = Image[Images_Data[Pull_down._element.value]].height;
                 scene.addChild(Inputs[14]);
+                Inputs[15]._element.value = Image[Images_Data[Pull_down._element.value]].opacity;
                 scene.addChild(Inputs[15]);
                 break;
               case "配置":
@@ -923,11 +954,83 @@ function Game_load(width,height){
                 Ui_Button[4].text = "移動";
                 Ui_Button[4].opacity = 1;
                 break;
+              case "物理":
+                Ui_Button[0].opacity = 0;
+                Ui_Button[1].opacity = 0;
+                Ui_Button[2].opacity = 0;
+                Ui_Button[3].opacity = 1;
+                Ui_Button[4].opacity = 0;
+                Ui_Button[0].text = "";
+                Ui_Button[1].text = "";
+                Ui_Button[2].text = "";
+                Ui_Button[3].text = "物理設定";
+                Ui_Button[4].text = "";
+                if(Datas.設定){
+                  if(Datas.設定.BGM) Inputs[25]._element.value = Datas.設定.BGM;
+                  if(Datas.設定.BGMED) Inputs[26]._element.value = Datas.設定.BGMED;
+                  if(Datas.設定.重力) Inputs[27]._element.value = Datas.設定.重力;
+                  if(Datas.設定.摩擦) Inputs[28]._element.value = Datas.設定.摩擦;
+                  if(Datas.設定.地面) Inputs[29]._element.value = Datas.設定.地面;
+                  if(Datas.設定.ジャンプ力) Inputs[30]._element.value = Datas.設定.ジャンプ力;
+                  if(Datas.設定.ジャンプ) Inputs[31]._element.value = Datas.設定.ジャンプ;
+                  if(Datas.設定.ジャンプ音) Inputs[32]._element.value = Datas.設定.ジャンプ音;
+                  if(Datas.設定.回転) Inputs[33]._element.value = Datas.設定.回転;
+                }
+                scene.addChild(Inputs[25]);
+                scene.addChild(Inputs[26]);
+                scene.addChild(Inputs[27]);
+                scene.addChild(Inputs[28]);
+                scene.addChild(Inputs[29]);
+                scene.addChild(Inputs[30]);
+                scene.addChild(Inputs[31]);
+                scene.addChild(Inputs[32]);
+                scene.addChild(Inputs[33]);
+                break;
+              case "物理設定":
+                Datas.設定 = {
+                  BGM:Inputs[25]._element.value,
+                  BGMED:Inputs[26]._element.value*1,
+                  重力:Inputs[27]._element.value*1,
+                  摩擦:Inputs[28]._element.value*1,
+                  地面:Inputs[29]._element.value*1,
+                  ジャンプ力:Inputs[30]._element.value*1,
+                  ジャンプ:Inputs[31]._element.value*1,
+                  ジャンプ音:Inputs[32]._element.value,
+                  回転:Inputs[33]._element.value*1
+                };
+                if(Datas.移動データ.BGM=="") delete Datas.移動データ.BGM;
+                if(Datas.移動データ.BGMED=="") delete Datas.移動データ.BGMED;
+                if(Datas.移動データ.重力=="") delete Datas.移動データ.重力;
+                if(Datas.移動データ.摩擦=="") delete Datas.移動データ.摩擦;
+                if(Datas.移動データ.地面=="") delete Datas.移動データ.地面;
+                if(Datas.移動データ.ジャンプ力="") delete Datas.移動データ.ジャンプ力;
+                if(Datas.移動データ.ジャンプ=="") delete Datas.移動データ.ジャンプ;
+                if(Datas.移動データ.ジャンプ音=="") delete Datas.移動データ.ジャンプ音;
+                if(Datas.移動データ.回転=="") delete Datas.移動データ.回転;
+                Stage_Datas[Stage] = Datas;
+                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                break;
               case "移動設定":
                 Datas.移動データ = {
                   左:Inputs[16]._element.value,
-                  右:Inputs[17]._element.value
+                  右:Inputs[17]._element.value,
+                  上:Inputs[18]._element.value,
+                  左x:Inputs[19]._element.value*1,
+                  右x:Inputs[20]._element.value*1,
+                  上x:Inputs[21]._element.value*1,
+                  左向き:Inputs[22]._element.value,
+                  右向き:Inputs[23]._element.value,
+                  上向き:Inputs[24]._element.value
                 };
+                if(Datas.移動データ.左=="") delete Datas.移動データ.左;
+                if(Datas.移動データ.右=="") delete Datas.移動データ.右;
+                if(Datas.移動データ.上=="") delete Datas.移動データ.上;
+                if(Datas.移動データ.左x=="") delete Datas.移動データ.左x;
+                if(Datas.移動データ.右x=="") delete Datas.移動データ.右x;
+                if(Datas.移動データ.上x=="") delete Datas.移動データ.上x;
+                if(Datas.移動データ.左向き=="") delete Datas.移動データ.左向き;
+                if(Datas.移動データ.右向き=="") delete Datas.移動データ.右向き;
+                if(Datas.移動データ.上向き=="") delete Datas.移動データ.上向き;
                 Stage_Datas[Stage] = Datas;
                 game.replaceScene(Main_Scene(Stage_Datas[Stage]));
                 break;
@@ -944,6 +1047,13 @@ function Game_load(width,height){
                 Ui_Button[4].text = "";
                 scene.addChild(Inputs[16]);
                 scene.addChild(Inputs[17]);
+                scene.addChild(Inputs[18]);
+                scene.addChild(Inputs[19]);
+                scene.addChild(Inputs[20]);
+                scene.addChild(Inputs[21]);
+                scene.addChild(Inputs[22]);
+                scene.addChild(Inputs[23]);
+                scene.addChild(Inputs[24]);
                 break;
               case "戻る":
                 Ui_Button[0].text = "配置";
@@ -987,14 +1097,24 @@ function Game_load(width,height){
                 break;
               case "変更する":
                 if(Change_object){
-                  Datas.画像[Change_object.name].src = Inputs[10]._element.value;
-                  Datas.画像[Change_object.name].x = Inputs[11]._element.value*1;;
-                  Datas.画像[Change_object.name].y = Inputs[12]._element.value*1;;
-                  Datas.画像[Change_object.name].width = Inputs[13]._element.value*1;;
-                  Datas.画像[Change_object.name].height = Inputs[14]._element.value*1;;
-                  if(Inputs[15]._element.value==""){
-                    Datas.画像[Change_object.name].opacity = Inputs[15]._element.value*1;;
+                  Datas.画像[Change_object].src = Inputs[10]._element.value;
+                  Datas.画像[Change_object].x = Inputs[11]._element.value*1;
+                  Datas.画像[Change_object].y = Inputs[12]._element.value*1;
+                  Datas.画像[Change_object].width = Inputs[13]._element.value*1;
+                  Datas.画像[Change_object].height = Inputs[14]._element.value*1;
+                  if(Inputs[15]._element.value != ""){
+                    if(Inputs[15]._element.value != 1) Datas.画像[Change_object].opacity = Inputs[15]._element.value*1;
+                    else delete Datas.画像[Change_object].opacity;
                   }
+                  else delete Datas.画像[Change_object].opacity;
+                  Stage_Datas[Stage] = Datas;
+                  game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                  return;
+                }
+                break;
+              case "削除する":
+                if(Change_object){
+                  delete Datas.画像[Change_object];
                   Stage_Datas[Stage] = Datas;
                   game.replaceScene(Main_Scene(Stage_Datas[Stage]));
                   return;
@@ -1030,6 +1150,7 @@ function Game_load(width,height){
         Image[i].height = h;
         Image[i].x = x;
         Image[i].y = y;
+        Image[i].name = b;
         Images_Data[b] = i;
         scene.addChild(Image[i]);
         i++;
