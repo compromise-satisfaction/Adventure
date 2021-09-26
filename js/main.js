@@ -141,21 +141,28 @@ function Game_load(width,height){
         if(Object.keys(Datas.画像)[i]=="人"){
           if(Datas.人){
             if(Datas.人.左 || Datas.人.右){
-              if(Datas.人.右) Image[i]._element.src = Datas.人.右[1];
-              if(Datas.人.左) Image[i]._element.src = Datas.人.左[1];
+              if(Datas.人.右) Image[i].url = Datas.人.右[1];
+              if(Datas.人.左) Image[i].url = Datas.人.左[1];
             }
-            else Image[i]._element.src = "image/model1.png";
+            else Image[i].url = "image/model1.png";
           }
-          else Image[i]._element.src = "image/model1.png";
+          else Image[i].url = "image/model1.png";
         }
         else{
           if(Datas.画像[Object.keys(Datas.画像)[i]].src){
-            Image[i]._element.src = Datas.画像[Object.keys(Datas.画像)[i]].src;
+            Image[i].url = Datas.画像[Object.keys(Datas.画像)[i]].src;
           }
           else{
-            if(HTML=="編集") Image[i]._element.src = "image/配置.png";
-            else Image[i]._element.src = "image/透明.png";
+            if(HTML=="編集") Image[i].url = "image/配置.png";
+            else Image[i].url = "image/透明.png";
           }
+        }
+        Image[i]._element.src = Image[i].url;
+        switch(Image[i].url){
+          case "image/配置.png":
+          case "image/透明.png":
+            Image[i].url = "";
+            break;
         }
         Image[i].width = Datas.画像[Object.keys(Datas.画像)[i]].width;
         Image[i].height = Datas.画像[Object.keys(Datas.画像)[i]].height;
@@ -519,9 +526,9 @@ function Game_load(width,height){
                 width:(Math.floor(e.x)-Haiti_image_x),
                 height:(Math.floor(e.y)-Haiti_image_y),
                 x:Haiti_image_x,
-                y:Haiti_image_y,
-                src:Inputs[1]._element.value
+                y:Haiti_image_y
               }
+              if(Inputs[1]._element.value) Datas.画像[Inputs[0]._element.value].src = Inputs[1]._element.value;
               Stage_Datas[Stage] = Datas;
               game.replaceScene(Main_Scene(Stage_Datas[Stage]));
               return;
@@ -839,7 +846,7 @@ function Game_load(width,height){
         };
 
         Input(width/4*0,height/10*0,width/4,height/10,"人","配置オブジェクトの名称");
-        Input(width/4*1,height/10*0,width/4,height/10,"image/配置.png","配置オブジェクトの画像URL");
+        Input(width/4*1,height/10*0,width/4,height/10,"","配置オブジェクトの画像URL");
         Input(width/4*0,height/10*0,width/4,height/10,"","人の停止左画像");
         Input(width/4*0,height/10*1,width/4,height/10,"","人の歩き左画像");
         Input(width/4*0,height/10*2,width/4,height/10,"","人の走り左画像");
