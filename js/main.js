@@ -385,13 +385,13 @@ function Game_load(width,height){
           if(Datas.人.左) Image[Images_Data.人].左 = Datas.人.左;
           else Image[Images_Data.人].左 = false;
           if(Datas.人.歩右) Image[Images_Data.人].歩右 = Datas.人.歩右;
-          else Image[Images_Data.人].右 = false;
+          else Image[Images_Data.人].歩右 = false;
           if(Datas.人.歩左) Image[Images_Data.人].歩左 = Datas.人.歩左;
-          else Image[Images_Data.人].右 = false;
+          else Image[Images_Data.人].歩左 = false;
           if(Datas.人.走右) Image[Images_Data.人].走右 = Datas.人.走右;
-          else Image[Images_Data.人].右 = false;
+          else Image[Images_Data.人].走右 = false;
           if(Datas.人.走左) Image[Images_Data.人].走左 = Datas.人.走左;
-          else Image[Images_Data.人].右 = false;
+          else Image[Images_Data.人].走左 = false;
           if(Datas.人.空中右) Image[Images_Data.人].空中右 = Datas.人.空中右;
           else Image[Images_Data.人].空中右 = false;
           if(Datas.人.空中左) Image[Images_Data.人].空中左 = Datas.人.空中左;
@@ -422,6 +422,7 @@ function Game_load(width,height){
         if(!Image[Images_Data.人].空中左&&!Image[Images_Data.人].空中右){
           Image[Images_Data.人].空中左 = {1:"image/model9.png"};
         }
+        console.log(Datas.人);
 
         if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
           State_change("空中");
@@ -1214,7 +1215,7 @@ function Game_load(width,height){
                   delete Datas.人[Pull_down3._element.value];
                 }
                 else delete Datas.人[Pull_down3._element.value][Object.keys(Datas.人[Pull_down3._element.value]).length];
-                console.log(Datas.人[Pull_down3._element.value]);
+                console.log(Datas.人);
                 return;
                 break;
               case "追加":
@@ -1227,7 +1228,7 @@ function Game_load(width,height){
                   Datas.人 = {};
                   Datas.人[Add_page] = {1:Inputs[2]._element.value}
                 }
-                console.log(Datas.人[Add_page]);
+                console.log(Datas.人);
                 Stage_Datas[Stage] = Datas;
                 game.replaceScene(Main_Scene(Stage_Datas[Stage]));
                 break;
