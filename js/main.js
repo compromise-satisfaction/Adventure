@@ -325,24 +325,35 @@ function Game_load(width,height){
 
       function Touch(a,b){
         var c = Image[Images_Data[b.対象]];
-        var d = true;
-        if(b.フラグ){
-          if(b["="]!=undefined){
-            d = Flag_judgement(b.フラグ,"=",b["="]);
-          }
-          if(b["<"]!=undefined){
-            d = Flag_judgement(b.フラグ,"<",b["<"]);
-          }
-          if(b[">"]!=undefined){
-            d = Flag_judgement(b.フラグ,">",b[">"]);
-          }
+        if(b.右){
+          if(a.x < Image[Images_Data[b.接触]].x) return;
         }
-        if(a.intersect(Image[Images_Data[b.接触]]) && d){
+        if(b.左){
+          if(a.x > Image[Images_Data[b.接触]].x) return;
+        }
+        if(b.上){
+          if(a.y > Image[Images_Data[b.接触]].y) return;
+        }
+        if(b.下){
+          if(a.y < Image[Images_Data[b.接触]].y) return;
+        }
+        if(b.フラグ){
+          if(b["フラグ="]!=undefined){
+            if(!Flag_judgement(b.フラグ,"=",b["フラグ="])) return;
+          }
+          if(b["フラグ<"]!=undefined){
+            if(!Flag_judgement(b.フラグ,"<",b["フラグ<"])) return;
+          }
+          if(b["フラグ>"]!=undefined){
+            if(!Flag_judgement(b.フラグ,">",b["フラグ>"])) return;
+          }
+        };
+        if(a.intersect(Image[Images_Data[b.接触]])){
           if(b.真値!=undefined) c[b.データ] = b.真値;
         }
         else{
           if(b.偽値!=undefined) c[b.データ] = b.偽値;
-        }
+        };
         return;
       };
 

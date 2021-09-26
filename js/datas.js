@@ -180,13 +180,14 @@ var height = 900;
 
 Stage_Datas.最初 = {
   人:Stick_figure,
-  設定:{ジャンプ音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ガン.wav"},
+  設定:{ジャンプ:1000},
   画像:{
     操作説明:{width:450,height:450,x:0,y:0,src:"image/操作説明.png",opacity:0},
     操作説明触れる:{width:450,height:450,x:0,y:height-450},
     看板ポップ:{width:450,height:450,x:width-450,y:0,src:"image/読む.png",opacity:0},
     看板:{width:450,height:450,x:width-450,y:height-450,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/アイテム/看板.png"},
-    人:{width:290,height:450,x:0,y:height-450}
+    人:{width:29,height:45,x:0,y:height-45},
+    配置:{width:130,height:94,x:731,y:512,src:"image/配置.png"},
   },
   接触:{
     1:{
@@ -202,6 +203,14 @@ Stage_Datas.最初 = {
       データ:"opacity",
       真値:1,
       偽値:0
+    },
+    3:{
+      接触:"配置",
+      対象:"配置",
+      データ:"opacity",
+      上:true,
+      真値:1,
+      偽値:1
     },
   },
   cキー:{
@@ -257,7 +266,7 @@ Stage_Datas.部屋 = {
       対象:"？",
       データ:"opacity",
       フラグ:"所持金",
-      "=":0,
+      "フラグ=":0,
       真値:1,
       偽値:0
     },
