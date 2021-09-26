@@ -1117,15 +1117,15 @@ function Game_load(width,height){
                   ジャンプ音:Inputs[32]._element.value,
                   回転:Inputs[33]._element.value*1
                 };
-                if(Datas.移動データ.BGM=="") delete Datas.移動データ.BGM;
-                if(Datas.移動データ.BGMED=="") delete Datas.移動データ.BGMED;
-                if(Datas.移動データ.重力=="") delete Datas.移動データ.重力;
-                if(Datas.移動データ.摩擦=="") delete Datas.移動データ.摩擦;
-                if(Datas.移動データ.地面=="") delete Datas.移動データ.地面;
-                if(Datas.移動データ.ジャンプ力="") delete Datas.移動データ.ジャンプ力;
-                if(Datas.移動データ.ジャンプ=="") delete Datas.移動データ.ジャンプ;
-                if(Datas.移動データ.ジャンプ音=="") delete Datas.移動データ.ジャンプ音;
-                if(Datas.移動データ.回転=="") delete Datas.移動データ.回転;
+                if(Datas.設定.BGM=="") delete Datas.設定.BGM;
+                if(Datas.設定.BGMED=="") delete Datas.設定.BGMED;
+                if(Datas.設定.重力=="") delete Datas.設定.重力;
+                if(Datas.設定.摩擦=="") delete Datas.設定.摩擦;
+                if(Datas.設定.地面=="") delete Datas.設定.地面;
+                if(Datas.設定.ジャンプ力="") delete Datas.設定.ジャンプ力;
+                if(Datas.設定.ジャンプ=="") delete Datas.設定.ジャンプ;
+                if(Datas.設定.ジャンプ音=="") delete Datas.設定.ジャンプ音;
+                if(Datas.設定.回転=="") delete Datas.設定.回転;
                 Stage_Datas[Stage] = Datas;
                 game.replaceScene(Main_Scene(Stage_Datas[Stage]));
                 break;
