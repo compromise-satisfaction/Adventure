@@ -511,7 +511,7 @@ function Game_load(width,height){
         if(Object_mood){
           if(Change_object != Pull_down1._element.value){
             Change_object = Pull_down1._element.value;
-            Inputs[10]._element.value = Image[Images_Data[Change_object]]._element.src;
+            Inputs[10]._element.value = Image[Images_Data[Change_object]].url;
             Inputs[11]._element.value = Image[Images_Data[Change_object]].x;
             Inputs[12]._element.value = Image[Images_Data[Change_object]].y;
             Inputs[13]._element.value = Image[Images_Data[Change_object]].width;
@@ -933,7 +933,7 @@ function Game_load(width,height){
                 Ui_Button[3].text = "変更する";
                 Ui_Button[4].text = "";
                 scene.addChild(Pull_down1);
-                Inputs[10]._element.value = Image[Images_Data[Pull_down1._element.value]]._element.src;
+                Inputs[10]._element.value = Image[Images_Data[Pull_down1._element.value]].url;
                 scene.addChild(Inputs[10]);
                 Inputs[11]._element.value = Image[Images_Data[Pull_down1._element.value]].x;
                 scene.addChild(Inputs[11]);

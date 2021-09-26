@@ -1,7 +1,7 @@
 var Stage_Datas = {};
 var Message_Datas = {};
 Message_Datas.看板 = {
-  "image":{0:{name:"その1",src:"image/透明.png",width:1600,height:900,x:0,y:0}},
+  "image":{0:{name:"その1",width:1600,height:900,x:0,y:0}},
   1:{"text":"看板:φφφφφφφφφφφφφφφ操作は大丈夫みたいですね。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",フラグ:"既読","固定値":1},
   2:{"text":"看板:φφφφφφφφφφφφφφφ左右キーを二連打する事でもφφφφφ走ることが出来ます。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
   3:{"text":"看板:φφφφφφφφφφφφφφφ扉などに入るときはφφφφφφφφφ↑キーを使おうと思っています。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
@@ -49,7 +49,7 @@ Message_Datas.百円 = {
   1:{text:"百円玉を見つけた！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",フラグ:"所持金",増加量:100}
 };
 Message_Datas.ベッド = {
-  "image":{0:{name:"闇",src:"image/透明.png",width:1600,height:900,x:0,y:0}},
+  "image":{0:{name:"闇",width:1600,height:900,x:0,y:0}},
   1:{text:"My bed.",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
   寝:{フラグ:"カード拾い","固定値":1,next:"月",text:"寝た！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
   月:{フラグ:"睡眠回数","増加量":1,x:820,向き:"右",ステージ移動:"月",text:"夢を見た！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
@@ -183,7 +183,7 @@ Stage_Datas.最初 = {
   設定:{ジャンプ音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ガン.wav"},
   画像:{
     操作説明:{width:450,height:450,x:0,y:0,src:"image/操作説明.png",opacity:0},
-    操作説明触れる:{width:450,height:450,x:0,y:height-450,src:"image/透明.png"},
+    操作説明触れる:{width:450,height:450,x:0,y:height-450},
     看板ポップ:{width:450,height:450,x:width-450,y:0,src:"image/読む.png",opacity:0},
     看板:{width:450,height:450,x:width-450,y:height-450,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/アイテム/看板.png"},
     人:{width:290,height:450,x:0,y:height-450}
@@ -244,9 +244,9 @@ Stage_Datas.最初 = {
 Stage_Datas.部屋 = {
   設定:{BGM:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/BGM/逆転姉妹.wav",BGMED:10.390},
   画像:{
-    百円:{width:221,height:120,x:40,y:693,src:"image/透明.png"},
-    ベッド:{width:680,height:320,x:531,y:418,src:"image/透明.png"},
     背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/2016/03/1455796171918.jpg"},
+    百円:{width:221,height:120,x:40,y:693},
+    ベッド:{width:680,height:320,x:531,y:418},
     人:{width:290,height:450,x:0,y:height-450},
     "？":{width:300,height:300,x:0,y:360,src:"image/？.png",opacity:0},
     調べる:{width:450,height:450,x:650,y:0,src:"image/調べる.png",opacity:0},
@@ -311,8 +311,8 @@ Stage_Datas.玄関 = {
 };
 Stage_Datas.家 = {
   画像:{
-    入口:{width:400,height:400,x:600,y:400,src:"image/透明.png"},
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/家01.png"},
+    入口:{width:400,height:400,x:600,y:400},
     入口ポップ:{width:450,height:450,x:650,y:0,src:"image/入る.png",opacity:0},
     人:{width:290,height:450,x:0,y:height-450}
   },
@@ -351,8 +351,8 @@ Stage_Datas.学校入口 = {
   人:Nizinizi,
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/学校背景002.png"},
-    学校名前:{width:60,height:280,x:1370,y:415,src:"image/透明.png"},
-    学校入口:{width:510,height:360,x:640,y:455,src:"image/透明.png"},
+    学校名前:{width:60,height:280,x:1370,y:415},
+    学校入口:{width:510,height:360,x:640,y:455},
     学校ポップ:{width:450,height:450,x:width-450,y:0,src:"image/読む.png",opacity:0},
     入口ポップ:{width:450,height:450,x:650,y:0,src:"image/入る.png",opacity:0},
     人:{width:290,height:450,x:0,y:height-450}
@@ -483,8 +483,8 @@ Stage_Datas.月 = {
   人:Stick_figure,
   設定:{重力:2,回転:30},
   画像:{
-    カード:{width:127,height:106,x:214,y:48,src:"image/透明.png"},
     背景:{width:width,height:height,x:0,y:0,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/宇宙.png"},
+    カード:{width:127,height:106,x:214,y:48},
     人:{width:295/2,height:450/2,x:0,y:450/2},
     "？":{width:300,height:300,x:214,y:48,src:"image/？.png",opacity:0}
   },
