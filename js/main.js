@@ -1122,7 +1122,7 @@ function Game_load(width,height){
                 if(Datas.設定.重力=="") delete Datas.設定.重力;
                 if(Datas.設定.摩擦=="") delete Datas.設定.摩擦;
                 if(Datas.設定.地面=="") delete Datas.設定.地面;
-                if(Datas.設定.ジャンプ力="") delete Datas.設定.ジャンプ力;
+                if(Datas.設定.ジャンプ力=="") delete Datas.設定.ジャンプ力;
                 if(Datas.設定.ジャンプ=="") delete Datas.設定.ジャンプ;
                 if(Datas.設定.ジャンプ音=="") delete Datas.設定.ジャンプ音;
                 if(Datas.設定.回転=="") delete Datas.設定.回転;
@@ -1164,6 +1164,17 @@ function Game_load(width,height){
                 Ui_Button[2].text = "";
                 Ui_Button[3].text = "移動設定";
                 Ui_Button[4].text = "";
+                if(Datas.移動データ){
+                  if(Datas.移動データ.左) Inputs[16]._element.value = Inputs[16]._element.value;
+                  if(Datas.移動データ.右) Inputs[17]._element.value = Inputs[16]._element.value;
+                  if(Datas.移動データ.上) Inputs[18]._element.value = Inputs[16]._element.value;
+                  if(Datas.移動データ.左x) Inputs[19]._element.value = Inputs[16]._element.value;
+                  if(Datas.移動データ.右x) Inputs[20]._element.value = Inputs[16]._element.value;
+                  if(Datas.移動データ.上x) Inputs[21]._element.value = Inputs[16]._element.value;
+                  if(Datas.移動データ.左向き) Inputs[22]._element.value = Inputs[16]._element.value;
+                  if(Datas.移動データ.右向き) Inputs[23]._element.value = Inputs[16]._element.value;
+                  if(Datas.移動データ.上向き) Inputs[24]._element.value = Inputs[16]._element.value;
+                }
                 scene.addChild(Inputs[16]);
                 scene.addChild(Inputs[17]);
                 scene.addChild(Inputs[18]);
