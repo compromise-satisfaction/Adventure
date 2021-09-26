@@ -152,10 +152,7 @@ function Game_load(width,height){
           if(Datas.画像[Object.keys(Datas.画像)[i]].src){
             Image[i].url = Datas.画像[Object.keys(Datas.画像)[i]].src;
           }
-          else{
-            if(HTML=="編集") Image[i].url = "image/配置.png";
-            else Image[i].url = "image/透明.png";
-          }
+          else Image[i].url = "image/透明.png";
         }
         Image[i]._element.src = Image[i].url;
         switch(Image[i].url){
@@ -163,7 +160,7 @@ function Game_load(width,height){
           case "image/透明.png":
             Image[i].url = "";
             break;
-        }
+        };
         Image[i].width = Datas.画像[Object.keys(Datas.画像)[i]].width;
         Image[i].height = Datas.画像[Object.keys(Datas.画像)[i]].height;
         Image[i].x = Datas.画像[Object.keys(Datas.画像)[i]].x;
@@ -172,8 +169,25 @@ function Game_load(width,height){
         if(Datas.画像[Object.keys(Datas.画像)[i]].opacity!=undefined) Image[i].opacity = Datas.画像[Object.keys(Datas.画像)[i]].opacity;
         Images_Data[Image[i].name] = i;
         scene.addChild(Image[i]);
+        if(HTML=="編集") Images_atarihantei();
         return;
       };
+
+      if(HTML=="編集"){
+        var Image_atarihantei = [];
+        function Images_atarihantei(){
+          Image_atarihantei[i] = new Sprite();
+          Image_atarihantei[i]._element = document.createElement("img");
+          Image_atarihantei[i]._element.src = "image/配置.png";
+          Image_atarihantei[i].x = Image[i].x;
+          Image_atarihantei[i].y = Image[i].y;
+          Image_atarihantei[i].width = Image[i].width;
+          Image_atarihantei[i].height = Image[i].height;
+          scene.addChild(Image_atarihantei[i]);
+          return;
+        };
+      }
+
 
       function Character_direction_decision(){
         switch(Image[Images_Data.人].状態){
@@ -657,6 +671,8 @@ function Game_load(width,height){
                 if(Image[Images_Data.人].横加速度 > 20) Image[Images_Data.人].横加速度 -= Friction;
               }
             };
+            Image_atarihantei[Images_Data.人].x = Image[Images_Data.人].x;
+            Image_atarihantei[Images_Data.人].y = Image[Images_Data.人].y
             Frame_advance();
             if(Datas.移動データ){
               if(Datas.移動データ.右){
@@ -725,7 +741,7 @@ function Game_load(width,height){
           };
           }
           pad_keydown();
-        }
+        };
       });
 
       var Pad1 = new Pad("image/pad.png",500);
