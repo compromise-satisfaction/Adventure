@@ -1165,15 +1165,15 @@ function Game_load(width,height){
                 Ui_Button[3].text = "移動設定";
                 Ui_Button[4].text = "";
                 if(Datas.移動データ){
-                  if(Datas.移動データ.左) Inputs[16]._element.value = Inputs[16]._element.value;
-                  if(Datas.移動データ.右) Inputs[17]._element.value = Inputs[16]._element.value;
-                  if(Datas.移動データ.上) Inputs[18]._element.value = Inputs[16]._element.value;
-                  if(Datas.移動データ.左x) Inputs[19]._element.value = Inputs[16]._element.value;
-                  if(Datas.移動データ.右x) Inputs[20]._element.value = Inputs[16]._element.value;
-                  if(Datas.移動データ.上x) Inputs[21]._element.value = Inputs[16]._element.value;
-                  if(Datas.移動データ.左向き) Inputs[22]._element.value = Inputs[16]._element.value;
-                  if(Datas.移動データ.右向き) Inputs[23]._element.value = Inputs[16]._element.value;
-                  if(Datas.移動データ.上向き) Inputs[24]._element.value = Inputs[16]._element.value;
+                  if(Datas.移動データ.左) Inputs[16]._element.value = Datas.移動データ.左;
+                  if(Datas.移動データ.右) Inputs[17]._element.value = Datas.移動データ.右;
+                  if(Datas.移動データ.上) Inputs[18]._element.value = Datas.移動データ.上;
+                  if(Datas.移動データ.左x) Inputs[19]._element.value = Datas.移動データ.左x;
+                  if(Datas.移動データ.右x) Inputs[20]._element.value = Datas.移動データ.右x;
+                  if(Datas.移動データ.上x) Inputs[21]._element.value = Datas.移動データ.上x;
+                  if(Datas.移動データ.左向き) Inputs[22]._element.value = Datas.移動データ.左向き;
+                  if(Datas.移動データ.右向き) Inputs[23]._element.value = Datas.移動データ.右向き;
+                  if(Datas.移動データ.上向き) Inputs[24]._element.value = Datas.移動データ.上向き;
                 }
                 scene.addChild(Inputs[16]);
                 scene.addChild(Inputs[17]);
