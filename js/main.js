@@ -152,15 +152,9 @@ function Game_load(width,height){
           if(Datas.画像[Object.keys(Datas.画像)[i]].src){
             Image[i].url = Datas.画像[Object.keys(Datas.画像)[i]].src;
           }
-          else Image[i].url = "image/透明.png";
         }
-        Image[i]._element.src = Image[i].url;
-        switch(Image[i].url){
-          case "image/配置.png":
-          case "image/透明.png":
-            Image[i].url = "";
-            break;
-        };
+        if(Image[i].url) Image[i]._element.src = Image[i].url;
+        else Image[i].url = "image/透明.png";
         Image[i].width = Datas.画像[Object.keys(Datas.画像)[i]].width;
         Image[i].height = Datas.画像[Object.keys(Datas.画像)[i]].height;
         Image[i].x = Datas.画像[Object.keys(Datas.画像)[i]].x;
