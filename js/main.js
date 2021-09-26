@@ -254,7 +254,7 @@ function Game_load(width,height){
               if(Object.keys(Image[Images_Data.人][Direction]).length == i) i = 1;
               else i++;
               if(Frame_wait==0){
-                if(JSON.stringify((Image[Images_Data.人][Direction][i])).match(/^\d/)){
+                if(!JSON.stringify((Image[Images_Data.人][Direction][i])).match(/\D/)){
                   Frame_wait_Number = i - 1;
                   Frame_wait = Image[Images_Data.人][Direction][i];
                 }
@@ -542,11 +542,6 @@ function Game_load(width,height){
             if(Datas.cキー) keydown(Datas.cキー);
           }
           if(Image[Images_Data.人]){
-            if(Datas.接触){
-              for(var i = 0; i < Object.keys(Datas.接触).length; i++){
-                Touch(Image[Images_Data.人],Datas.接触[Object.keys(Datas.接触)[i]]);
-              }
-            };
             if(Key_x){
               if(Jump){
                 State_change("空中");
@@ -560,14 +555,19 @@ function Game_load(width,height){
                 }
               }
             };
+            if(Datas.接触){
+              for(var i = 0; i < Object.keys(Datas.接触).length; i++){
+                Touch(Image[Images_Data.人],Datas.接触[Object.keys(Datas.接触)[i]]);
+              }
+            };
             Z_Run = Key_z;
             Image[Images_Data.人].x += Image[Images_Data.人].acceleration;
-            Image[Images_Data.人].y += Image[Images_Data.人].acceleration_G;
-            if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
+            if(Image[Images_Data.人].状態 == "空中"){
+              Image[Images_Data.人].y += Image[Images_Data.人].acceleration_G;
               Image[Images_Data.人].acceleration_G += Gravity;
               Image[Images_Data.人].rotation += Rotate;
             }
-            else{
+            if(Image[Images_Data.人].y >= height - Image[Images_Data.人].height - Ground){
               Jump = Jump_s;
               Image[Images_Data.人].acceleration_G = 0;
               Image[Images_Data.人].y = height - Image[Images_Data.人].height - Ground;
@@ -575,7 +575,7 @@ function Game_load(width,height){
                 State_change("停止");
                 Image[Images_Data.人].rotation = 0;
               }
-            }
+            };
             if(game.input.up && COOLTime.up == 0){
               COOLTime.up = 5;
               if(Datas.上キー) keydown(Datas.上キー);
@@ -694,13 +694,13 @@ function Game_load(width,height){
               }
             }
             else{
-              if(Image[Images_Data.人].x < 0){
-                Image[Images_Data.人].x = 0;
-              }
-              if(Image[Images_Data.人].x > 1600 - Image[Images_Data.人].width){
-                Image[Images_Data.人].x = 1600 - Image[Images_Data.人].width;
-              }
+            if(Image[Images_Data.人].x < 0){
+              Image[Images_Data.人].x = 0;
             }
+            if(Image[Images_Data.人].x > 1600 - Image[Images_Data.人].width){
+              Image[Images_Data.人].x = 1600 - Image[Images_Data.人].width;
+            }
+          };
           }
           pad_keydown();
         }
@@ -1149,6 +1149,8 @@ function Game_load(width,height){
                 break;
               case "追加する":
                 var aaa = 1;
+                var True_value = Inputs[35]._element.value;
+                var False_value = Inputs[36]._element.value;
                 switch(Inputs[34]._element.value){
                   case "透明度":
                     Inputs[34]._element.value = "opacity";
@@ -1158,23 +1160,35 @@ function Game_load(width,height){
                     break;
                   case "縦加速度":
                     Inputs[34]._element.value = "acceleration_G";
-                    if(Inputs[35]._element.value!="") Inputs[35]._element.value*=-1;
-                    if(Inputs[36]._element.value!="") Inputs[36]._element.value*=-1;
+                    if(True_value!=""){
+                      if(True_value[0]!="-") True_value = "-" + True_value;
+                    }
+                    if(False_value!=""){
+                      if(False_value[0]!="-") False_value = "-" + False_value;
+                    }
                     break;
                 }
-                if(Inputs[35]._element.value=="") Inputs[35]._element.value = "無し";
-                if(Inputs[36]._element.value=="") Inputs[36]._element.value = "無し";
                 if(Datas.接触) aaa = Object.keys(Datas.接触).length+1;
                 else Datas.接触 = {};
                 Datas.接触[aaa] = {
                   接触:Pull_down1._element.value,
                   対象:Pull_down2._element.value,
                   データ:Inputs[34]._element.value,
-                  真値:Inputs[35]._element.value*1,
-                  偽値:Inputs[36]._element.value*1
+                  真値:True_value*1,
+                  偽値:False_value*1
                 }
-                if(Datas.接触[aaa].真値==null) delete Datas.接触[aaa].真値;
-                if(Datas.接触[aaa].偽値==null) delete Datas.接触[aaa].偽値;
+                if(True_value=="") delete Datas.接触[aaa].真値;
+                else{
+                  if(True_value.match(/[^-\d]/)){
+                    Datas.接触[aaa].真値 = True_value;
+                  }
+                }
+                if(False_value=="") delete Datas.接触[aaa].偽値;
+                else{
+                  if(False_value.match(/[^-\d]/)){
+                    Datas.接触[aaa].偽値 = False_value;
+                  }
+                }
                 Datas.接触[aaa] = JSON.stringify(Datas.接触[aaa]);
                 Datas.接触[aaa] = JSON.parse(Datas.接触[aaa]);
                 Stage_Datas[Stage] = Datas;
