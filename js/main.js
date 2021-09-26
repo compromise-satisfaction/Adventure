@@ -105,13 +105,10 @@ function Game_load(width,height){
       var Z_Run = false;
       var Rotate = 0;
       var Ground = 0;
-      if(HTML=="編集") var Ground = 900;
-      else var Ground = 0;
       var Gravity = 9.8;
       var Jump_s = 1;
       var Jump_power = 50;
       var Friction = 10;
-      var Jump = Jump_s;
       var E_X = 0;
       var E_Y = 0;
       var E_E = null;
@@ -393,14 +390,15 @@ function Game_load(width,height){
 
         if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
           State_change("空中");
-          Jump = Jump_s - 1;
+          Image[Images_Data.人].ジャンプ = Jump_s - 1;
         }
         else State_change("停止");
 
         Image[Images_Data.人].Number = 1;
+        Image[Images_Data.人].横加速度 = 0;
+        Image[Images_Data.人].縦加速度 = 0;
+        Image[Images_Data.人].地面 = Ground;
         Image[Images_Data.人].x = Character_X;
-        Image[Images_Data.人].acceleration = 0;
-        Image[Images_Data.人].acceleration_G = 0;
         Character_direction_decision();
       }
 
@@ -543,15 +541,15 @@ function Game_load(width,height){
           }
           if(Image[Images_Data.人]){
             if(Key_x){
-              if(Jump){
+              if(Image[Images_Data.人].ジャンプ){
                 State_change("空中");
-                if(Image[Images_Data.人].acceleration_G >= 0){
+                if(Image[Images_Data.人].縦加速度 >= 0){
                   if(SE2.src){
                     if(SE2.paused) SE2.play();
                     else SE2.currentTime = 0;
                   }
-                  Jump--;
-                  Image[Images_Data.人].acceleration_G -= Jump_power;
+                  Image[Images_Data.人].ジャンプ--;
+                  Image[Images_Data.人].縦加速度 -= Jump_power;
                 }
               }
             };
@@ -561,21 +559,26 @@ function Game_load(width,height){
               }
             };
             Z_Run = Key_z;
-            Image[Images_Data.人].x += Image[Images_Data.人].acceleration;
+            Image[Images_Data.人].x += Image[Images_Data.人].横加速度;
             if(Image[Images_Data.人].状態 == "空中"){
-              Image[Images_Data.人].y += Image[Images_Data.人].acceleration_G;
-              Image[Images_Data.人].acceleration_G += Gravity;
+              Image[Images_Data.人].y += Image[Images_Data.人].縦加速度;
+              Image[Images_Data.人].縦加速度 += Gravity;
               Image[Images_Data.人].rotation += Rotate;
+            };
+            Ground = Image[Images_Data.人].地面;
+            if(HTML=="編集") Ground += 900;
+            if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
+              Image[Images_Data.人].状態 = "空中";
             }
-            if(Image[Images_Data.人].y >= height - Image[Images_Data.人].height - Ground){
-              Jump = Jump_s;
-              Image[Images_Data.人].acceleration_G = 0;
+            else{
+              Image[Images_Data.人].ジャンプ = Jump_s;
+              Image[Images_Data.人].縦加速度 = 0;
               Image[Images_Data.人].y = height - Image[Images_Data.人].height - Ground;
               if(Image[Images_Data.人].状態 == "空中"){
                 State_change("停止");
                 Image[Images_Data.人].rotation = 0;
               }
-            };
+            }
             if(game.input.up && COOLTime.up == 0){
               COOLTime.up = 5;
               if(Datas.上キー) keydown(Datas.上キー);
@@ -587,14 +590,14 @@ function Game_load(width,height){
             if(game.input.left == game.input.right){
               Run = false;
               Z_Run = false;
-              if(Image[Images_Data.人].acceleration != 0){
-                if(Image[Images_Data.人].acceleration > 0){
-                  Image[Images_Data.人].acceleration -= Friction;
-                  if(Image[Images_Data.人].acceleration < 0) Image[Images_Data.人].acceleration = 0;
+              if(Image[Images_Data.人].横加速度 != 0){
+                if(Image[Images_Data.人].横加速度 > 0){
+                  Image[Images_Data.人].横加速度 -= Friction;
+                  if(Image[Images_Data.人].横加速度 < 0) Image[Images_Data.人].横加速度 = 0;
                 }
-                else if(Image[Images_Data.人].acceleration < 0){
-                  Image[Images_Data.人].acceleration += Friction;
-                  if(Image[Images_Data.人].acceleration > 0) Image[Images_Data.人].acceleration = 0;
+                else if(Image[Images_Data.人].横加速度 < 0){
+                  Image[Images_Data.人].横加速度 += Friction;
+                  if(Image[Images_Data.人].横加速度 > 0) Image[Images_Data.人].横加速度 = 0;
                 }
               }
               if(Image[Images_Data.人].状態 != "空中") State_change("停止");
@@ -609,12 +612,12 @@ function Game_load(width,height){
               COOLTime.left = 5;
               COOLTime.right = 0;
               if(Run||Z_Run){
-                Image[Images_Data.人].acceleration -= Friction * 4;
-                if(Image[Images_Data.人].acceleration < -40) Image[Images_Data.人].acceleration = -40;
+                Image[Images_Data.人].横加速度 -= Friction * 4;
+                if(Image[Images_Data.人].横加速度 < -40) Image[Images_Data.人].横加速度 = -40;
               }
               else{
-                if(Image[Images_Data.人].acceleration > -20) Image[Images_Data.人].acceleration -= Friction;
-                if(Image[Images_Data.人].acceleration < -20) Image[Images_Data.人].acceleration += Friction;
+                if(Image[Images_Data.人].横加速度 > -20) Image[Images_Data.人].横加速度 -= Friction;
+                if(Image[Images_Data.人].横加速度 < -20) Image[Images_Data.人].横加速度 += Friction;
               }
             };
             if(game.input.right && !game.input.left){
@@ -627,12 +630,12 @@ function Game_load(width,height){
               COOLTime.left = 0;
               COOLTime.right = 5;
               if(Run||Z_Run){
-                Image[Images_Data.人].acceleration += Friction * 4;
-                if(Image[Images_Data.人].acceleration > 40) Image[Images_Data.人].acceleration = 40;
+                Image[Images_Data.人].横加速度 += Friction * 4;
+                if(Image[Images_Data.人].横加速度 > 40) Image[Images_Data.人].横加速度 = 40;
               }
               else{
-                if(Image[Images_Data.人].acceleration < 20) Image[Images_Data.人].acceleration += Friction;
-                if(Image[Images_Data.人].acceleration > 20) Image[Images_Data.人].acceleration -= Friction;
+                if(Image[Images_Data.人].横加速度 < 20) Image[Images_Data.人].横加速度 += Friction;
+                if(Image[Images_Data.人].横加速度 > 20) Image[Images_Data.人].横加速度 -= Friction;
               }
             };
             Frame_advance();
@@ -1155,11 +1158,7 @@ function Game_load(width,height){
                   case "透明度":
                     Inputs[34]._element.value = "opacity";
                     break;
-                  case "横加速度":
-                    Inputs[34]._element.value = "acceleration";
-                    break;
                   case "縦加速度":
-                    Inputs[34]._element.value = "acceleration_G";
                     if(True_value!=""){
                       if(True_value[0]!="-") True_value = "-" + True_value;
                     }
