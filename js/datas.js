@@ -49,7 +49,6 @@ Message_Datas.百円 = {
   1:{text:"百円玉を見つけた！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",フラグ:"所持金",増加量:100}
 };
 Message_Datas.ベッド = {
-  "image":{0:{name:"闇",width:1600,height:900,x:0,y:0}},
   1:{text:"My bed.",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
   寝:{フラグ:"カード拾い","固定値":1,next:"月",text:"寝た！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
   月:{フラグ:"睡眠回数","増加量":1,x:820,向き:"右",ステージ移動:"月",text:"夢を見た！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
@@ -186,7 +185,7 @@ Stage_Datas.最初 = {
     操作説明触れる:{width:450,height:450,x:0,y:height-450},
     看板ポップ:{width:450,height:450,x:width-450,y:0,src:"image/読む.png",opacity:0},
     看板:{width:450,height:450,x:width-450,y:height-450,src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/アイテム/看板.png"},
-    人:{width:29,height:45,x:0,y:height-45},
+    人:{width:290/2,height:450/2,x:0,y:height-45},
     配置:{width:130,height:94,x:731,y:512,src:"image/配置.png"},
   },
   接触:{
@@ -206,11 +205,25 @@ Stage_Datas.最初 = {
     },
     3:{
       接触:"配置",
-      対象:"配置",
-      データ:"opacity",
+      対象:"人",
+      データ:"地面",
       上:true,
-      真値:1,
-      偽値:1
+      真値:height-513,
+      偽値:0,
+    },
+    4:{
+      接触:"配置",
+      対象:"人",
+      データ:"縦加速度",
+      下:true,
+      真値:0,
+    },
+    5:{
+      接触:"配置",
+      対象:"人",
+      データ:"y",
+      下:true,
+      真値:512+290/2,
     },
   },
   cキー:{

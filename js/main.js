@@ -564,6 +564,10 @@ function Game_load(width,height){
       });
 
       scene.addEventListener("enterframe",function(){
+        if(Human_image_add_mood){
+          Inputs[2]._element.placeholder = Pull_down3._element.value;
+          Inputs[2]._element.placeholder += "の画像URL";
+        }
         if(!Hensyu_mood){
           X_B.opacity = Pad_opacity;
           C_B.opacity = Pad_opacity;
@@ -856,6 +860,7 @@ function Game_load(width,height){
         var Ui_Button = [];
         var Haiti_mood = false;
         var Hensyu_mood = false;
+        var Human_image_add_mood = false;
         var Haiti_image_x;
         var Haiti_image_y;
         var Inputs = [];
@@ -873,7 +878,7 @@ function Game_load(width,height){
 
         Input(width/4*0,height/10*0,width/4,height/10,"人","配置オブジェクトの名称");
         Input(width/4*1,height/10*0,width/4,height/10,"","配置オブジェクトの画像URL");
-        Input(width/4*0,height/10*0,width/4,height/10,"","人の停止左画像");
+        Input(width/4*0,height/10*0,width/4,height/10,"","");
         Input(width/4*0,height/10*1,width/4,height/10,"","人の歩き左画像");
         Input(width/4*0,height/10*2,width/4,height/10,"","人の走り左画像");
         Input(width/4*0,height/10*3,width/4,height/10,"","人の空中左画像");
@@ -935,6 +940,52 @@ function Game_load(width,height){
           Option2[k].text =  Image[k].name;
           Option2[k].value = Image[k].name;
           Pull_down2._element.appendChild(Option2[k]);
+        }
+
+        var Pull_down3 = new Entity();
+        Pull_down3.moveTo(width/4*1,height/10*0+900);
+        Pull_down3.width = width/4;
+        Pull_down3.height = height/10;
+        Pull_down3._element = document.createElement("select");
+        Pull_down3._style["font-size"] = 60;
+        var Option3 = [];
+        for (var k = 0; k < 9; k++){
+          Option3[k] = document.createElement("option");
+          switch(k){
+            case 1:
+              Option3[k].text =  "右";
+              Option3[k].value = "右";
+              break;
+            case 2:
+              Option3[k].text =  "左";
+              Option3[k].value = "左";
+              break;
+            case 3:
+              Option3[k].text =  "歩右";
+              Option3[k].value = "歩右";
+              break;
+            case 4:
+              Option3[k].text =  "歩左";
+              Option3[k].value = "歩左";
+              break;
+            case 5:
+              Option3[k].text =  "走右";
+              Option3[k].value = "走右";
+              break;
+            case 6:
+              Option3[k].text =  "走左";
+              Option3[k].value = "走左";
+              break;
+            case 7:
+              Option3[k].text =  "空中右";
+              Option3[k].value = "空中右";
+              break;
+            case 8:
+              Option3[k].text =  "空中左";
+              Option3[k].value = "空中左";
+              break;
+          };
+          Pull_down3._element.appendChild(Option3[k]);
         }
 
         function Buttons(x,y,a){
@@ -1132,22 +1183,53 @@ function Game_load(width,height){
                 Ui_Button[4].opacity = 0;
                 Ui_Button[5].opacity = 0;
                 break;
+              case "登録":
+                window.localStorage.setItem("ローカル人データ",JSON.stringify(Datas.人));
+                Stage_Datas[Stage] = Datas;
+                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                break;
+              case "貼り付け":
+                if(window.localStorage.getItem("ローカル人データ")){
+                  Datas.人 = window.localStorage.getItem("ローカル人データ");
+                  Datas.人 = JSON.parse(Datas.人);
+                }
+                Stage_Datas[Stage] = Datas;
+                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                break;
               case "人":
+                Human_image_add_mood = true;
                 Ui_Button[0].opacity = 0;
                 Ui_Button[1].opacity = 0;
-                Ui_Button[2].opacity = 0;
                 Ui_Button[0].text = "";
                 Ui_Button[1].text = "";
-                Ui_Button[2].text = "";
-                Ui_Button[3].text = "決定";
+                Ui_Button[2].text = "減らす";
+                Ui_Button[3].text = "追加";
+                Ui_Button[4].text = "登録";
+                Ui_Button[5].text = "貼り付け";
                 scene.addChild(Inputs[2]);
-                scene.addChild(Inputs[3]);
-                scene.addChild(Inputs[4]);
-                scene.addChild(Inputs[5]);
-                scene.addChild(Inputs[6]);
-                scene.addChild(Inputs[7]);
-                scene.addChild(Inputs[8]);
-                scene.addChild(Inputs[9]);
+                scene.addChild(Pull_down3);
+                break;
+              case "減らす":
+                if(Object.keys(Datas.人[Pull_down3._element.value]).length==1){
+                  delete Datas.人[Pull_down3._element.value];
+                }
+                else delete Datas.人[Pull_down3._element.value][Object.keys(Datas.人[Pull_down3._element.value]).length];
+                console.log(Datas.人[Pull_down3._element.value]);
+                return;
+                break;
+              case "追加":
+                var Add_page = Pull_down3._element.value;
+                if(Datas.人){
+                  if(Datas.人[Add_page]) Datas.人[Add_page][Object.keys(Datas.人[Add_page]).length+1] = Inputs[2]._element.value;
+                  else Datas.人[Add_page] = {1:Inputs[2]._element.value};
+                }
+                else{
+                  Datas.人 = {};
+                  Datas.人[Add_page] = {1:Inputs[2]._element.value}
+                }
+                console.log(Datas.人[Add_page]);
+                Stage_Datas[Stage] = Datas;
+                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
                 break;
               case "決定":
                 Datas.人 = {
@@ -1284,7 +1366,8 @@ function Game_load(width,height){
       function Images(w,h,x,y,a,b){
         Image[i] = new Sprite();
         Image[i]._element = document.createElement("img");
-        Image[i]._element.src = a;
+        if(a) Image[i]._element.src = a;
+        else Image[i]._element.src = "image/透明.png";
         Image[i].width = w;
         Image[i].height = h;
         Image[i].x = x;
