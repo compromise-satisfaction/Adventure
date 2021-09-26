@@ -290,9 +290,19 @@ Stage_Datas.部屋 = {
   移動データ:{右:"玄関"}
 };
 Stage_Datas.玄関 = {
+  接触: {
+    1:{接触: '階段0', 対象: '人', データ: '地面', 真値: 0},
+    2:{接触: '階段1', 対象: '人', データ: '地面', 真値: 115},
+    3:{接触: '階段2', 対象: '人', データ: '地面', 真値: 180},
+    4:{接触: '階段3', 対象: '人', データ: '地面', 真値: 240}
+  },
   画像:{
     背景:{width:width,height:height,x:0,y:0,src:"https://nijicollage.xyz/wp-content/uploads/2016/07/iehaikei049.jpg"},
     人:{width:290,height:450,x:0,y:height-450},
+    階段0:{width:1,height:height,x:0,y:0,src:"image/配置.png"},
+    階段1:{width:1,height:height,x:0,y:0,src:"image/配置.png"},
+    階段2:{width:1,height:height,x:0,y:0,src:"image/配置.png"},
+    階段3:{width:1,height:height,x:0,y:0,src:"image/配置.png"}
   },
   人:Nizinizi,
   移動データ:{右:"家",右x:600,左:"部屋"}

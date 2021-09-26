@@ -148,7 +148,15 @@ function Game_load(width,height){
           }
           else Image[i]._element.src = "image/model1.png";
         }
-        else Image[i]._element.src = Datas.画像[Object.keys(Datas.画像)[i]].src;
+        else{
+          if(Datas.画像[Object.keys(Datas.画像)[i]].src){
+            Image[i]._element.src = Datas.画像[Object.keys(Datas.画像)[i]].src;
+          }
+          else{
+            if(HTML=="編集") Image[i]._element.src = "image/配置.png";
+            else Image[i]._element.src = "image/透明.png";
+          }
+        }
         Image[i].width = Datas.画像[Object.keys(Datas.画像)[i]].width;
         Image[i].height = Datas.画像[Object.keys(Datas.画像)[i]].height;
         Image[i].x = Datas.画像[Object.keys(Datas.画像)[i]].x;
@@ -278,6 +286,7 @@ function Game_load(width,height){
             case "空中":
               if(Character_direction=="右") console.log("空中で右を向いている。");
               else console.log("空中で左を向いている。");
+              Image[Images_Data.人].ジャンプ = Jump_s - 1;
               break;
             case "動":
               if(Character_direction=="右") console.log("右に歩いている。");
@@ -390,7 +399,6 @@ function Game_load(width,height){
 
         if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
           State_change("空中");
-          Image[Images_Data.人].ジャンプ = Jump_s - 1;
         }
         else State_change("停止");
 
@@ -542,7 +550,6 @@ function Game_load(width,height){
           if(Image[Images_Data.人]){
             if(Key_x){
               if(Image[Images_Data.人].ジャンプ){
-                State_change("空中");
                 if(Image[Images_Data.人].縦加速度 >= 0){
                   if(SE2.src){
                     if(SE2.paused) SE2.play();
@@ -550,6 +557,7 @@ function Game_load(width,height){
                   }
                   Image[Images_Data.人].ジャンプ--;
                   Image[Images_Data.人].縦加速度 -= Jump_power;
+                  State_change("空中");
                 }
               }
             };
@@ -568,7 +576,7 @@ function Game_load(width,height){
             Ground = Image[Images_Data.人].地面;
             if(HTML=="編集") Ground += 900;
             if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
-              Image[Images_Data.人].状態 = "空中";
+              State_change("空中");
             }
             else{
               Image[Images_Data.人].ジャンプ = Jump_s;
@@ -584,7 +592,11 @@ function Game_load(width,height){
               if(Datas.上キー) keydown(Datas.上キー);
             };
             if(game.input.down){
-              if(COOLTime.down==0) console.log(Flag);
+              if(COOLTime.down==0){
+                console.log("Flag = " + JSON.stringify(Flag));
+                console.log("キャラx = " + Image[Images_Data.人].x);
+                console.log("キャラy = " + Image[Images_Data.人].y);
+              }
               COOLTime.down = 5;
             };
             if(game.input.left == game.input.right){
