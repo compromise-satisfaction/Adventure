@@ -671,8 +671,10 @@ function Game_load(width,height){
                 if(Image[Images_Data.人].横加速度 > 20) Image[Images_Data.人].横加速度 -= Friction;
               }
             };
-            Image_atarihantei[Images_Data.人].x = Image[Images_Data.人].x;
-            Image_atarihantei[Images_Data.人].y = Image[Images_Data.人].y
+            if(HTML=="編集"){
+              Image_atarihantei[Images_Data.人].x = Image[Images_Data.人].x;
+              Image_atarihantei[Images_Data.人].y = Image[Images_Data.人].y
+            }
             Frame_advance();
             if(Datas.移動データ){
               if(Datas.移動データ.右){
