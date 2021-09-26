@@ -154,7 +154,7 @@ function Game_load(width,height){
           }
         }
         if(Image[i].url) Image[i]._element.src = Image[i].url;
-        else Image[i].url = "image/透明.png";
+        else Image[i]._element.src = "image/透明.png";
         Image[i].width = Datas.画像[Object.keys(Datas.画像)[i]].width;
         Image[i].height = Datas.画像[Object.keys(Datas.画像)[i]].height;
         Image[i].x = Datas.画像[Object.keys(Datas.画像)[i]].x;
@@ -519,7 +519,10 @@ function Game_load(width,height){
         if(Object_mood){
           if(Change_object != Pull_down1._element.value){
             Change_object = Pull_down1._element.value;
-            Inputs[10]._element.value = Image[Images_Data[Change_object]].url;
+            if(Image[Images_Data[Change_object]].url){
+              Inputs[10]._element.value = Image[Images_Data[Change_object]].url;
+            }
+            else Inputs[10]._element.value = "";
             Inputs[11]._element.value = Image[Images_Data[Change_object]].x;
             Inputs[12]._element.value = Image[Images_Data[Change_object]].y;
             Inputs[13]._element.value = Image[Images_Data[Change_object]].width;
@@ -543,7 +546,7 @@ function Game_load(width,height){
             }
           }
           else{
-            E_E = ':{width:'+(Math.floor(e.x)-E_X)+',height:'+(Math.floor(e.y)-E_Y)+',x:'+E_X+',y:'+E_Y+',src:"image/透明.png"},';
+            E_E = ':{width:'+(Math.floor(e.x)-E_X)+',height:'+(Math.floor(e.y)-E_Y)+',x:'+E_X+',y:'+E_Y+'},';
             console.log(E_E);
           }
         }
