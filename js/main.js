@@ -546,7 +546,7 @@ function Game_load(width,height){
               for(var i = 0; i < Object.keys(Datas.接触).length; i++){
                 Touch(Image[Images_Data.人],Datas.接触[Object.keys(Datas.接触)[i]]);
               }
-            }
+            };
             if(Key_x){
               if(Jump){
                 State_change("空中");
@@ -559,7 +559,7 @@ function Game_load(width,height){
                   Image[Images_Data.人].acceleration_G -= Jump_power;
                 }
               }
-            }
+            };
             Z_Run = Key_z;
             Image[Images_Data.人].x += Image[Images_Data.人].acceleration;
             Image[Images_Data.人].y += Image[Images_Data.人].acceleration_G;
