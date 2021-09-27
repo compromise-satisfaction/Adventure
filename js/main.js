@@ -378,64 +378,68 @@ function Game_load(width,height){
           else Images();
       };
 
-      if(Datas.画像.人){
-        if(Datas.人){
-          if(Datas.人.右) Image[Images_Data.人].右 = Datas.人.右;
-          else Image[Images_Data.人].右 = false;
-          if(Datas.人.左) Image[Images_Data.人].左 = Datas.人.左;
-          else Image[Images_Data.人].左 = false;
-          if(Datas.人.歩右) Image[Images_Data.人].歩右 = Datas.人.歩右;
-          else Image[Images_Data.人].歩右 = false;
-          if(Datas.人.歩左) Image[Images_Data.人].歩左 = Datas.人.歩左;
-          else Image[Images_Data.人].歩左 = false;
-          if(Datas.人.走右) Image[Images_Data.人].走右 = Datas.人.走右;
-          else Image[Images_Data.人].走右 = false;
-          if(Datas.人.走左) Image[Images_Data.人].走左 = Datas.人.走左;
-          else Image[Images_Data.人].走左 = false;
-          if(Datas.人.空中右) Image[Images_Data.人].空中右 = Datas.人.空中右;
-          else Image[Images_Data.人].空中右 = false;
-          if(Datas.人.空中左) Image[Images_Data.人].空中左 = Datas.人.空中左;
-          else Image[Images_Data.人].空中左 = false;
-        }
-        if(!Image[Images_Data.人].左&&!Image[Images_Data.人].右){
-          Image[Images_Data.人].左 = {1:"image/model1.png"};
-        }
-        if(!Image[Images_Data.人].歩左&&!Image[Images_Data.人].歩右){
-          Image[Images_Data.人].歩左 = {
-            1:"image/model2.png",
-            2:"image/model3.png",
-            3:"image/model4.png",
-            4:"image/model5.png",
-            5:"image/model6.png",
-            6:"image/model7.png",
-            7:"image/model8.png",
-            8:"image/model7.png",
-            9:"image/model6.png",
-            10:"image/model5.png",
-            11:"image/model4.png",
-            12:"image/model3.png"
+      Human_set("初回");
+
+      function Human_set(a){
+        if(Datas.画像.人){
+          if(Datas.人){
+            if(Datas.人.右) Image[Images_Data.人].右 = Datas.人.右;
+            else Image[Images_Data.人].右 = false;
+            if(Datas.人.左) Image[Images_Data.人].左 = Datas.人.左;
+            else Image[Images_Data.人].左 = false;
+            if(Datas.人.歩右) Image[Images_Data.人].歩右 = Datas.人.歩右;
+            else Image[Images_Data.人].歩右 = false;
+            if(Datas.人.歩左) Image[Images_Data.人].歩左 = Datas.人.歩左;
+            else Image[Images_Data.人].歩左 = false;
+            if(Datas.人.走右) Image[Images_Data.人].走右 = Datas.人.走右;
+            else Image[Images_Data.人].走右 = false;
+            if(Datas.人.走左) Image[Images_Data.人].走左 = Datas.人.走左;
+            else Image[Images_Data.人].走左 = false;
+            if(Datas.人.空中右) Image[Images_Data.人].空中右 = Datas.人.空中右;
+            else Image[Images_Data.人].空中右 = false;
+            if(Datas.人.空中左) Image[Images_Data.人].空中左 = Datas.人.空中左;
+            else Image[Images_Data.人].空中左 = false;
           };
-        }
-        if(!Image[Images_Data.人].走左&&!Image[Images_Data.人].走右){
-          Image[Images_Data.人].走左 = {1:"image/model2.png",2:"image/model8.png"};
-        }
-        if(!Image[Images_Data.人].空中左&&!Image[Images_Data.人].空中右){
-          Image[Images_Data.人].空中左 = {1:"image/model9.png"};
-        }
-        console.log(Datas.人);
-
-        if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
-          State_change("空中");
-        }
-        else State_change("停止");
-
-        Image[Images_Data.人].Number = 1;
-        Image[Images_Data.人].横加速度 = 0;
-        Image[Images_Data.人].縦加速度 = 0;
-        Image[Images_Data.人].地面 = Ground;
-        Image[Images_Data.人].x = Character_X;
-        Character_direction_decision();
-      }
+          if(!Image[Images_Data.人].左&&!Image[Images_Data.人].右){
+            Image[Images_Data.人].左 = {1:"image/model1.png"};
+          };
+          if(!Image[Images_Data.人].歩左&&!Image[Images_Data.人].歩右){
+            Image[Images_Data.人].歩左 = {
+              1:"image/model2.png",
+              2:"image/model3.png",
+              3:"image/model4.png",
+              4:"image/model5.png",
+              5:"image/model6.png",
+              6:"image/model7.png",
+              7:"image/model8.png",
+              8:"image/model7.png",
+              9:"image/model6.png",
+              10:"image/model5.png",
+              11:"image/model4.png",
+              12:"image/model3.png"
+            };
+          };
+          if(!Image[Images_Data.人].走左&&!Image[Images_Data.人].走右){
+            Image[Images_Data.人].走左 = {1:"image/model2.png",2:"image/model8.png"};
+          };
+          if(!Image[Images_Data.人].空中左&&!Image[Images_Data.人].空中右){
+            Image[Images_Data.人].空中左 = {1:"image/model9.png"};
+          };
+          if(a=="初回"){
+            console.log(Datas.人);
+            if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
+              State_change("空中");
+            }
+            else State_change("停止");
+            Image[Images_Data.人].Number = 1;
+            Image[Images_Data.人].横加速度 = 0;
+            Image[Images_Data.人].縦加速度 = 0;
+            Image[Images_Data.人].地面 = Ground;
+            Image[Images_Data.人].x = Character_X;
+            Character_direction_decision();
+          };
+        };
+      };
 
       function keydown(Value){
         var k = 1;
@@ -566,6 +570,7 @@ function Game_load(width,height){
 
       scene.addEventListener("enterframe",function(){
         if(Human_image_add_mood){
+          Frame_advance();
           Inputs[2]._element.placeholder = Pull_down3._element.value;
           Inputs[2]._element.placeholder += "の画像URL";
         }
@@ -1212,6 +1217,8 @@ function Game_load(width,height){
                 Human_image_add_mood = true;
                 Ui_Button[0].opacity = 0;
                 Ui_Button[1].opacity = 0;
+                Ui_Button[6].opacity = 1;
+                Ui_Button[7].opacity = 1;
                 Ui_Button[0].text = "";
                 Ui_Button[1].text = "";
                 Ui_Button[2].text = "減らす";
@@ -1226,8 +1233,11 @@ function Game_load(width,height){
                   delete Datas.人[Pull_down3._element.value];
                 }
                 else delete Datas.人[Pull_down3._element.value][Object.keys(Datas.人[Pull_down3._element.value]).length];
-                console.log(Datas.人);
-                return;
+                Human_set(false);
+                break;
+              case "終了":
+                Stage_Datas[Stage] = Datas;
+                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
                 break;
               case "追加":
                 var Add_page = Pull_down3._element.value;
@@ -1239,9 +1249,7 @@ function Game_load(width,height){
                   Datas.人 = {};
                   Datas.人[Add_page] = {1:Inputs[2]._element.value}
                 }
-                console.log(Datas.人);
-                Stage_Datas[Stage] = Datas;
-                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                Human_set(false);
                 break;
               case "決定":
                 Datas.人 = {
@@ -1288,6 +1296,29 @@ function Game_load(width,height){
                 Stage_Datas[Stage] = Datas;
                 game.replaceScene(Main_Scene(Stage_Datas[Stage]));
                 return;
+                break;
+              case "他確認":
+                switch(Image[Images_Data.人].状態){
+                  case "停止":
+                    Run = false;
+                    Z_Run = false;
+                    State_change("動");
+                    break;
+                  case "動":
+                    if(Run||Z_Run){
+                      State_change("空中");
+                    }
+                    else Z_Run = true;
+                    break;
+                  case "空中":
+                    State_change("停止");
+                    if(Character_direction=="右"){
+                      Character_direction = "左";
+                    }
+                    else Character_direction = "右";
+                    break;
+                };
+                Human_set(false);
                 break;
               case "追加する":
                 var aaa = 1;
@@ -1361,8 +1392,12 @@ function Game_load(width,height){
         Buttons(width/4*3,height/10*0 + 900,"設定");
         Buttons(width/4*0,height/10*1 + 900,"");
         Buttons(width/4*1,height/10*1 + 900,"");
+        Buttons(width/4*2,height/10*1 + 900,"他確認");
+        Buttons(width/4*3,height/10*1 + 900,"終了");
         Ui_Button[4].opacity = 0;
         Ui_Button[5].opacity = 0;
+        Ui_Button[6].opacity = 0;
+        Ui_Button[7].opacity = 0;
       }
 
       return scene;

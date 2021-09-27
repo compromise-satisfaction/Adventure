@@ -123,6 +123,65 @@ var Nizinizi = {
   }
 };
 
+var Paipai = {
+  右:{
+    1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/1.png",
+    2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/2.png",
+    3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/3.png",
+    4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/4.png",
+    5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/5.png",
+    6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/6.png",
+    7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/7.png",
+    8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/8.png",
+    9:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/9.png",
+    10:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/10.png",
+    11:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/11.png",
+    12:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/12.png"
+  },
+  歩右:{
+    1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/1.png",
+    2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/2.png",
+    3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/3.png",
+    4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/4.png",
+    5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/5.png",
+    6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/6.png",
+    7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/7.png",
+    8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/8.png",
+    9:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/9.png",
+    10:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/10.png",
+    11:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/11.png",
+    12:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/12.png"
+  },
+  走右:{
+    1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/1.png",
+    2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/2.png",
+    3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/3.png",
+    4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/4.png",
+    5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/5.png",
+    6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/6.png",
+    7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/7.png",
+    8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/8.png",
+    9:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/9.png",
+    10:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/10.png",
+    11:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/11.png",
+    12:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/12.png"
+  },
+  空中右:{
+    1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/1.png",
+    2:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/2.png",
+    3:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/3.png",
+    4:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/4.png",
+    5:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/5.png",
+    6:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/6.png",
+    7:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/7.png",
+    8:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/8.png",
+    9:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/9.png",
+    10:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/10.png",
+    11:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/11.png",
+    12:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/その他/12.png"
+  }
+};
+
 var Stick_figure = {
   左:{
     1:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/キャラ/歩く棒人間_3.png",
@@ -179,6 +238,7 @@ var height = 900;
 
 Stage_Datas.最初 = {
   人:Stick_figure,
+  人:Paipai,
   設定:{ジャンプ:1000},
   画像:{
     操作説明:{width:450,height:450,x:0,y:0,src:"image/操作説明.png",opacity:0},
