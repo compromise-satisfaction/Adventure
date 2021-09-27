@@ -1576,7 +1576,27 @@ function Game_load(width,height){
               }
             }
           }
-          if(Key_c && COOLTime.c_key == 0){
+          if(Key_x){
+            Image[Images_Data.背景].opacity = 0;
+            for(var i = 0; i < 90; i++) Text[i].opacity = 0;
+            if(Datas[k].選択肢){
+              for(var j = 0; j < Object.keys(Datas[k].選択肢).length; j++){
+                ChoiceText[j].opacity = 0;
+                Image[Images_Data["選択肢"+j]].opacity = 0;
+              };
+            };
+          }
+          else{
+            Image[Images_Data.背景].opacity = 0.5;
+            for(var i = 0; i < 90; i++) Text[i].opacity = 1;
+            if(Datas[k].選択肢){
+              for(var j = 0; j < Object.keys(Datas[k].選択肢).length; j++){
+                ChoiceText[j].opacity = 1;
+                Image[Images_Data["選択肢"+j]].opacity = 0.5;
+              };
+            };
+          };
+          if(Key_c && COOLTime.c_key == 0 && Image[Images_Data.背景].opacity == 0.5){
             COOLTime.c_key = 5;
             for(var j = 0; j < 5; j++){
               ChoiceText[j].opacity = 0;
@@ -1591,6 +1611,7 @@ function Game_load(width,height){
         if(Datas[k+1]||Datas[k].next){
           if(Datas[k].next) k = Datas[k].next;
           else k++;
+          if(!Datas[k]) Datas[k] = {"text":"存在しないデータ。"};
           i = 0;
           if(Datas[k].音) SE1.src = Datas[k].音;
           if(Datas[k].image){
