@@ -2,6 +2,10 @@ var Stage_Datas = {};
 var Message_Datas = {};
 Message_Datas.看板 = {
   "image":{0:{name:"その1",width:1600,height:900,x:0,y:0}},
+  "image":{1:{name:"その2",width:1600,height:900,x:0,y:0}},
+  "image":{2:{name:"その3",width:1600,height:900,x:0,y:0}},
+  "image":{3:{name:"その4",width:1600,height:900,x:0,y:0}},
+  "image":{4:{name:"その5",width:1600,height:900,x:0,y:0}},
   1:{"text":"看板:φφφφφφφφφφφφφφφ操作は大丈夫みたいですね。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",フラグ:"既読","固定値":1},
   2:{"text":"看板:φφφφφφφφφφφφφφφ左右キーを二連打する事でもφφφφφ走ることが出来ます。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
   3:{"text":"看板:φφφφφφφφφφφφφφφ扉などに入るときはφφφφφφφφφ↑キーを使おうと思っています。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},

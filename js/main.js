@@ -633,6 +633,7 @@ function Game_load(width,height){
             if(game.input.down){
               if(COOLTime.down==0){
                 console.log("Flag = " + JSON.stringify(Flag));
+                console.log("StageData = " + JSON.stringify(Datas));
                 console.log("キャラx = " + Image[Images_Data.人].x);
                 console.log("キャラy = " + Image[Images_Data.人].y);
               }
@@ -1420,6 +1421,7 @@ function Game_load(width,height){
         Image[i].x = x;
         Image[i].y = y;
         Image[i].name = b;
+        console.log(b);
         Images_Data[b] = i;
         scene.addChild(Image[i]);
         i++;
@@ -1429,7 +1431,6 @@ function Game_load(width,height){
       if(Datas.image){
         while(Datas.image[i]){
           Images(Datas.image[i].width,Datas.image[i].height,Datas.image[i].x,Datas.image[i].y,Datas.image[i].src,Datas.image[i].name);
-          i++;
         }
       }
 
