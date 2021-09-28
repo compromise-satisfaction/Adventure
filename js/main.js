@@ -1731,19 +1731,19 @@ function Game_load(width,height){
     if(window.localStorage.getItem("Flag")){
       Flag = window.localStorage.getItem("Flag");
       Flag = JSON.parse(Flag);
-    }
+    };
     if(window.localStorage.getItem("Stage")){
       Stage = window.localStorage.getItem("Stage");
       Stage = JSON.parse(Stage);
-    }
+    };
     if(window.localStorage.getItem("Character_X")){
       Character_X = window.localStorage.getItem("Character_X");
       Character_X = JSON.parse(Character_X);
-    }
+    };
     if(window.localStorage.getItem("Character_direction")){
       Character_direction = window.localStorage.getItem("Character_direction");
       Character_direction = JSON.parse(Character_direction);
-    }
+    };
 
     switch (HTML) {
       case "管理者":
@@ -1753,18 +1753,15 @@ function Game_load(width,height){
         if(window.localStorage.getItem("ローカルステージデータ")){
           Stage_Datas = window.localStorage.getItem("ローカルステージデータ");
           Stage_Datas = JSON.parse(Stage_Datas);
-          var Body = "編集" + JSON.stringify(Stage_Datas);
         }
-        else{
-          Stage_Datas = {};
-          var Body = "読み込み";
-        }
+        else Stage_Datas = {};
+        var Body = "読み込み";
         break;
       default:
         Stage_Datas = {};
         var Body = "読み込み";
         break;
-    }
+    };
 
     var URL = "https://script.google.com/macros/s/AKfycbzQm1rsU9qHfmOCRgPguLLifPIPc4Ip6NMbei5rX0EGu8-XfJj8/exec";
     var Options = {
