@@ -182,7 +182,6 @@ function Game_load(width,height){
         };
       }
 
-
       function Character_direction_decision(){
         switch(Image[Images_Data.人].状態){
           case "空中":
@@ -503,6 +502,7 @@ function Game_load(width,height){
               game.input.down = false;
               game.input.left = false;
               game.input.right = false;
+              console.log(Value[Object.keys(Value)[i]].text);
               game.pushScene(Chat_Scene(Value[Object.keys(Value)[i]].text));
               break;
             }
@@ -630,14 +630,13 @@ function Game_load(width,height){
               COOLTime.up = 5;
               if(Datas.上キー) keydown(Datas.上キー);
             };
-            if(game.input.down){
-              if(COOLTime.down==0){
-                console.log("Flag = " + JSON.stringify(Flag));
-                console.log("StageData = " + JSON.stringify(Datas));
-                console.log("キャラx = " + Image[Images_Data.人].x);
-                console.log("キャラy = " + Image[Images_Data.人].y);
-              }
+            if(game.input.down && COOLTime.down==0){
+              console.log("Flag = " + JSON.stringify(Flag));
+              console.log("StageData = " + JSON.stringify(Datas));
+              console.log("キャラx = " + Image[Images_Data.人].x);
+              console.log("キャラy = " + Image[Images_Data.人].y);
               COOLTime.down = 5;
+              if(Datas.下キー) keydown(Datas.下キー);
             };
             if(game.input.left == game.input.right){
               Run = false;
@@ -920,6 +919,7 @@ function Game_load(width,height){
         Input(width/4*1,height/10*1,width/4,height/10,"","変化するデータ");
         Input(width/4*1,height/10*2,width/4,height/10,"","接触時");
         Input(width/4*1,height/10*3,width/4,height/10,"","非接触時");
+        Input(width/4*3,height/10*1,width/4,height/10,"","値");
 
         var Pull_down1 = new Entity();
         Pull_down1.moveTo(0,height/10*1+900);
@@ -933,7 +933,7 @@ function Game_load(width,height){
           Option1[k].text =  Image[k].name;
           Option1[k].value = Image[k].name;
           Pull_down1._element.appendChild(Option1[k]);
-        }
+        };
 
         var Pull_down2 = new Entity();
         Pull_down2.moveTo(width/4*1,height/10*0+900);
@@ -947,7 +947,7 @@ function Game_load(width,height){
           Option2[k].text =  Image[k].name;
           Option2[k].value = Image[k].name;
           Pull_down2._element.appendChild(Option2[k]);
-        }
+        };
 
         var Pull_down3 = new Entity();
         Pull_down3.moveTo(width/4*1,height/10*0+900);
@@ -956,7 +956,7 @@ function Game_load(width,height){
         Pull_down3._element = document.createElement("select");
         Pull_down3._style["font-size"] = 60;
         var Option3 = [];
-        for (var k = 0; k < 9; k++){
+        for (var k = 1; k < 9; k++){
           Option3[k] = document.createElement("option");
           switch(k){
             case 1:
@@ -993,7 +993,80 @@ function Game_load(width,height){
               break;
           };
           Pull_down3._element.appendChild(Option3[k]);
-        }
+        };
+
+        var Pull_down4 = new Entity();
+        Pull_down4.moveTo(width/4*1,height/10*1+900);
+        Pull_down4.width = width/4;
+        Pull_down4.height = height/10;
+        Pull_down4._element = document.createElement("select");
+        Pull_down4._style["font-size"] = 60;
+        var Option4 = [];
+        for (var k = 1; k < 4; k++){
+          Option4[k] = document.createElement("option");
+          switch(k){
+            case 1:
+              Option4[k].text =  "Cキー";
+              Option4[k].value = "cキー";
+              break;
+            case 2:
+              Option4[k].text =  "上キー";
+              Option4[k].value = "上キー";
+              break;
+            case 3:
+              Option4[k].text =  "下キー";
+              Option4[k].value = "下キー";
+              break;
+          };
+          Pull_down4._element.appendChild(Option4[k]);
+        };
+
+        var Pull_down5 = new Entity();
+        Pull_down5.moveTo(0,height/10*1+900);
+        Pull_down5.width = width/4;
+        Pull_down5.height = height/10;
+        Pull_down5._element = document.createElement("select");
+        Pull_down5._style["font-size"] = 60;
+        var Option5 = [];
+        var Option = document.createElement("option");
+        Pull_down5._element.appendChild(Option);
+        Pull_down5._element.appendChild(Option);
+        for (var k = 0; k < Image.length; k++){
+          Option5[k] = document.createElement("option");
+          Option5[k].text =  Image[k].name;
+          Option5[k].value = Image[k].name;
+          Pull_down5._element.appendChild(Option5[k]);
+        };
+
+        var Pull_down6 = new Entity();
+        Pull_down6.moveTo(width/4*2,height/10*1+900);
+        Pull_down6.width = width/4;
+        Pull_down6.height = height/10;
+        Pull_down6._element = document.createElement("select");
+        Pull_down6._style["font-size"] = 60;
+        var Option6 = [];
+        for (var k = 0; k < 5; k++){
+          Option6[k] = document.createElement("option");
+          switch(k){
+            case 1:
+              Option6[k].text =  "Message";
+              Option6[k].value = "text";
+              break;
+            case 2:
+              Option6[k].text =  "ステージ移動";
+              Option6[k].value = "ステージ移動";
+              break;
+            case 3:
+              Option6[k].text =  "x";
+              Option6[k].value = "x";
+              break;
+            case 4:
+              Option6[k].text =  "向き";
+              Option6[k].value = "向き";
+              break;
+          };
+          Pull_down6._element.appendChild(Option6[k]);
+        };
 
         function Buttons(x,y,a){
           Ui_Button[Ui_Button.length] = new Button(a,"light",width/4,height/10);
@@ -1005,17 +1078,14 @@ function Game_load(width,height){
             Hensyu_mood = true;
           });
           Ui_Button[Ui_Button.length-1].addEventListener("touchstart",function(e){
-            switch(this.text){
+            if(this.opacity==0) return;
+            this.switch = this.text;
+            Button_C();
+            switch(this.switch){
               case "物体":
                 Object_mood = true;
-                Ui_Button[0].opacity = 0;
-                Ui_Button[1].opacity = 0;
-                Ui_Button[4].opacity = 0;
-                Ui_Button[0].text = "";
-                Ui_Button[1].text = "";
-                Ui_Button[2].text = "削除する";
-                Ui_Button[3].text = "変更する";
-                Ui_Button[4].text = "";
+                Button_C(2,"削除する");
+                Button_C(3,"変更する");
                 scene.addChild(Pull_down1);
                 Inputs[10]._element.value = Image[Images_Data[Pull_down1._element.value]].url;
                 scene.addChild(Inputs[10]);
@@ -1032,16 +1102,6 @@ function Game_load(width,height){
                 break;
               case "配置":
                 Haiti_mood = true;
-                Ui_Button[0].opacity = 0;
-                Ui_Button[1].opacity = 0;
-                Ui_Button[2].opacity = 0;
-                Ui_Button[3].opacity = 0;
-                Ui_Button[4].opacity = 0;
-                Ui_Button[0].text = "";
-                Ui_Button[1].text = "";
-                Ui_Button[2].text = "";
-                Ui_Button[3].text = "";
-                Ui_Button[4].text = "";
                 scene.addChild(Inputs[0]);
                 scene.addChild(Inputs[1]);
                 break;
@@ -1070,26 +1130,16 @@ function Game_load(width,height){
                 return;
                 break;
               case "設定":
-                Ui_Button[0].text = "人";
-                Ui_Button[1].text = "物体";
-                Ui_Button[2].text = "物理";
-                Ui_Button[3].text = "戻る";
-                Ui_Button[4].text = "移動";
-                Ui_Button[5].text = "接触";
-                Ui_Button[4].opacity = 1;
-                Ui_Button[5].opacity = 1;
+                Button_C(0,"人");
+                Button_C(1,"物体");
+                Button_C(2,"物理");
+                Button_C(3,"移動");
+                Button_C(4,"接触");
+                Button_C(5,"ボタン");
+                Button_C(6,"戻る");
                 break;
               case "物理":
-                Ui_Button[0].opacity = 0;
-                Ui_Button[1].opacity = 0;
-                Ui_Button[2].opacity = 0;
-                Ui_Button[3].opacity = 1;
-                Ui_Button[4].opacity = 0;
-                Ui_Button[0].text = "";
-                Ui_Button[1].text = "";
-                Ui_Button[2].text = "";
-                Ui_Button[3].text = "物理設定";
-                Ui_Button[4].text = "";
+                Button_C(3,"物理設定");
                 if(Datas.設定){
                   if(Datas.設定.BGM) Inputs[25]._element.value = Datas.設定.BGM;
                   if(Datas.設定.BGMED) Inputs[26]._element.value = Datas.設定.BGMED;
@@ -1160,16 +1210,7 @@ function Game_load(width,height){
                 game.replaceScene(Main_Scene(Stage_Datas[Stage]));
                 break;
               case "移動":
-                Ui_Button[0].opacity = 0;
-                Ui_Button[1].opacity = 0;
-                Ui_Button[2].opacity = 0;
-                Ui_Button[3].opacity = 1;
-                Ui_Button[4].opacity = 0;
-                Ui_Button[0].text = "";
-                Ui_Button[1].text = "";
-                Ui_Button[2].text = "";
-                Ui_Button[3].text = "移動設定";
-                Ui_Button[4].text = "";
+                Button_C(3,"移動設定");
                 if(Datas.移動データ){
                   if(Datas.移動データ.左) Inputs[16]._element.value = Datas.移動データ.左;
                   if(Datas.移動データ.右) Inputs[17]._element.value = Datas.移動データ.右;
@@ -1192,14 +1233,10 @@ function Game_load(width,height){
                 scene.addChild(Inputs[24]);
                 break;
               case "戻る":
-                Ui_Button[0].text = "配置";
-                Ui_Button[1].text = "保存";
-                Ui_Button[2].text = "読み込み";
-                Ui_Button[3].text = "設定";
-                Ui_Button[4].text = "";
-                Ui_Button[5].text = "";
-                Ui_Button[4].opacity = 0;
-                Ui_Button[5].opacity = 0;
+                Button_C(0,"配置");
+                Button_C(1,"保存");
+                Button_C(2,"読み込み");
+                Button_C(3,"設定");
                 break;
               case "登録":
                 window.localStorage.setItem("ローカル人データ",JSON.stringify(Datas.人));
@@ -1214,18 +1251,63 @@ function Game_load(width,height){
                 Stage_Datas[Stage] = Datas;
                 game.replaceScene(Main_Scene(Stage_Datas[Stage]));
                 break;
+              case "全削除":
+                delete Datas[Pull_down4._element.value];
+                Stage_Datas[Stage] = Datas;
+                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                return;
+                break;
+              case "キー追加":
+                if(Datas[Pull_down4._element.value]){
+                  var Add_page = Object.keys(Datas[Pull_down4._element.value]).length+1;
+                  Datas[Pull_down4._element.value][Add_page] = {};
+                  switch(Pull_down6._element.value){
+                    case "text":
+                      Datas[Pull_down4._element.value][Add_page][Pull_down6._element.value] = {1:{text:Inputs[37]._element.value}};
+                      break;
+                    case "":
+                      Datas[Pull_down4._element.value][Add_page] = Inputs[37]._element.value;
+                      break;
+                    default:
+                      Datas[Pull_down4._element.value][Add_page][Pull_down6._element.value] = Inputs[37]._element.value;
+                      break;
+                  };
+                  if(Pull_down5._element.value){
+                    Datas[Pull_down4._element.value][Add_page]["1"] = {接触:Pull_down5._element.value};
+                  };
+                }
+                else{
+                  Datas[Pull_down4._element.value] = {1:{}};
+                  switch(Pull_down6._element.value){
+                    case "text":
+                      Datas[Pull_down4._element.value]["1"][Pull_down6._element.value] = {1:{text:Inputs[37]._element.value}};
+                      break;
+                    default:
+                      Datas[Pull_down4._element.value]["1"][Pull_down6._element.value] = Inputs[37]._element.value;
+                      break;
+                  };
+                  if(Pull_down5._element.value){
+                    Datas[Pull_down4._element.value]["1"]["1"] = {接触:Pull_down5._element.value};
+                  };
+                };
+                Stage_Datas[Stage] = Datas;
+                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                break;
+              case "ボタン":
+                Button_C(2,"全削除");
+                Button_C(3,"キー追加");
+                scene.addChild(Inputs[37]);
+                scene.addChild(Pull_down4);
+                scene.addChild(Pull_down5);
+                scene.addChild(Pull_down6);
+                break;
               case "人":
                 Human_image_add_mood = true;
-                Ui_Button[0].opacity = 0;
-                Ui_Button[1].opacity = 0;
-                Ui_Button[6].opacity = 1;
-                Ui_Button[7].opacity = 1;
-                Ui_Button[0].text = "";
-                Ui_Button[1].text = "";
-                Ui_Button[2].text = "減らす";
-                Ui_Button[3].text = "追加";
-                Ui_Button[4].text = "登録";
-                Ui_Button[5].text = "貼り付け";
+                Button_C(2,"減らす");
+                Button_C(3,"追加");
+                Button_C(4,"登録");
+                Button_C(5,"貼り付け");
+                Button_C(6,"他確認");
                 scene.addChild(Inputs[2]);
                 scene.addChild(Pull_down3);
                 break;
@@ -1367,23 +1449,15 @@ function Game_load(width,height){
                 break;
               case "接触":
                 Object_mood = true;
-                Ui_Button[0].opacity = 0;
-                Ui_Button[1].opacity = 0;
-                Ui_Button[4].opacity = 0;
-                Ui_Button[5].opacity = 0;
-                Ui_Button[0].text = "";
-                Ui_Button[1].text = "";
-                Ui_Button[2].text = "全部削除";
-                Ui_Button[3].text = "追加する";
-                Ui_Button[4].text = "";
-                Ui_Button[5].text = "";
+                Button_C(2,"全部削除");
+                Button_C(3,"追加する");
                 scene.addChild(Pull_down1);
                 scene.addChild(Pull_down2);
                 scene.addChild(Inputs[34]);
                 scene.addChild(Inputs[35]);
                 scene.addChild(Inputs[36]);
                 break;
-            }
+            };
           });
         };
 
@@ -1393,13 +1467,30 @@ function Game_load(width,height){
         Buttons(width/4*3,height/10*0 + 900,"設定");
         Buttons(width/4*0,height/10*1 + 900,"");
         Buttons(width/4*1,height/10*1 + 900,"");
-        Buttons(width/4*2,height/10*1 + 900,"他確認");
-        Buttons(width/4*3,height/10*1 + 900,"終了");
+        Buttons(width/4*2,height/10*1 + 900,"");
+        Buttons(width/4*3,height/10*1 + 900,"");
+        Buttons(width/4*3,height/10*4 + 900,"終了");
         Ui_Button[4].opacity = 0;
         Ui_Button[5].opacity = 0;
         Ui_Button[6].opacity = 0;
         Ui_Button[7].opacity = 0;
       }
+
+      function Button_C(a,b){
+        switch(a){
+          case undefined:
+            for (var i = 0; i < Ui_Button.length-1; i++) {
+              Ui_Button[i].text = "";
+              Ui_Button[i].opacity = 0;
+            }
+            break;
+          default:
+            Ui_Button[a].text = b;
+            Ui_Button[a].opacity = 1;
+            break;
+        }
+        return;
+      };
 
       return scene;
     };
