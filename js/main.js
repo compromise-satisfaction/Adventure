@@ -163,11 +163,11 @@ function Game_load(width,height){
         if(Datas.画像[Object.keys(Datas.画像)[i]].opacity!=undefined) Image[i].opacity = Datas.画像[Object.keys(Datas.画像)[i]].opacity;
         Images_Data[Image[i].name] = i;
         scene.addChild(Image[i]);
-        if(HTML=="編集") Images_atarihantei();
+        if(HTML == "編集") Images_atarihantei();
         return;
       };
 
-      if(HTML=="編集"){
+      if(HTML == "編集"){
         var Image_atarihantei = [];
         function Images_atarihantei(){
           Image_atarihantei[i] = new Sprite();
@@ -502,7 +502,6 @@ function Game_load(width,height){
               game.input.down = false;
               game.input.left = false;
               game.input.right = false;
-              console.log(Value[Object.keys(Value)[i]].text);
               game.pushScene(Chat_Scene(Value[Object.keys(Value)[i]].text));
               break;
             }
@@ -613,7 +612,7 @@ function Game_load(width,height){
               Image[Images_Data.人].rotation += Rotate;
             };
             Ground = Image[Images_Data.人].地面;
-            if(HTML=="編集") Ground += 900;
+            if(HTML == "編集") Ground += 900;
             if(Image[Images_Data.人].y < height - Image[Images_Data.人].height - Ground){
               State_change("空中");
             }
@@ -689,7 +688,7 @@ function Game_load(width,height){
                 if(Image[Images_Data.人].横加速度 > 20) Image[Images_Data.人].横加速度 -= Friction;
               }
             };
-            if(HTML=="編集"){
+            if(HTML == "編集"){
               Image_atarihantei[Images_Data.人].x = Image[Images_Data.人].x;
               Image_atarihantei[Images_Data.人].y = Image[Images_Data.人].y
             }
@@ -1076,8 +1075,6 @@ function Game_load(width,height){
           Ui_Button[Ui_Button.length-1].addEventListener("touchstart",function(e){
             Pad_opacity = 0;
             Hensyu_mood = true;
-          });
-          Ui_Button[Ui_Button.length-1].addEventListener("touchstart",function(e){
             if(this.opacity==0) return;
             this.switch = this.text;
             Button_C();
@@ -1474,7 +1471,7 @@ function Game_load(width,height){
         Ui_Button[5].opacity = 0;
         Ui_Button[6].opacity = 0;
         Ui_Button[7].opacity = 0;
-      }
+      };
 
       function Button_C(a,b){
         switch(a){
@@ -1512,7 +1509,6 @@ function Game_load(width,height){
         Image[i].x = x;
         Image[i].y = y;
         Image[i].name = b;
-        console.log(b);
         Images_Data[b] = i;
         scene.addChild(Image[i]);
         i++;
@@ -1525,7 +1521,10 @@ function Game_load(width,height){
         }
       }
 
-      if(HTML == "編集") Images(width,height/2,0,0,"image/textbox.png","背景");
+      if(HTML == "編集"){
+        Images(width,height/2,0,0,"image/textbox.png","背景");
+        Images(width,height/2,0,height/2,"image/白.png","白");
+      }
       else Images(width,height,0,0,"image/textbox.png","背景");
       Image[Images_Data.背景].opacity = 0.5;
 
@@ -1587,6 +1586,8 @@ function Game_load(width,height){
       }
       else Keydown_c();
 
+      var Next = Datas[k].next;
+
       function Text_write(){
         while(Datas[k].text[i]=="φ") i++;
         if(Datas[k].text[i]==":") Write = 1;
@@ -1609,100 +1610,103 @@ function Game_load(width,height){
       var C_N = null;
 
       scene.addEventListener("enterframe",function(){
-        for(var c = 0; c < Object.keys(COOLTime).length; c++){
-          if(COOLTime[Object.keys(COOLTime)[c]] > 0) COOLTime[Object.keys(COOLTime)[c]]--;
-        }
-        if(Write){
-          if(Write=="選択肢"){
-            Key_c = false;
-            i = Image.length;
-            for(var j = 0; j < Object.keys(Datas[k].選択肢).length; j++){
-              ChoiceText[j]._element.textContent = Datas[k].選択肢[Object.keys(Datas[k].選択肢)[j]].text;
-              ChoiceText[j].Number = j;
-              ChoiceText[j].opacity = 1;
-              ChoiceText[j].選択 = false;
-              Image[Images_Data["選択肢"+j]].Number = j;
-              Image[Images_Data["選択肢"+j]].next = Datas[k].選択肢[Object.keys(Datas[k].選択肢)[j]].next;
-              Image[Images_Data["選択肢"+j]].text = ChoiceText[j]._element.textContent;
-              Image[Images_Data["選択肢"+j]].opacity = 0.5;
-            }
-            ChoiceText[j-1].選択 = true;
-            ChoiceText[j-1]._element.textContent = "▶ " + ChoiceText[j-1]._element.textContent;
-            Datas[k].next = Datas[k].選択肢[Object.keys(Datas[k].選択肢)[j-1]].next;
-            C_N = j-1;
-            Write = false;
-          }
-          else Text_write();
-          if(Key_c && COOLTime.c_key == 0){
-            COOLTime.c_key = 5;
-            Write = 2;
-          }
-        }
-        else{
-          if(Datas[k].選択肢){
-            if(game.input.down){
-              if(COOLTime.down==0){
-                if(C_N){
-                  ChoiceText[C_N].選択 = false;
-                  ChoiceText[C_N]._element.textContent = ChoiceText[C_N]._element.textContent.substring(2);
-                  C_N--;
-                  ChoiceText[C_N].選択 = true;
-                  ChoiceText[C_N]._element.textContent = "▶ " + ChoiceText[C_N]._element.textContent;
-                  Datas[k].next = Datas[k].選択肢[C_N+1].next;
-                }
-                COOLTime.down = 5;
-              }
-            }
-            if(game.input.up){
-              if(COOLTime.up==0){
-                if(C_N < Object.keys(Datas[k].選択肢).length-1){
-                  ChoiceText[C_N].選択 = false;
-                  ChoiceText[C_N]._element.textContent = ChoiceText[C_N]._element.textContent.substring(2);
-                  C_N++;
-                  ChoiceText[C_N].選択 = true;
-                  ChoiceText[C_N]._element.textContent = "▶ " + ChoiceText[C_N]._element.textContent;
-                  Datas[k].next = Datas[k].選択肢[C_N+1].next;
-                }
-                COOLTime.up = 5;
-              }
-            }
-          }
-          if(Key_x){
-            Image[Images_Data.背景].opacity = 0;
-            for(var i = 0; i < 90; i++) Text[i].opacity = 0;
-            if(Datas[k].選択肢){
+        if(!Hensyu_mood){
+          for(var c = 0; c < Object.keys(COOLTime).length; c++){
+            if(COOLTime[Object.keys(COOLTime)[c]] > 0) COOLTime[Object.keys(COOLTime)[c]]--;
+          };
+          if(Write){
+            if(Write=="選択肢"){
+              Key_c = false;
+              i = Image.length;
               for(var j = 0; j < Object.keys(Datas[k].選択肢).length; j++){
-                ChoiceText[j].opacity = 0;
-                Image[Images_Data["選択肢"+j]].opacity = 0;
-              };
-            };
+                ChoiceText[j]._element.textContent = Datas[k].選択肢[Object.keys(Datas[k].選択肢)[j]].text;
+                ChoiceText[j].Number = j;
+                ChoiceText[j].opacity = 1;
+                ChoiceText[j].選択 = false;
+                Image[Images_Data["選択肢"+j]].Number = j;
+                Image[Images_Data["選択肢"+j]].next = Datas[k].選択肢[Object.keys(Datas[k].選択肢)[j]].next;
+                Image[Images_Data["選択肢"+j]].text = ChoiceText[j]._element.textContent;
+                Image[Images_Data["選択肢"+j]].opacity = 0.5;
+              }
+              ChoiceText[j-1].選択 = true;
+              ChoiceText[j-1]._element.textContent = "▶ " + ChoiceText[j-1]._element.textContent;
+              Next = Datas[k].選択肢[Object.keys(Datas[k].選択肢)[j-1]].next;
+              C_N = j-1;
+              Write = false;
+            }
+            else Text_write();
+            if(Key_c && COOLTime.c_key == 0){
+              COOLTime.c_key = 5;
+              Write = 2;
+            }
           }
           else{
-            Image[Images_Data.背景].opacity = 0.5;
-            for(var i = 0; i < 90; i++) Text[i].opacity = 1;
             if(Datas[k].選択肢){
-              for(var j = 0; j < Object.keys(Datas[k].選択肢).length; j++){
-                ChoiceText[j].opacity = 1;
-                Image[Images_Data["選択肢"+j]].opacity = 0.5;
+              if(game.input.down){
+                if(COOLTime.down==0){
+                  if(C_N){
+                    ChoiceText[C_N].選択 = false;
+                    ChoiceText[C_N]._element.textContent = ChoiceText[C_N]._element.textContent.substring(2);
+                    C_N--;
+                    ChoiceText[C_N].選択 = true;
+                    ChoiceText[C_N]._element.textContent = "▶ " + ChoiceText[C_N]._element.textContent;
+                    Next = Datas[k].選択肢[C_N+1].next;
+                  }
+                  COOLTime.down = 5;
+                }
+              }
+              if(game.input.up){
+                if(COOLTime.up==0){
+                  if(C_N < Object.keys(Datas[k].選択肢).length-1){
+                    ChoiceText[C_N].選択 = false;
+                    ChoiceText[C_N]._element.textContent = ChoiceText[C_N]._element.textContent.substring(2);
+                    C_N++;
+                    ChoiceText[C_N].選択 = true;
+                    ChoiceText[C_N]._element.textContent = "▶ " + ChoiceText[C_N]._element.textContent;
+                    Next = Datas[k].選択肢[C_N+1].next;
+                  }
+                  COOLTime.up = 5;
+                }
+              }
+            }
+            if(Key_x){
+              Image[Images_Data.背景].opacity = 0;
+              for(var i = 0; i < 90; i++) Text[i].opacity = 0;
+              if(Datas[k].選択肢){
+                for(var j = 0; j < Object.keys(Datas[k].選択肢).length; j++){
+                  ChoiceText[j].opacity = 0;
+                  Image[Images_Data["選択肢"+j]].opacity = 0;
+                };
+              };
+            }
+            else{
+              Image[Images_Data.背景].opacity = 0.5;
+              for(var i = 0; i < 90; i++) Text[i].opacity = 1;
+              if(Datas[k].選択肢){
+                for(var j = 0; j < Object.keys(Datas[k].選択肢).length; j++){
+                  ChoiceText[j].opacity = 1;
+                  Image[Images_Data["選択肢"+j]].opacity = 0.5;
+                };
               };
             };
+            if(Key_c && COOLTime.c_key == 0 && Image[Images_Data.背景].opacity == 0.5){
+              COOLTime.c_key = 5;
+              for(var j = 0; j < 5; j++){
+                ChoiceText[j].opacity = 0;
+                Image[Images_Data["選択肢"+j]].opacity = 0;
+              }
+              Keydown_c();
+            };
           };
-          if(Key_c && COOLTime.c_key == 0 && Image[Images_Data.背景].opacity == 0.5){
-            COOLTime.c_key = 5;
-            for(var j = 0; j < 5; j++){
-              ChoiceText[j].opacity = 0;
-              Image[Images_Data["選択肢"+j]].opacity = 0;
-            }
-            Keydown_c();
-          };
-        }
+        };
       });
 
       function Keydown_c(){
-        if(Datas[k+1]||Datas[k].next){
-          if(Datas[k].next) k = Datas[k].next;
+        if(Datas[k+1]||Next){
+          if(Next) k = Next;
           else k++;
           if(!Datas[k]) Datas[k] = {"text":"存在しないデータ。"};
+          Next = Datas[k].next;
           i = 0;
           if(Datas[k].音) SE1.src = Datas[k].音;
           if(Datas[k].image){
@@ -1773,7 +1777,7 @@ function Game_load(width,height){
           }
         }
         return;
-      }
+      };
 
       for(var j = 0; j < 5; j++){
         Image[Images_Data["選択肢"+j]].addEventListener("touchend",function(e){
@@ -1784,7 +1788,7 @@ function Game_load(width,height){
           if(this.opacity) Choice_Choice(Image[Images_Data["選択肢"+this.Number]]);
           return;
         });
-      }
+      };
 
       function Choice_Choice(image){
         if(ChoiceText[image.Number].選択){
@@ -1800,11 +1804,11 @@ function Game_load(width,height){
             ChoiceText[a]._element.textContent = Image[Images_Data["選択肢"+a]].text;
           }
           C_N = image.Number;
-          Datas[k].next = image.next;
+          Next = image.next;
           ChoiceText[image.Number].選択 = true;
           ChoiceText[image.Number]._element.textContent = "▶ " + image.text;
         }
-      }
+      };
 
       scene.addEventListener("touchstart",function(e){
         if(!Datas[k].選択肢) Key_c = true;
@@ -1815,6 +1819,127 @@ function Game_load(width,height){
         Key_c = false;
         return;
       });
+
+      if(HTML == "編集"){
+
+        var Ui_Button = [];
+        var Hensyu_mood = false;
+        var Inputs = [];
+
+        function Input(x,y,w,h,v,p){
+          Inputs[Inputs.length] = new Entity();
+          Inputs[Inputs.length-1].moveTo(x,y+900);
+          Inputs[Inputs.length-1].width = w;
+          Inputs[Inputs.length-1].height = h;
+          Inputs[Inputs.length-1]._element = document.createElement("textarea");
+          Inputs[Inputs.length-1]._style["font-size"] = 60;
+          Inputs[Inputs.length-1]._element.value = v;
+          Inputs[Inputs.length-1]._element.placeholder = p;
+        };
+
+        function Buttons(x,y,a){
+          Ui_Button[Ui_Button.length] = new Button(a,"light",width/4,height/10);
+          Ui_Button[Ui_Button.length-1].moveTo(x,y);
+          Ui_Button[Ui_Button.length-1]._style["font-size"] = height/20;
+          if(!a) Ui_Button[Ui_Button.length-1].opacity = 0;
+          scene.addChild(Ui_Button[Ui_Button.length-1]);
+          Ui_Button[Ui_Button.length-1].addEventListener("touchstart",function(e){
+            Hensyu_mood = true;
+            if(this.opacity==0) return;
+            this.switch = this.text;
+            Button_C();
+            switch(this.switch){
+              case "全選択消":
+                delete Datas[k].選択肢;
+                game.replaceScene(Chat_Scene(Datas));
+                break;
+              case "設定":
+                if(Datas[k].text) Inputs[0]._element.value = Datas[k].text;
+                if(Datas[k].next) Inputs[1]._element.value = Datas[k].next;
+                if(Datas[k].音) Inputs[2]._element.value = Datas[k].音;
+                if(Datas[k].BGM) Inputs[3]._element.value = Datas[k].BGM;
+                if(Datas[k].フラグ) Inputs[4]._element.value = Datas[k].フラグ;
+                scene.addChild(Inputs[0]);
+                scene.addChild(Inputs[1]);
+                scene.addChild(Inputs[2]);
+                scene.addChild(Inputs[3]);
+                scene.addChild(Inputs[4]);
+                scene.addChild(Inputs[5]);
+                scene.addChild(Inputs[6]);
+                Button_C(0,"決定");
+                Button_C(1,"全選択消");
+                break;
+              case "決定":
+                if(Inputs[0]._element.value){
+                  Datas[k].text = Inputs[0]._element.value;
+                }
+                else delete Datas[k].text;
+                if(Inputs[1]._element.value){
+                  Datas[k].next = Inputs[1]._element.value;
+                }
+                else delete Datas[k].next;
+                if(Inputs[2]._element.value){
+                  Datas[k].音 = Inputs[2]._element.value;
+                }
+                else delete Datas[k].音;
+                if(Inputs[3]._element.value){
+                  Datas[k].BGM = Inputs[3]._element.value;
+                }
+                else delete Datas[k].BGM;
+                if(Inputs[4]._element.value){
+                  Datas[k].フラグ = Inputs[4]._element.value;
+                }
+                else delete Datas[k].フラグ;
+                if(Inputs[5]._element.value){
+                  if(Datas[k].選択肢){
+                    if(Object.keys(Datas[k].選択肢).length < 5){
+                      Datas[k].選択肢[Object.keys(Datas[k].選択肢).length+1] = {};
+                      Datas[k].選択肢[Object.keys(Datas[k].選択肢).length].text = Inputs[5]._element.value;
+                      if(Inputs[6]._element.value){
+                        Datas[k].選択肢[Object.keys(Datas[k].選択肢).length].next = Inputs[6]._element.value;
+                      }
+                    }
+                  }
+                  else Datas[k].選択肢 = {1:{text:Inputs[5]._element.value,next:Inputs[6]._element.value}};
+                }
+                game.replaceScene(Chat_Scene(Datas));
+                break;
+              case "終了":
+                game.replaceScene(Chat_Scene(Datas));
+                break;
+            };
+          });
+        };
+
+        Buttons(width/4*0,height/10*0 + 900,"設定");
+        Buttons(width/4*1,height/10*0 + 900,"");
+        Buttons(width/4*3,height/10*4 + 900,"終了");
+
+        Input(width/4*0,height/10*1,width/4,height/10,"","テキスト");
+        Input(width/4*1,height/10*1,width/4,height/10,"","ネクスト");
+        Input(width/4*2,height/10*1,width/4,height/10,"","テキストサウンドのURL");
+        Input(width/4*3,height/10*1,width/4,height/10,"","BGM");
+        Input(width/4*3,height/10*2,width/4,height/10,"","フラグ");
+        Input(width/4*2,height/10*0,width/4,height/10,"","選択肢");
+        Input(width/4*3,height/10*0,width/4,height/10,"","選択肢の分岐");
+
+        function Button_C(a,b){
+          switch(a){
+            case undefined:
+              for (var i = 0; i < Ui_Button.length-1; i++) {
+                Ui_Button[i].text = "";
+                Ui_Button[i].opacity = 0;
+              }
+              break;
+            default:
+              Ui_Button[a].text = b;
+              Ui_Button[a].opacity = 1;
+              break;
+          }
+          return;
+        };
+
+      };
 
       return scene;
     };
