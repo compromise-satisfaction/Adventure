@@ -1,6 +1,6 @@
 var Stage_Datas = {};
 var Message_Datas = {};
-Message_Datas.看板 = {
+Stage_Datas.看板 = {
   "image":{0:{name:"その1",width:1600,height:900,x:0,y:0}},
   "image":{1:{name:"その2",width:1600,height:900,x:0,y:0}},
   "image":{2:{name:"その3",width:1600,height:900,x:0,y:0}},
@@ -26,33 +26,34 @@ Message_Datas.看板 = {
     }
   }
 };
-Message_Datas.看板2 = {
+Stage_Datas.看板既読 = {
   1:{"text":"看板:φφφφφφφφφφφφφφφまた会いましょう。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
 };
-Message_Datas.海看板 = {
+Stage_Datas.海看板 = {
   1:{"text":"看板:φφφφφφφφφφφφφφφ目覚めるには浮上しろ。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
 };
-Message_Datas.夢看板 = {
+Stage_Datas.夢看板 = {
   1:{"text":"看板:φφφφφφφφφφφφφφφよう！また会ったな！φφφφφφφφもう操作はバッチリっぽいな！","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
   2:{"text":"看板:φφφφφφφφφφφφφφφ起きたきゃまた右に行くんだぜ！","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
 };
-Message_Datas.夢看板2 = {
+Stage_Datas.寝すぎ = {
   1:{"text":"看板:φφφφφφφφφφφφφφφまた来たのか。φφφφφφφφφφφちょっと寝すぎじゃね？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"}
 };
-Message_Datas.表札 = {
+Stage_Datas.表札 = {
   1:{text:"表札:φφφφφφφφφφφφφφφなんとか学園。",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"}
 };
-Message_Datas.カード = {
+Stage_Datas.カード = {
   1:{フラグ:"カード拾い","固定値":0},
   2:{"text":"カードを10枚拾った！","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",フラグ:"カード","増加量":10}
 };
-Message_Datas.カードない = {
+Stage_Datas.カードない = {
   1:{"text":"カードが流れてきそうな空間だ。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"}
 };
-Message_Datas.百円 = {
+Stage_Datas.百円 = {
   1:{text:"百円玉を見つけた！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",フラグ:"所持金",増加量:100}
 };
-Message_Datas.ベッド = {
+Stage_Datas.ベッド = {
+  image:{0:{name:"闇",width:1600,height:900,x:0,y:0}},
   1:{text:"My bed.",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
   寝:{フラグ:"カード拾い","固定値":1,next:"月",text:"寝た！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
   月:{フラグ:"睡眠回数","増加量":1,x:820,向き:"右",ステージ移動:"月",text:"夢を見た！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
@@ -69,7 +70,7 @@ Message_Datas.ベッド = {
     }
   }
 };
-Message_Datas.ミミ = {
+Stage_Datas.ミミ = {
   "image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}},
   1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
   2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
@@ -77,7 +78,7 @@ Message_Datas.ミミ = {
   5:{"text":"ミミ:φφφφφφφφφφφφφφφデッキを持ってない？φφφφφφφφじゃあ仕方ないわね。φφφφφφφφさっさと終わらせて帰るわ。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
   4:{BGM:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/BGM/VS 天上院明日香.wav",BGMED:38.015,"text":"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ2.png",width:1600,height:900,x:0,y:0}}}
 };
-Message_Datas.ミミ2 = {
+Stage_Datas.ミミ2 = {
   "image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}},
   1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
   2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
@@ -85,7 +86,7 @@ Message_Datas.ミミ2 = {
   4:{"text":"ミミ:φφφφφφφφφφφφφφφそうね、ラッシュデュエルで勝った方がお掃除当番をするっていうのはどう？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ2.png",width:1600,height:900,x:0,y:0}}},
   5:{"text":"ミミ:φφφφφφφφφφφφφφφあら？カードが足りないみたいね。φφデッキは最低40枚いるわよ。φφφφこれじゃ仕方ないわね。φφφφφφφさっさと終わらせて帰るわ。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav","image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}}},
 };
-Message_Datas.ミミ3 = {
+Stage_Datas.ミミ3 = {
   "image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}},
   1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
   2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
@@ -242,7 +243,7 @@ var height = 900;
 
 Stage_Datas.最初 = {
   人:Stick_figure,
-  人:Paipai,
+  //人:Paipai,
   設定:{ジャンプ:1000},
   画像:{
     操作説明:{width:450,height:450,x:0,y:0,src:"image/操作説明.png",opacity:0},
@@ -298,7 +299,7 @@ Stage_Datas.最初 = {
       対象:"看板ポップ",
       データ:"opacity",
       値:0,
-      text:Message_Datas.看板
+      text:"看板"
     },
     2:{
       1:{接触:"看板"},
@@ -306,7 +307,7 @@ Stage_Datas.最初 = {
       対象:"看板ポップ",
       データ:"opacity",
       値:0,
-      text:Message_Datas.夢看板2
+      text:"寝すぎ"
     },
     3:{
       1:{接触:"看板"},
@@ -314,7 +315,7 @@ Stage_Datas.最初 = {
       対象:"看板ポップ",
       データ:"opacity",
       値:0,
-      text:Message_Datas.夢看板
+      text:"夢看板"
     },
     4:{
       1:{接触:"看板"},
@@ -322,7 +323,7 @@ Stage_Datas.最初 = {
       対象:"看板ポップ",
       データ:"opacity",
       値:0,
-      text:Message_Datas.看板2
+      text:"看板既読"
     }
   },
   移動データ:{右:"部屋",右x:700}
@@ -362,14 +363,14 @@ Stage_Datas.部屋 = {
       対象:"？",
       データ:"opacity",
       値:0,
-      text:Message_Datas.百円
+      text:"百円"
     },
     2:{
       1:{接触:"ベッド"},
       対象:"調べる",
       データ:"opacity",
       値:0,
-      text:Message_Datas.ベッド
+      text:"ベッド"
     }
   },
   人:Nizinizi,
@@ -476,7 +477,7 @@ Stage_Datas.学校入口 = {
       対象:"学校ポップ",
       データ:"opacity",
       値:0,
-      text:Message_Datas.表札
+      text:"表札"
     }
   },
   移動データ:{左:"道",右:"森3"}
@@ -531,7 +532,7 @@ Stage_Datas.学校教室 = {
       値:0,
       x:880,
       向き:"右",
-      text:Message_Datas.ミミ
+      text:"ミミ"
     },
     2:{
       1:{接触:"ミミ"},
@@ -541,7 +542,7 @@ Stage_Datas.学校教室 = {
       値:0,
       x:880,
       向き:"右",
-      text:Message_Datas.ミミ2
+      text:"ミミ2"
     },
     3:{
       1:{接触:"ミミ"},
@@ -551,7 +552,7 @@ Stage_Datas.学校教室 = {
       値:0,
       x:880,
       向き:"右",
-      text:Message_Datas.ミミ3
+      text:"ミミ3"
     }
   },
   移動データ:{左:"学校廊下"}
@@ -590,7 +591,7 @@ Stage_Datas.月 = {
       対象:"？",
       データ:"opacity",
       値:0,
-      text:Message_Datas.カード
+      text:"カード"
     },
     2:{
       1:{接触:"カード"},
@@ -598,7 +599,7 @@ Stage_Datas.月 = {
       対象:"？",
       データ:"opacity",
       値:0,
-      text:Message_Datas.カードない
+      text:"カードない"
     }
   },
   移動データ:{右:"氷河",左:"海底"}
@@ -660,7 +661,7 @@ Stage_Datas.海底 = {
       対象:"看板ポップ",
       データ:"opacity",
       値:0,
-      text:Message_Datas.海看板
+      text:"海看板"
     }
   },
   移動データ:{右:"月",左:"氷河",上:"最初",上x:0,上向き:"右"}

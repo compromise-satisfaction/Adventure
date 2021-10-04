@@ -6,6 +6,7 @@ var Key_c = false;
 var Character_X = 0;
 var Character_direction = "右";
 var Flag = {};
+var Chat = "最初";
 var Stage = "最初";
 var COOLTime = {c_key:0,run:0,down:0,right:0,left:0,up:0};
 var Run = false;
@@ -502,7 +503,8 @@ function Game_load(width,height){
               game.input.down = false;
               game.input.left = false;
               game.input.right = false;
-              game.pushScene(Chat_Scene(Value[Object.keys(Value)[i]].text));
+              Chat = Value[Object.keys(Value)[i]].text;
+              game.pushScene(Chat_Scene(Stage_Datas[Chat]));
               break;
             }
           }
@@ -630,10 +632,10 @@ function Game_load(width,height){
               if(Datas.上キー) keydown(Datas.上キー);
             };
             if(game.input.down && COOLTime.down==0){
-              console.log("Flag = " + JSON.stringify(Flag));
               console.log("StageData = " + JSON.stringify(Datas));
               console.log("キャラx = " + Image[Images_Data.人].x);
               console.log("キャラy = " + Image[Images_Data.人].y);
+              console.log("Flag = " + JSON.stringify(Flag));
               COOLTime.down = 5;
               if(Datas.下キー) keydown(Datas.下キー);
             };
@@ -1076,11 +1078,10 @@ function Game_load(width,height){
             Pad_opacity = 0;
             Hensyu_mood = true;
             if(this.opacity==0) return;
-            this.switch = this.text;
-            Button_C();
-            switch(this.switch){
+            switch(this.text){
               case "物体":
                 Object_mood = true;
+                Button_C();
                 Button_C(2,"削除する");
                 Button_C(3,"変更する");
                 scene.addChild(Pull_down1);
@@ -1098,6 +1099,7 @@ function Game_load(width,height){
                 scene.addChild(Inputs[15]);
                 break;
               case "配置":
+                Button_C();
                 Haiti_mood = true;
                 scene.addChild(Inputs[0]);
                 scene.addChild(Inputs[1]);
@@ -1127,6 +1129,7 @@ function Game_load(width,height){
                 return;
                 break;
               case "設定":
+                Button_C();
                 Button_C(0,"人");
                 Button_C(1,"物体");
                 Button_C(2,"物理");
@@ -1136,6 +1139,7 @@ function Game_load(width,height){
                 Button_C(6,"戻る");
                 break;
               case "物理":
+                Button_C();
                 Button_C(3,"物理設定");
                 if(Datas.設定){
                   if(Datas.設定.BGM) Inputs[25]._element.value = Datas.設定.BGM;
@@ -1207,6 +1211,7 @@ function Game_load(width,height){
                 game.replaceScene(Main_Scene(Stage_Datas[Stage]));
                 break;
               case "移動":
+                Button_C();
                 Button_C(3,"移動設定");
                 if(Datas.移動データ){
                   if(Datas.移動データ.左) Inputs[16]._element.value = Datas.移動データ.左;
@@ -1230,6 +1235,7 @@ function Game_load(width,height){
                 scene.addChild(Inputs[24]);
                 break;
               case "戻る":
+                Button_C();
                 Button_C(0,"配置");
                 Button_C(1,"保存");
                 Button_C(2,"読み込み");
@@ -1291,6 +1297,7 @@ function Game_load(width,height){
                 game.replaceScene(Main_Scene(Stage_Datas[Stage]));
                 break;
               case "ボタン":
+                Button_C();
                 Button_C(2,"全削除");
                 Button_C(3,"キー追加");
                 scene.addChild(Inputs[37]);
@@ -1300,6 +1307,7 @@ function Game_load(width,height){
                 break;
               case "人":
                 Human_image_add_mood = true;
+                Button_C();
                 Button_C(2,"減らす");
                 Button_C(3,"追加");
                 Button_C(4,"登録");
@@ -1446,6 +1454,7 @@ function Game_load(width,height){
                 break;
               case "接触":
                 Object_mood = true;
+                Button_C();
                 Button_C(2,"全部削除");
                 Button_C(3,"追加する");
                 scene.addChild(Pull_down1);
@@ -1493,6 +1502,9 @@ function Game_load(width,height){
     };
     var Chat_Scene = function(Datas){
       var scene = new Scene();
+
+      if(Datas) console.log(Datas);
+      else Datas = {1:{"text":"存在しないデータ。"}};
 
       var i = 0;
       var Image = [];
@@ -1846,11 +1858,10 @@ function Game_load(width,height){
           Ui_Button[Ui_Button.length-1].addEventListener("touchstart",function(e){
             Hensyu_mood = true;
             if(this.opacity==0) return;
-            this.switch = this.text;
-            Button_C();
-            switch(this.switch){
+            switch(this.text){
               case "全選択消":
                 delete Datas[k].選択肢;
+                Stage_Datas[Chat] = Datas;
                 game.replaceScene(Chat_Scene(Datas));
                 break;
               case "設定":
@@ -1866,6 +1877,7 @@ function Game_load(width,height){
                 scene.addChild(Inputs[4]);
                 scene.addChild(Inputs[5]);
                 scene.addChild(Inputs[6]);
+                Button_C();
                 Button_C(0,"決定");
                 Button_C(1,"全選択消");
                 break;
@@ -1902,9 +1914,11 @@ function Game_load(width,height){
                   }
                   else Datas[k].選択肢 = {1:{text:Inputs[5]._element.value,next:Inputs[6]._element.value}};
                 }
+                Stage_Datas[Chat] = Datas;
                 game.replaceScene(Chat_Scene(Datas));
                 break;
               case "終了":
+                Stage_Datas[Chat] = Datas;
                 game.replaceScene(Chat_Scene(Datas));
                 break;
             };
