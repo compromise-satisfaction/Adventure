@@ -11,6 +11,7 @@ var Stage = "最初";
 var COOLTime = {c_key:0,run:0,down:0,right:0,left:0,up:0};
 var Run = false;
 var Pad_opacity = 0;
+var Change_Box = null;
 
 var SE1 = document.createElement("audio");
 var SE2 = document.createElement("audio");
@@ -2020,7 +2021,7 @@ function Game_load(width,height){
       for (var i = 0; i < result.length; i++) {
         Stage_Datas[result[i].名前] = JSON.parse(result[i].ステージ);
         if(result[i].名前=="変換"){
-          var Change_Box = JSON.parse(result[i].ステージ);
+          Change_Box = JSON.parse(result[i].ステージ);
         }
       }
       if(!Stage_Datas[Stage]) Stage = "最初";
