@@ -2012,7 +2012,7 @@ function Game_load(width,height){
             for (var k = 0; k < Change_Box.length; k++) {
               var Reg = new RegExp(Change_Box[k][0],"g");
               Stage_Datas[Object.keys(Stage_Datas)[i]] = JSON.stringify(Stage_Datas[Object.keys(Stage_Datas)[i]]);
-              Stage_Datas[Object.keys(Stage_Datas)[i]].replace(Reg,Change_Box[k][1]);
+              Stage_Datas[Object.keys(Stage_Datas)[i]] = Stage_Datas[Object.keys(Stage_Datas)[i]].replace(Reg,Change_Box[k][1]);
               Stage_Datas[Object.keys(Stage_Datas)[i]] = JSON.parse(Stage_Datas[Object.keys(Stage_Datas)[i]]);
             }
           };
