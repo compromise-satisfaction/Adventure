@@ -96,6 +96,15 @@ function Game_load(width,height){
       if(!Datas){
         Datas = {画像:{}};
       }
+
+      if(Change_Box){
+        for (var i = 0; i < Change_Box.length; i++) {
+          var Reg = new RegExp(Change_Box[i][0],"g");
+          Datas = JSON.stringify(Datas);
+          Datas = Datas.replace(Reg,Change_Box[i][1]);
+          Datas = JSON.parse(Datas);
+        };
+      };
       console.log(Datas);
 
       var scene = new Scene();
@@ -1503,8 +1512,16 @@ function Game_load(width,height){
     var Chat_Scene = function(Datas){
       var scene = new Scene();
 
-      if(Datas) console.log(Datas);
-      else Datas = {1:{"text":"存在しないデータ。"}};
+      if(!Datas) Datas = {1:{"text":"存在しないデータ。"}};
+      if(Change_Box){
+        for (var i = 0; i < Change_Box.length; i++) {
+          var Reg = new RegExp(Change_Box[i][0],"g");
+          Datas = JSON.stringify(Datas);
+          Datas = Datas.replace(Reg,Change_Box[i][1]);
+          Datas = JSON.parse(Datas);
+        };
+      };
+      console.log(Datas);
 
       var i = 0;
       var Image = [];
@@ -2004,18 +2021,6 @@ function Game_load(width,height){
         Stage_Datas[result[i].名前] = JSON.parse(result[i].ステージ);
         if(result[i].名前=="変換"){
           var Change_Box = JSON.parse(result[i].ステージ);
-        }
-      }
-      if(Change_Box){
-        for (var i = 0; i < Object.keys(Stage_Datas).length; i++) {
-          if(Object.keys(Stage_Datas)[i]!="変換"){
-            for (var k = 0; k < Change_Box.length; k++) {
-              var Reg = new RegExp(Change_Box[k][0],"g");
-              Stage_Datas[Object.keys(Stage_Datas)[i]] = JSON.stringify(Stage_Datas[Object.keys(Stage_Datas)[i]]);
-              Stage_Datas[Object.keys(Stage_Datas)[i]] = Stage_Datas[Object.keys(Stage_Datas)[i]].replace(Reg,Change_Box[k][1]);
-              Stage_Datas[Object.keys(Stage_Datas)[i]] = JSON.parse(Stage_Datas[Object.keys(Stage_Datas)[i]]);
-            }
-          };
         }
       }
       if(!Stage_Datas[Stage]) Stage = "最初";
