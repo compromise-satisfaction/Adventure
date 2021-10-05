@@ -2192,12 +2192,21 @@ function Game_load(width,height){
                       break;
                     };
                   };
-                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].src!=undefined) Inputs[8]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].src;
-                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].x!=undefined) Inputs[9]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].x;
-                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].y!=undefined) Inputs[10]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].y;
-                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].width!=undefined) Inputs[11]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].width;
-                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].height!=undefined) Inputs[12]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].height;
+                  if(o == Object.keys(Datas[k].image).length){
+                    Datas[k].image[Object.keys(Datas[k].image).length] = {name:Pull_down1._element.value};
+                  };
                 }
+                else Datas[k].image = {1:{name:Pull_down1._element.value}};
+                for (var o = 0; o < Object.keys(Datas[k].image).length; o++){
+                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].name==Pull_down1._element.value){
+                    break;
+                  };
+                };
+                if(Datas[k].image[Object.keys(Datas[k].image)[o]].src!=undefined) Inputs[8]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].src;
+                if(Datas[k].image[Object.keys(Datas[k].image)[o]].x!=undefined) Inputs[9]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].x;
+                if(Datas[k].image[Object.keys(Datas[k].image)[o]].y!=undefined) Inputs[10]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].y;
+                if(Datas[k].image[Object.keys(Datas[k].image)[o]].width!=undefined) Inputs[11]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].width;
+                if(Datas[k].image[Object.keys(Datas[k].image)[o]].height!=undefined) Inputs[12]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].height;
                 Button_C();
                 Button_C(3,"画像設定");
                 scene.addChild(Pull_down1);
