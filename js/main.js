@@ -582,8 +582,8 @@ function Game_load(width,height){
               Datas.画像[Inputs[0]._element.value] = {
                 width:(Math.floor(e.x)-Haiti_image_x),
                 height:(Math.floor(e.y)-Haiti_image_y),
-                x:Haiti_image_x,
-                y:Haiti_image_y
+                x:Haiti_image_x + Stage_X,
+                y:Haiti_image_y - Stage_Y
               }
               if(Inputs[1]._element.value) Datas.画像[Inputs[0]._element.value].src = Inputs[1]._element.value;
               Stage_Datas[Stage] = Datas;
