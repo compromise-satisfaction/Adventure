@@ -1934,7 +1934,10 @@ function Game_load(width,height){
               default:
                 window.localStorage.setItem("Flag",JSON.stringify(Flag));
                 window.localStorage.setItem("Stage",JSON.stringify(Stage));
+                window.localStorage.setItem("Stage_X",JSON.stringify(Stage_X));
+                window.localStorage.setItem("Stage_Y",JSON.stringify(Stage_Y));
                 window.localStorage.setItem("Character_X",JSON.stringify(Character_X));
+                window.localStorage.setItem("Character_Y",JSON.stringify(Character_Y));
                 window.localStorage.setItem("Character_direction",JSON.stringify(Character_direction));
                 break;
             }
@@ -2157,9 +2160,21 @@ function Game_load(width,height){
       Stage = window.localStorage.getItem("Stage");
       Stage = JSON.parse(Stage);
     };
+    if(window.localStorage.getItem("Stage_X")){
+      Stage_X = window.localStorage.getItem("Stage_X");
+      Stage_X = JSON.parse(Stage_X);
+    };
+    if(window.localStorage.getItem("Stage_Y")){
+      Stage_Y = window.localStorage.getItem("Stage_Y");
+      Stage_Y = JSON.parse(Stage_Y);
+    };
     if(window.localStorage.getItem("Character_X")){
       Character_X = window.localStorage.getItem("Character_X");
       Character_X = JSON.parse(Character_X);
+    };
+    if(window.localStorage.getItem("Character_Y")){
+      Character_Y = window.localStorage.getItem("Character_Y");
+      Character_Y = JSON.parse(Character_Y);
     };
     if(window.localStorage.getItem("Character_direction")){
       Character_direction = window.localStorage.getItem("Character_direction");
