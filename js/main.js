@@ -831,6 +831,8 @@ function Game_load(width,height){
                   else Character_X = 0;
                   if(Datas.移動データ.右ステージx) Stage_X = Datas.移動データ.右ステージx;
                   else Stage_X = 0;
+                  if(Datas.移動データ.右ステージy) Stage_Y = Datas.移動データ.右ステージy;
+                  else Stage_Y = 0;
                   Stage = Datas.移動データ.右;
                   Key_z = false;
                   Key_x = false;
@@ -853,6 +855,8 @@ function Game_load(width,height){
                   else Character_X = "右端";
                   if(Datas.移動データ.左ステージx) Stage_X = Datas.移動データ.左ステージx;
                   else Stage_X = "右端";
+                  if(Datas.移動データ.左ステージy) Stage_Y = Datas.移動データ.右ステージy;
+                  else Stage_Y = 0;
                   Stage = Datas.移動データ.左;
                   Key_z = false;
                   Key_x = false;
@@ -1036,15 +1040,15 @@ function Game_load(width,height){
         Input(width/4*1,height/10*2,width/4,height/10,"","変更後の幅");
         Input(width/4*1,height/10*3,width/4,height/10,"","変更後の高さ");
         Input(width/4*1,height/10*4,width/4,height/10,"","変更後の初期透明度");
-        Input(width/4*0,height/10*1,width/4,height/10,"","左への移動");
-        Input(width/4*1,height/10*1,width/4,height/10,"","右への移動");
-        Input(width/4*2,height/10*1,width/4,height/10,"","上への移動");
-        Input(width/4*0,height/10*2,width/4,height/10,"","左への移動後のx");
-        Input(width/4*1,height/10*2,width/4,height/10,"","右への移動後のx");
-        Input(width/4*2,height/10*2,width/4,height/10,"","上への移動後のx");
-        Input(width/4*0,height/10*3,width/4,height/10,"","左への移動後の向き");
-        Input(width/4*1,height/10*3,width/4,height/10,"","右への移動後の向き");
-        Input(width/4*2,height/10*3,width/4,height/10,"","上への移動後の向き");
+        Input(width/4*0,height/10*0,width/4,height/10,"","左への移動");
+        Input(width/4*1,height/10*0,width/4,height/10,"","右への移動");
+        Input(width/4*2,height/10*0,width/4,height/10,"","上への移動");
+        Input(width/4*0,height/10*1,width/4,height/10,"","左への移動後のx");
+        Input(width/4*1,height/10*1,width/4,height/10,"","右への移動後のx");
+        Input(width/4*2,height/10*1,width/4,height/10,"","上への移動後のx");
+        Input(width/4*0,height/10*2,width/4,height/10,"","左への移動後の向き");
+        Input(width/4*1,height/10*2,width/4,height/10,"","右への移動後の向き");
+        Input(width/4*2,height/10*2,width/4,height/10,"","上への移動後の向き");
         Input(width/4*0,height/10*1,width/4,height/10,"","BGMのURL");
         Input(width/4*1,height/10*1,width/4,height/10,"","BGMのループ開始箇所");
         Input(width/4*0,height/10*2,width/4,height/10,"","重力");
@@ -1060,9 +1064,12 @@ function Game_load(width,height){
         Input(width/4*3,height/10*1,width/4,height/10,"","値");
         Input(width/4*2,height/10*1,width/4,height/10,"","ステージ幅");
         Input(width/4*3,height/10*1,width/4,height/10,"","ステージ高さ");
-        Input(width/4*0,height/10*4,width/4,height/10,"","左への移動後のステージX");
-        Input(width/4*1,height/10*4,width/4,height/10,"","右への移動後のステージX");
-        Input(width/4*2,height/10*4,width/4,height/10,"","上への移動後のステージX");
+        Input(width/4*0,height/10*3,width/4,height/10,"","左への移動後のステージX");
+        Input(width/4*1,height/10*3,width/4,height/10,"","右への移動後のステージX");
+        Input(width/4*2,height/10*3,width/4,height/10,"","上への移動後のステージX");
+        Input(width/4*0,height/10*4,width/4,height/10,"","左への移動後のステージY");
+        Input(width/4*1,height/10*4,width/4,height/10,"","右への移動後のステージY");
+        Input(width/4*2,height/10*4,width/4,height/10,"","上への移動後のステージY");
         console.log(Inputs.length);
 
         var Pull_down1 = new Entity();
@@ -1351,7 +1358,10 @@ function Game_load(width,height){
                   上向き:Inputs[24]._element.value,
                   左ステージx:Inputs[40]._element.value*1,
                   右ステージx:Inputs[41]._element.value*1,
-                  上ステージx:Inputs[42]._element.value*1
+                  上ステージx:Inputs[42]._element.value*1,
+                  左ステージy:Inputs[43]._element.value*1,
+                  右ステージy:Inputs[44]._element.value*1,
+                  上ステージy:Inputs[45]._element.value*1,
                 };
                 if(Datas.移動データ.左=="") delete Datas.移動データ.左;
                 if(Datas.移動データ.右=="") delete Datas.移動データ.右;
@@ -1365,6 +1375,9 @@ function Game_load(width,height){
                 if(Inputs[40]._element.value=="") delete Datas.移動データ.左ステージx;
                 if(Inputs[41]._element.value=="") delete Datas.移動データ.右ステージx;
                 if(Inputs[42]._element.value=="") delete Datas.移動データ.上ステージx;
+                if(Inputs[43]._element.value=="") delete Datas.移動データ.左ステージy;
+                if(Inputs[44]._element.value=="") delete Datas.移動データ.右ステージy;
+                if(Inputs[45]._element.value=="") delete Datas.移動データ.上ステージy;
                 console.log(Datas.移動データ);
                 Stage_Datas[Stage] = Datas;
                 game.replaceScene(Main_Scene(Stage_Datas[Stage]));
@@ -1385,6 +1398,9 @@ function Game_load(width,height){
                   if(Datas.移動データ.左ステージx!=undefined) Inputs[40]._element.value = Datas.移動データ.左ステージx;
                   if(Datas.移動データ.右ステージx!=undefined) Inputs[41]._element.value = Datas.移動データ.右ステージx;
                   if(Datas.移動データ.上ステージx!=undefined) Inputs[42]._element.value = Datas.移動データ.上ステージx;
+                  if(Datas.移動データ.左ステージy!=undefined) Inputs[43]._element.value = Datas.移動データ.左ステージy;
+                  if(Datas.移動データ.右ステージy!=undefined) Inputs[44]._element.value = Datas.移動データ.右ステージy;
+                  if(Datas.移動データ.上ステージy!=undefined) Inputs[45]._element.value = Datas.移動データ.上ステージy;
                 }
                 scene.addChild(Inputs[16]);
                 scene.addChild(Inputs[17]);
