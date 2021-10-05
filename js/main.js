@@ -3,6 +3,7 @@ enchant()
 var Key_z = false;
 var Key_x = false;
 var Key_c = false;
+var Key_s = false;
 var Stage_X = 0;
 var Stage_Y = 0;
 var Character_X = 0;
@@ -11,7 +12,7 @@ var Character_direction = "右";
 var Flag = {};
 var Chat = "最初";
 var Stage = "最初";
-var COOLTime = {c_key:0,run:0,down:0,right:0,left:0,up:0};
+var COOLTime = {c_key:0,s_key:0,run:0,down:0,right:0,left:0,up:0};
 var Run = false;
 var Pad_opacity = 0;
 var Change_Box = null;
@@ -37,6 +38,9 @@ window.addEventListener("keydown",function(e){
     case "c":
       Key_c = true;
       break;
+    case "s":
+      Key_s = true;
+      break;
   }
 });
 
@@ -50,6 +54,9 @@ window.addEventListener("keyup",function(e){
       break;
     case "c":
       Key_c = false;
+      break;
+    case "s":
+      Key_s = false;
       break;
   }
 });
@@ -323,12 +330,14 @@ function Game_load(width,height){
               Image[Images_Data.人].ジャンプ = Jump_s - 1;
               break;
             case "動":
-              if(Character_direction=="右") console.log("右に歩いている。");
-              else console.log("左に歩いている。");
-              break;
-            case "走":
-              if(Character_direction=="右") console.log("右に走っている。");
-              else console.log("左に走っている。");
+              if(Character_direction=="右"){
+                if(Run|Z_Run) console.log("右に走っている。");
+                else console.log("右に歩いている。");
+              }
+              else{
+                if(Run|Z_Run) console.log("左に走っている。");
+                else console.log("左に歩いている。");
+              }
               break;
             case "停止":
               if(Character_direction=="右") console.log("右を向いている。");
@@ -616,10 +625,41 @@ function Game_load(width,height){
           for(var i = 0; i < Object.keys(COOLTime).length; i++){
             if(COOLTime[Object.keys(COOLTime)[i]] > 0) COOLTime[Object.keys(COOLTime)[i]]--;
           }
+          if(Key_s && COOLTime.s_key == 0){
+            COOLTime.s_key = 5;
+            var Save = {
+              1:{
+                text:"セーブしますか？",
+                選択肢:{
+                  3:{
+                    text:"はい",
+                    next:"セーブ"
+                  },
+                  2:{
+                    text:"いいえ"
+                  },
+                  1:{
+                    text:"セーブ削除",
+                    next:"削除"
+                  }
+                }
+              },
+              セーブ:{
+                text:"セーブしました。",
+                セーブ:"セーブ"
+              },
+              削除:{
+                text:"既存セーブを削除しました。●ゲームは続けることができます。",
+                セーブ:"削除"
+              }
+            };
+            game.pushScene(Chat_Scene(Save));
+            return;
+          };
           if(Key_c && COOLTime.c_key == 0){
             COOLTime.c_key = 5;
             if(Datas.cキー) keydown(Datas.cキー);
-          }
+          };
           if(Image[Images_Data.人]){
             if(Key_x){
               if(Image[Images_Data.人].ジャンプ){
@@ -1696,9 +1736,28 @@ function Game_load(width,height){
           Datas = JSON.parse(Datas);
         };
       };
-      console.log(Datas);
+      var Kaigyo = 0;
+      var Kaigyo_S = 0;
+      var Match = null;
+      for (var i = 0; i < Object.keys(Datas).length; i++) {
+        if(Datas[Object.keys(Datas)[i]].text){
+          Match = Datas[Object.keys(Datas)[i]].text.match(/●/g);
+          if(Match){
+            for(var k = 0; k < Match.length; k++){
+            Kaigyo = Datas[Object.keys(Datas)[i]].text.indexOf("●");
+            Kaigyo = Kaigyo%18;
+            Kaigyo = 18 - Kaigyo;
+            Kaigyo_S = "";
+            for (var j = 0; j < Kaigyo; j++) {
+              Kaigyo_S += " ";
+            }
+            Datas[Object.keys(Datas)[i]].text = Datas[Object.keys(Datas)[i]].text.replace(Match[k],Kaigyo_S);
+          };
+          };
+        };
+      };
 
-      var i = 0;
+      var i = 1;
       var Image = [];
       var Images_Data = {};
       var Cut = true;
@@ -1768,7 +1827,7 @@ function Game_load(width,height){
         if(!Flag[Datas[k].フラグ]) Flag[Datas[k].フラグ] = 0;
         if(Datas[k].増加量!=undefined) Flag[Datas[k].フラグ] += Datas[k].増加量;
         if(Datas[k].固定値!=undefined) Flag[Datas[k].フラグ] = Datas[k].固定値;
-      }
+      };
       if(Datas[k].BGM){
         BGM.name1 = Datas[k].BGM;
         if(BGM.name1 != BGM.name2){
@@ -1781,7 +1840,28 @@ function Game_load(width,height){
             else BGM.id = 0;
           }
         }
-      }
+      };
+      if(Datas[k].image){
+        i = 1;
+        while(Datas[k].image[i]){
+          if(Datas[k].image[i].src){
+            Image[Images_Data[Datas[k].image[i].name]]._element.src = Datas[k].image[i].src;
+          }
+          if(Datas[k].image[i].width){
+            Image[Images_Data[Datas[k].image[i].name]].width = Datas[k].image[i].width;
+          }
+          if(Datas[k].image[i].height){
+            Image[Images_Data[Datas[k].image[i].name]].height = Datas[k].image[i].height;
+          }
+          if(Datas[k].image[i].x){
+            Image[Images_Data[Datas[k].image[i].name]].x = Datas[k].image[i].x;
+          }
+          if(Datas[k].image[i].y){
+            Image[Images_Data[Datas[k].image[i].name]].y = Datas[k].image[i].y;
+          }
+          i++;
+        }
+      };
       if(Datas[k].text){
         if(Datas[k].text.indexOf(":")==-1) var Write = 1;
         else var Write = 2;
@@ -1791,7 +1871,7 @@ function Game_load(width,height){
       var Next = Datas[k].next;
 
       function Text_write(){
-        while(Datas[k].text[i]=="φ") i++;
+        while(Datas[k].text[i]==" ") i++;
         if(Datas[k].text[i]==":") Write = 1;
         Text[i]._element.textContent = Datas[k].text[i];
         i++;
@@ -1909,19 +1989,33 @@ function Game_load(width,height){
           else k++;
           if(!Datas[k]) Datas[k] = {"text":"存在しないデータ。"};
           Next = Datas[k].next;
-          i = 0;
           if(Datas[k].音) SE1.src = Datas[k].音;
           if(Datas[k].image){
+            i = 1;
             while(Datas[k].image[i]){
-              Image[Images_Data[Datas[k].image[i].name]]._element.src = Datas[k].image[i].src;
+              if(Datas[k].image[i].src){
+                Image[Images_Data[Datas[k].image[i].name]]._element.src = Datas[k].image[i].src;
+              }
+              if(Datas[k].image[i].width){
+                Image[Images_Data[Datas[k].image[i].name]].width = Datas[k].image[i].width;
+              }
+              if(Datas[k].image[i].height){
+                Image[Images_Data[Datas[k].image[i].name]].height = Datas[k].image[i].height;
+              }
+              if(Datas[k].image[i].x){
+                Image[Images_Data[Datas[k].image[i].name]].x = Datas[k].image[i].x;
+              }
+              if(Datas[k].image[i].y){
+                Image[Images_Data[Datas[k].image[i].name]].y = Datas[k].image[i].y;
+              }
               i++;
             }
-          }
+          };
           if(Datas[k].フラグ){
             if(!Flag[Datas[k].フラグ]) Flag[Datas[k].フラグ] = 0;
             if(Datas[k].増加量!=undefined) Flag[Datas[k].フラグ] += Datas[k].増加量;
             if(Datas[k].固定値!=undefined) Flag[Datas[k].フラグ] = Datas[k].固定値;
-          }
+          };
           if(Datas[k].BGM){
             BGM.name1 = Datas[k].BGM;
             if(BGM.name1 != BGM.name2){
@@ -1934,7 +2028,7 @@ function Game_load(width,height){
                 else BGM.id = 0;
               }
             }
-          }
+          };
           if(Datas[k].セーブ){
             switch(Datas[k].セーブ){
               case "削除":
@@ -1948,9 +2042,10 @@ function Game_load(width,height){
                 window.localStorage.setItem("Character_X",JSON.stringify(Character_X));
                 window.localStorage.setItem("Character_Y",JSON.stringify(Character_Y));
                 window.localStorage.setItem("Character_direction",JSON.stringify(Character_direction));
+                console.log("セーブ完了。");
                 break;
             }
-          }
+          };
           i = 0;
           for(var a = 0; a < 90; a++){
             Text[a]._element.textContent = "";
@@ -2216,10 +2311,11 @@ function Game_load(width,height){
 
     fetch(URL,Options).then(res => res.json()).then(result => {
       for (var i = 0; i < result.length; i++) {
-        Stage_Datas[result[i].名前] = JSON.parse(result[i].ステージ);
+        //result[i].ステージ = result[i].ステージ.replace(/\s/g,"");
         if(result[i].名前=="変換"){
           Change_Box = JSON.parse(result[i].ステージ);
         }
+        else Stage_Datas[result[i].名前] = JSON.parse(result[i].ステージ);
       }
       if(!Stage_Datas[Stage]) Stage = "最初";
       game.replaceScene(Main_Scene(Stage_Datas[Stage]));

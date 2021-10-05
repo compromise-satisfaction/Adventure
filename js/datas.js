@@ -53,7 +53,7 @@ Stage_Datas.百円 = {
   1:{text:"百円玉を見つけた！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav",フラグ:"所持金",増加量:100}
 };
 Stage_Datas.ベッド = {
-  image:{0:{name:"闇",width:1600,height:900,x:0,y:0}},
+  image:{0:{name:"闇"}},
   1:{text:"My bed.",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav"},
   寝:{フラグ:"カード拾い","固定値":1,next:"月",text:"寝た！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
   月:{フラグ:"睡眠回数","増加量":1,x:820,向き:"右",ステージ移動:"月",text:"夢を見た！",音:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(男).wav","image":{0:{name:"闇",src:"image/黒.png",width:1600,height:900,x:0,y:0}}},
@@ -70,7 +70,7 @@ Stage_Datas.ベッド = {
     }
   }
 };
-Stage_Datas.ミミ = {
+Stage_Datas.ミミ1 = {
   "image":{0:{name:"ミミ",src:"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/画像/背景/ミミ1.png",width:1600,height:900,x:0,y:0}},
   1:{"text":"ミミ:φφφφφφφφφφφφφφφ早く帰って晩御飯の支度しなきゃ…。","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
   2:{"text":"ミミ:φφφφφφφφφφφφφφφちょうど良かった。φφφφφφφφφお掃除当番変わってくれる？","音":"https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ポポポ(女).wav"},
@@ -532,7 +532,7 @@ Stage_Datas.学校教室 = {
       値:0,
       x:880,
       向き:"右",
-      text:"ミミ"
+      text:"ミミ1"
     },
     2:{
       1:{接触:"ミミ"},
