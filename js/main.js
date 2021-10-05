@@ -500,8 +500,12 @@ function Game_load(width,height){
               Image[Images_Data[Value[Object.keys(Value)[i]].対象]][Value[Object.keys(Value)[i]].データ] = Value[Object.keys(Value)[i]].値;
             }
             if(Value[Object.keys(Value)[i]].x!=undefined){
-              Character_X = Value[Object.keys(Value)[i]].x - Stage_X;
+              if(Value[Object.keys(Value)[i]].x=="右端") Character_X = "右端";
+              else Character_X = Value[Object.keys(Value)[i]].x - Stage_X;
               Image[Images_Data.人].x = Character_X;
+            }
+            if(Value[Object.keys(Value)[i]].ステージx!=undefined){
+              Stage_X = Value[Object.keys(Value)[i]].ステージx;
             }
             if(Value[Object.keys(Value)[i]].向き){
               Character_direction = Value[Object.keys(Value)[i]].向き;
@@ -569,8 +573,8 @@ function Game_load(width,height){
               Inputs[10]._element.value = Image[Images_Data[Change_object]].url;
             }
             else Inputs[10]._element.value = "";
-            Inputs[11]._element.value = Image[Images_Data[Change_object]].x;
-            Inputs[12]._element.value = Image[Images_Data[Change_object]].y;
+            Inputs[11]._element.value = Image[Images_Data[Change_object]].x + Stage_X;
+            Inputs[12]._element.value = Image[Images_Data[Change_object]].y - Stage_Y;
             Inputs[13]._element.value = Image[Images_Data[Change_object]].width;
             Inputs[14]._element.value = Image[Images_Data[Change_object]].height;
             Inputs[15]._element.value = Image[Images_Data[Change_object]].opacity;
@@ -901,6 +905,8 @@ function Game_load(width,height){
               Image_atarihantei[Images_Data.人].x = Image[Images_Data.人].x;
               Image_atarihantei[Images_Data.人].y = Image[Images_Data.人].y
             };
+            Character_X = Image[Images_Data.人].x;
+            Character_Y = Image[Images_Data.人].y;
           };
           pad_keydown();
         };
@@ -1237,9 +1243,9 @@ function Game_load(width,height){
                 scene.addChild(Pull_down1);
                 Inputs[10]._element.value = Image[Images_Data[Pull_down1._element.value]].url;
                 scene.addChild(Inputs[10]);
-                Inputs[11]._element.value = Image[Images_Data[Pull_down1._element.value]].x;
+                Inputs[11]._element.value = Image[Images_Data[Pull_down1._element.value]].x + Stage_X;
                 scene.addChild(Inputs[11]);
-                Inputs[12]._element.value = Image[Images_Data[Pull_down1._element.value]].y;
+                Inputs[12]._element.value = Image[Images_Data[Pull_down1._element.value]].y - Stage_Y;
                 scene.addChild(Inputs[12]);
                 Inputs[13]._element.value = Image[Images_Data[Pull_down1._element.value]].width;
                 scene.addChild(Inputs[13]);
