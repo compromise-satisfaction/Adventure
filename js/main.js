@@ -877,6 +877,7 @@ function Game_load(width,height){
                   else Stage_X = 0;
                   if(Datas.移動データ.右ステージy) Stage_Y = Datas.移動データ.右ステージy;
                   else Stage_Y = 0;
+                  if(Datas.移動データ.右向き) Character_direction = Datas.移動データ.右向き;
                   Stage = Datas.移動データ.右;
                   Key_z = false;
                   Key_x = false;
@@ -901,6 +902,7 @@ function Game_load(width,height){
                   else Stage_X = "右端";
                   if(Datas.移動データ.左ステージy) Stage_Y = Datas.移動データ.左ステージy;
                   else Stage_Y = 0;
+                  if(Datas.移動データ.左向き) Character_direction = Datas.移動データ.左向き;
                   Stage = Datas.移動データ.左;
                   Key_z = false;
                   Key_x = false;
@@ -2315,7 +2317,7 @@ function Game_load(width,height){
         if(result[i].名前=="変換"){
           Change_Box = JSON.parse(result[i].ステージ);
         }
-        else Stage_Datas[result[i].名前] = JSON.parse(result[i].ステージ);
+        Stage_Datas[result[i].名前] = JSON.parse(result[i].ステージ);
       }
       if(!Stage_Datas[Stage]) Stage = "最初";
       game.replaceScene(Main_Scene(Stage_Datas[Stage]));
