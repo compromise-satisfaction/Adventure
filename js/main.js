@@ -450,18 +450,16 @@ function Game_load(width,height){
               State_change("空中");
             }
             else State_change("停止");
-            if(Stage_X == "右端"){
-              Stage_X = Stage_width - 1600;
-              for (var i = 0; i < Image.length; i++) {
-                if(Image[i].name != "人") Image[i].x = Image[i].x_origin - Stage_X;
-              };
-              if(HTML == "編集"){
-                for (var i = 0; i < Image_atarihantei.length; i++) {
-                  Image_atarihantei[i].x = Image[i].x_origin - Stage_X;
-                };
-              };
-            }
+            if(Stage_X == "右端") Stage_X = Stage_width - 1600;
             if(Character_X == "右端") Character_X = 1600 - Image[Images_Data.人].width;
+            for (var i = 0; i < Image.length; i++) {
+              if(Image[i].name != "人") Image[i].x = Image[i].x_origin - Stage_X;
+            };
+            if(HTML == "編集"){
+              for (var i = 0; i < Image_atarihantei.length; i++) {
+                Image_atarihantei[i].x = Image[i].x_origin - Stage_X;
+              };
+            };
             Image[Images_Data.人].Number = 1;
             Image[Images_Data.人].横加速度 = 0;
             Image[Images_Data.人].縦加速度 = 0;
@@ -857,7 +855,7 @@ function Game_load(width,height){
                   else Character_X = "右端";
                   if(Datas.移動データ.左ステージx) Stage_X = Datas.移動データ.左ステージx;
                   else Stage_X = "右端";
-                  if(Datas.移動データ.左ステージy) Stage_Y = Datas.移動データ.右ステージy;
+                  if(Datas.移動データ.左ステージy) Stage_Y = Datas.移動データ.左ステージy;
                   else Stage_Y = 0;
                   Stage = Datas.移動データ.左;
                   Key_z = false;
@@ -1416,6 +1414,9 @@ function Game_load(width,height){
                 scene.addChild(Inputs[40]);
                 scene.addChild(Inputs[41]);
                 scene.addChild(Inputs[42]);
+                scene.addChild(Inputs[43]);
+                scene.addChild(Inputs[44]);
+                scene.addChild(Inputs[45]);
                 break;
               case "戻る":
                 Button_C();
