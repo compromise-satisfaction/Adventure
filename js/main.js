@@ -1721,7 +1721,7 @@ function Game_load(width,height){
 
       if(Datas.image){
         while(Datas.image[i]){
-          Images(Datas.image[i].width,Datas.image[i].height,Datas.image[i].x,Datas.image[i].y,Datas.image[i].src,Datas.image[i].name);
+          Images(0,0,0,0,0,Datas.image[i].name);
         }
       }
 
