@@ -768,6 +768,8 @@ function Game_load(width,height){
               console.log("StageData = " + JSON.stringify(Datas));
               console.log("キャラx = " + Image[Images_Data.人].x);
               console.log("キャラy = " + Image[Images_Data.人].y);
+              console.log("ステージx = " + Stage_X);
+              console.log("ステージy = " + Stage_Y);
               console.log("Flag = " + JSON.stringify(Flag));
               COOLTime.down = 5;
               if(Datas.下キー) keydown(Datas.下キー);
