@@ -2159,6 +2159,76 @@ function Game_load(width,height){
             Hensyu_mood = true;
             if(this.opacity==0) return;
             switch(this.text){
+              case "画像設定":
+                if(Datas[k].image){
+                  for (var o = 0; o < Object.keys(Datas[k].image).length; o++){
+                    if(Datas[k].image[Object.keys(Datas[k].image)[o]].name==Pull_down1._element.value){
+                      break;
+                    };
+                  };
+                  if(o == Object.keys(Datas[k].image).length){
+                    Datas[k].image[Object.keys(Datas[k].image).length] = {name:Pull_down1._element.value};
+                  };
+                }
+                else Datas[k].image = {1:{name:Pull_down1._element.value}};
+                for (var o = 0; o < Object.keys(Datas[k].image).length; o++){
+                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].name==Pull_down1._element.value){
+                    break;
+                  };
+                };
+                Datas[k].image[Object.keys(Datas[k].image)[o]] = {name:Datas[k].image[Object.keys(Datas[k].image)[o]].name};
+                if(Inputs[8]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image)[o]].src = Inputs[8]._element.value;
+                if(Inputs[9]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image)[o]].x = Inputs[9]._element.value*1;
+                if(Inputs[10]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image)[o]].y = Inputs[10]._element.value*1;
+                if(Inputs[11]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image)[o]].width = Inputs[11]._element.value*1;
+                if(Inputs[12]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image)[o]].height = Inputs[12]._element.value*1;
+                Stage_Datas[Chat] = Datas;
+                game.replaceScene(Chat_Scene(Datas));
+                break;
+              case "画像変更":
+                if(Datas[k].image){
+                  for (var o = 0; o < Object.keys(Datas[k].image).length; o++){
+                    if(Datas[k].image[Object.keys(Datas[k].image)[o]].name==Pull_down1._element.value){
+                      break;
+                    };
+                  };
+                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].src!=undefined) Inputs[8]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].src;
+                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].x!=undefined) Inputs[9]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].x;
+                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].y!=undefined) Inputs[10]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].y;
+                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].width!=undefined) Inputs[11]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].width;
+                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].height!=undefined) Inputs[12]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].height;
+                }
+                Button_C();
+                Button_C(3,"画像設定");
+                scene.addChild(Pull_down1);
+                scene.removeChild(Inputs[0]);
+                scene.removeChild(Inputs[1]);
+                scene.removeChild(Inputs[2]);
+                scene.removeChild(Inputs[3]);
+                scene.removeChild(Inputs[4]);
+                scene.removeChild(Inputs[5]);
+                scene.removeChild(Inputs[6]);
+                scene.addChild(Inputs[8]);
+                scene.addChild(Inputs[9]);
+                scene.addChild(Inputs[10]);
+                scene.addChild(Inputs[11]);
+                scene.addChild(Inputs[12]);
+                break;
+              case "画像追加":
+                if(Inputs[7]._element.value){
+                  if(Datas.image){
+                    Datas.image[Object.keys(Datas.image).length+1] = {name:Inputs[7]._element.value};
+                  }
+                  else Datas.image = {1:{name:Inputs[7]._element.value}};
+                  Stage_Datas[Chat] = Datas;
+                  game.replaceScene(Chat_Scene(Datas));
+                }
+                break;
+              case "画像全消":
+                delete Datas.image;
+                Stage_Datas[Chat] = Datas;
+                game.replaceScene(Chat_Scene(Datas));
+                break;
               case "全選択消":
                 delete Datas[k].選択肢;
                 Stage_Datas[Chat] = Datas;
@@ -2177,9 +2247,11 @@ function Game_load(width,height){
                 scene.addChild(Inputs[4]);
                 scene.addChild(Inputs[5]);
                 scene.addChild(Inputs[6]);
+                scene.removeChild(Inputs[7]);
                 Button_C();
                 Button_C(0,"決定");
                 Button_C(1,"全選択消");
+                if(Datas.image) Button_C(3,"画像変更");
                 break;
               case "決定":
                 if(Inputs[0]._element.value){
@@ -2225,8 +2297,40 @@ function Game_load(width,height){
           });
         };
 
+        if(Datas.image){
+          var Pull_down1 = new Entity();
+          Pull_down1.moveTo(0,height/10*1+900);
+          Pull_down1.width = width/4;
+          Pull_down1.height = height/10;
+          Pull_down1._element = document.createElement("select");
+          Pull_down1._style["font-size"] = 60;
+          var Option1 = [];
+          for (var o = 0; o < Object.keys(Datas.image).length; o++){
+            Option1[o] = document.createElement("option");
+            Option1[o].text =  Datas.image[Object.keys(Datas.image)[o]].name;
+            Option1[o].value = Datas.image[Object.keys(Datas.image)[o]].name;
+            Pull_down1._element.appendChild(Option1[o]);
+          };
+          Pull_down1.addEventListener("touchend",function(e){
+            if(Datas[k].image){
+              for (var o = 0; o < Object.keys(Datas[k].image).length; o++){
+                if(Datas[k].image[Object.keys(Datas[k].image)[o]].name==Pull_down1._element.value){
+                  break;
+                };
+              };
+              if(Datas[k].image[Object.keys(Datas[k].image)[o]].src!=undefined) Inputs[8]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].src;
+              if(Datas[k].image[Object.keys(Datas[k].image)[o]].x!=undefined) Inputs[9]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].x;
+              if(Datas[k].image[Object.keys(Datas[k].image)[o]].y!=undefined) Inputs[10]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].y;
+              if(Datas[k].image[Object.keys(Datas[k].image)[o]].width!=undefined) Inputs[11]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].width;
+              if(Datas[k].image[Object.keys(Datas[k].image)[o]].height!=undefined) Inputs[12]._element.value = Datas[k].image[Object.keys(Datas[k].image)[o]].height;
+            };
+          });
+        };
+
         Buttons(width/4*0,height/10*0 + 900,"設定");
-        Buttons(width/4*1,height/10*0 + 900,"");
+        Buttons(width/4*1,height/10*0 + 900,"画像全消");
+        Buttons(width/4*3,height/10*0 + 900,"画像追加");
+        Buttons(width/4*0,height/10*2 + 900,"");
         Buttons(width/4*3,height/10*4 + 900,"終了");
 
         Input(width/4*0,height/10*1,width/4,height/10,"","テキスト");
@@ -2236,6 +2340,13 @@ function Game_load(width,height){
         Input(width/4*3,height/10*2,width/4,height/10,"","フラグ");
         Input(width/4*2,height/10*0,width/4,height/10,"","選択肢");
         Input(width/4*3,height/10*0,width/4,height/10,"","選択肢の分岐");
+        Input(width/4*2,height/10*0,width/4,height/10,"","画像の名前");
+        Input(width/4*1,height/10*1,width/4,height/10,"","画像のURL");
+        Input(width/4*0,height/10*0,width/4,height/10,"","画像のx座標");
+        Input(width/4*1,height/10*0,width/4,height/10,"","画像のy座標");
+        Input(width/4*2,height/10*0,width/4,height/10,"","画像の幅");
+        Input(width/4*3,height/10*0,width/4,height/10,"","画像の高さ");
+        scene.addChild(Inputs[7]);
 
         function Button_C(a,b){
           switch(a){
