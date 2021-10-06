@@ -2160,28 +2160,13 @@ function Game_load(width,height){
             if(this.opacity==0) return;
             switch(this.text){
               case "画像設定":
-                if(Datas[k].image){
-                  for (var o = 0; o < Object.keys(Datas[k].image).length; o++){
-                    if(Datas[k].image[Object.keys(Datas[k].image)[o]].name==Pull_down1._element.value){
-                      break;
-                    };
-                  };
-                  if(o == Object.keys(Datas[k].image).length){
-                    Datas[k].image[Object.keys(Datas[k].image).length] = {name:Pull_down1._element.value};
-                  };
-                }
-                else Datas[k].image = {1:{name:Pull_down1._element.value}};
-                for (var o = 0; o < Object.keys(Datas[k].image).length; o++){
-                  if(Datas[k].image[Object.keys(Datas[k].image)[o]].name==Pull_down1._element.value){
-                    break;
-                  };
-                };
-                Datas[k].image[Object.keys(Datas[k].image)[o]] = {name:Datas[k].image[Object.keys(Datas[k].image)[o]].name};
-                if(Inputs[8]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image)[o]].src = Inputs[8]._element.value;
-                if(Inputs[9]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image)[o]].x = Inputs[9]._element.value*1;
-                if(Inputs[10]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image)[o]].y = Inputs[10]._element.value*1;
-                if(Inputs[11]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image)[o]].width = Inputs[11]._element.value*1;
-                if(Inputs[12]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image)[o]].height = Inputs[12]._element.value*1;
+                if(!Datas[k].image) Datas[k].image = {1:{name:Pull_down1._element.value}};
+                else Datas[k].image[Object.keys(Datas[k].image).length+1] = {name:Pull_down1._element.value};
+                if(Inputs[8]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image).length].src = Inputs[8]._element.value;
+                if(Inputs[9]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image).length].x = Inputs[9]._element.value*1;
+                if(Inputs[10]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image).length].y = Inputs[10]._element.value*1;
+                if(Inputs[11]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image).length].width = Inputs[11]._element.value*1;
+                if(Inputs[12]._element.value!=undefined) Datas[k].image[Object.keys(Datas[k].image).length].height = Inputs[12]._element.value*1;
                 Stage_Datas[Chat] = Datas;
                 game.replaceScene(Chat_Scene(Datas));
                 break;
