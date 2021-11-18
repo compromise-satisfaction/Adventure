@@ -1,4 +1,4 @@
-enchant()
+enchant();
 
 var Key_z = false;
 var Key_x = false;
@@ -16,6 +16,8 @@ var COOLTime = {c_key:0,s_key:0,run:0,down:0,right:0,left:0,up:0};
 var Run = false;
 var Pad_opacity = 0;
 var Change_Box = null;
+var Move_box = null;
+var Move_box_length = 0;
 
 var SE1 = document.createElement("audio");
 var SE2 = document.createElement("audio");
@@ -79,7 +81,7 @@ function Flag_judgement(a,b,c){
       break;
   }
   return(Judge);
-}
+};
 
 function Game_load(width,height){
 
@@ -87,22 +89,9 @@ function Game_load(width,height){
   game.fps = 20;
   game.onload = function(){
 
-    var Start_Scene = function(){
-      var scene = new Scene();
-
-      var URL = "https://script.google.com/macros/s/AKfycbzQm1rsU9qHfmOCRgPguLLifPIPc4Ip6NMbei5rX0EGu8-XfJj8/exec";
-      var Options = {
-        method: "POST",
-        body:"text"
-      };
-
-      fetch(URL,Options).then(res => res.json()).then(result => {
-        return;
-      },);
-
-      return scene;
-    };
     var Main_Scene = function(Datas){
+
+      var scene = new Scene();
 
       if(!Datas){
         Datas = {画像:{}};
@@ -117,8 +106,6 @@ function Game_load(width,height){
         };
       };
       console.log(Datas);
-
-      var scene = new Scene();
 
       var i = 0;
       var Image = [];
@@ -513,6 +500,11 @@ function Game_load(width,height){
               else Character_X = Value[Object.keys(Value)[i]].x - Stage_X;
               Image[Images_Data.人].x = Character_X;
             }
+            if(Value[Object.keys(Value)[i]].y!=undefined){
+              if(Value[Object.keys(Value)[i]].y=="左端") Character_Y = "左端";
+              else Character_Y = Value[Object.keys(Value)[i]].y - Stage_Y;
+              Image[Images_Data.人].y = Character_Y;
+            }
             if(Value[Object.keys(Value)[i]].ステージx!=undefined){
               Stage_X = Value[Object.keys(Value)[i]].ステージx;
             }
@@ -529,7 +521,7 @@ function Game_load(width,height){
               game.input.down = false;
               game.input.left = false;
               game.input.right = false;
-              game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+              Scene_Check_Scene(Stage_Datas[Stage]);
               return;
             }
             if(Value[Object.keys(Value)[i]].text){
@@ -600,7 +592,7 @@ function Game_load(width,height){
               }
               if(Inputs[1]._element.value) Datas.画像[Inputs[0]._element.value].src = Inputs[1]._element.value;
               Stage_Datas[Stage] = Datas;
-              game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+              Scene_Check_Scene(Stage_Datas[Stage]);
               return;
             }
           }
@@ -886,7 +878,7 @@ function Game_load(width,height){
                   game.input.down = false;
                   game.input.left = false;
                   game.input.right = false;
-                  game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                  Scene_Check_Scene(Stage_Datas[Stage]);
                 }
               }
               else{
@@ -911,7 +903,7 @@ function Game_load(width,height){
                   game.input.down = false;
                   game.input.left = false;
                   game.input.right = false;
-                  game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                  Scene_Check_Scene(Stage_Datas[Stage]);
                 }
               }
               else{
@@ -931,7 +923,7 @@ function Game_load(width,height){
                   game.input.down = false;
                   game.input.left = false;
                   game.input.right = false;
-                  game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                  Scene_Check_Scene(Stage_Datas[Stage]);
                 }
               }
             }
@@ -1310,7 +1302,7 @@ function Game_load(width,height){
                   body:"編集" + JSON.stringify(Stage_Datas)
                 };
                 fetch(URL,Options).then(res => res.json()).then(result => {
-                  game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                  Scene_Check_Scene(Stage_Datas[Stage]);
                   return;
                 },);
                 break;
@@ -1323,7 +1315,7 @@ function Game_load(width,height){
                   Stage_Datas = {};
                   Stage = "最初";
                 }
-                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                Scene_Check_Scene(Stage_Datas[Stage]);
                 return;
                 break;
               case "設定":
@@ -1390,7 +1382,7 @@ function Game_load(width,height){
                 if(Datas.設定.ステージ幅=="") delete Datas.設定.ステージ幅;
                 if(Datas.設定.ステージ高さ=="") delete Datas.設定.ステージ高さ;
                 Stage_Datas[Stage] = Datas;
-                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                Scene_Check_Scene(Stage_Datas[Stage]);
                 break;
               case "移動設定":
                 Datas.移動データ = {
@@ -1428,7 +1420,7 @@ function Game_load(width,height){
                 if(Inputs[45]._element.value=="") delete Datas.移動データ.上ステージy;
                 console.log(Datas.移動データ);
                 Stage_Datas[Stage] = Datas;
-                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                Scene_Check_Scene(Stage_Datas[Stage]);
                 break;
               case "移動":
                 Button_C();
@@ -1476,7 +1468,7 @@ function Game_load(width,height){
               case "登録":
                 window.localStorage.setItem("ローカル人データ",JSON.stringify(Datas.人));
                 Stage_Datas[Stage] = Datas;
-                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                Scene_Check_Scene(Stage_Datas[Stage]);
                 break;
               case "貼り付け":
                 if(window.localStorage.getItem("ローカル人データ")){
@@ -1484,12 +1476,12 @@ function Game_load(width,height){
                   Datas.人 = JSON.parse(Datas.人);
                 }
                 Stage_Datas[Stage] = Datas;
-                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                Scene_Check_Scene(Stage_Datas[Stage]);
                 break;
               case "全削除":
                 delete Datas[Pull_down4._element.value];
                 Stage_Datas[Stage] = Datas;
-                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                Scene_Check_Scene(Stage_Datas[Stage]);
                 return;
                 break;
               case "キー追加":
@@ -1520,7 +1512,7 @@ function Game_load(width,height){
                   };
                 };
                 Stage_Datas[Stage] = Datas;
-                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                Scene_Check_Scene(Stage_Datas[Stage]);
                 break;
               case "ボタン":
                 Button_C();
@@ -1551,7 +1543,7 @@ function Game_load(width,height){
                 break;
               case "終了":
                 Stage_Datas[Stage] = Datas;
-                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                Scene_Check_Scene(Stage_Datas[Stage]);
                 break;
               case "追加":
                 var Add_page = Pull_down3._element.value;
@@ -1577,7 +1569,7 @@ function Game_load(width,height){
                   空中右:{1:Inputs[9]._element.value}
                 };
                 Stage_Datas[Stage] = Datas;
-                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                Scene_Check_Scene(Stage_Datas[Stage]);
                 return;
                 break;
               case "変更する":
@@ -1593,7 +1585,7 @@ function Game_load(width,height){
                   }
                   else delete Datas.画像[Change_object].opacity;
                   Stage_Datas[Stage] = Datas;
-                  game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                  Scene_Check_Scene(Stage_Datas[Stage]);
                   return;
                 }
                 break;
@@ -1601,14 +1593,14 @@ function Game_load(width,height){
                 if(Change_object){
                   delete Datas.画像[Change_object];
                   Stage_Datas[Stage] = Datas;
-                  game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                  Scene_Check_Scene(Stage_Datas[Stage]);
                   return;
                 }
                 break;
               case "全部削除":
                 delete Datas.接触;
                 Stage_Datas[Stage] = Datas;
-                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                Scene_Check_Scene(Stage_Datas[Stage]);
                 return;
                 break;
               case "他確認":
@@ -1675,7 +1667,7 @@ function Game_load(width,height){
                 Datas.接触[aaa] = JSON.stringify(Datas.接触[aaa]);
                 Datas.接触[aaa] = JSON.parse(Datas.接触[aaa]);
                 Stage_Datas[Stage] = Datas;
-                game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+                Scene_Check_Scene(Stage_Datas[Stage]);
                 return;
                 break;
               case "接触":
@@ -1726,7 +1718,492 @@ function Game_load(width,height){
 
       return scene;
     };
+    var Map_Scene = function(Datas){
+
+      var scene = new Scene();
+
+      Map = [];
+
+      for (var i = 0; i < 18; i++) {
+        Map[i] = [];
+        for (var j = 0; j < 21; j++) {
+          Map[i][j] = 0;
+        };
+      };
+
+      Map = Datas.map;
+
+      console.log(JSON.stringify(Map));
+
+      var scene = new Scene();
+
+      var Image = [];
+      var Images_Data = [];
+      var i = 0;
+
+      function Images(w,h,x,y,a,b){
+        Image[i] = new Sprite();
+        Image[i]._element = document.createElement("img");
+        if(a) Image[i]._element.src = a;
+        else Image[i]._element.src = "image/透明.png";
+        Image[i].width = w;
+        Image[i].height = h;
+        Image[i].x = x;
+        Image[i].y = y;
+        Image[i].name = b;
+        Images_Data[b] = i;
+        scene.addChild(Image[i]);
+        i++;
+        return;
+      };
+
+      var Map_X = null;
+      var Map_Y = null;
+
+      var Run = 5;
+      var Move = 0;
+      var Map_W = Map[0].length;
+      var Map_H = Map.length;
+      var Check_X = null;
+      var Check_Y = null;
+      var Human = {};
+      var Touch = true;
+
+      Human.images = Stage_Datas[Datas.人];
+
+      for (var I = 0; I < Datas.images.length; I++) {
+        if(Datas.images[I].name=="人"){
+          Images(100,100,1600/2-50,900/2-50,"image/透明.png",Datas.images[I].name);
+          Human.向き = Character_direction;
+          Human.上 = Human.images.上;
+          Human.下 = Human.images.下;
+          Human.左 = Human.images.左;
+          Human.右 = Human.images.右;
+          Human.歩上 = Human.images.歩上;
+          Human.歩下 = Human.images.歩下;
+          Human.歩左 = Human.images.歩左;
+          Human.歩右 = Human.images.歩右;
+          Human.走上 = Human.images.走上;
+          Human.走下 = Human.images.走下;
+          Human.走左 = Human.images.走左;
+          Human.走右 = Human.images.走右;
+          Human.Number = 0;
+          Image[Images_Data["人"]]._element.src = Human[Character_direction][Human.Number];
+        }
+        else{
+          Images(Map_W*100,Map_H*100,0,0,Datas.images[I].src,Datas.images[I].name);
+          Image[Images_Data[Datas.images[I].name]].Mapx = 0;
+          Image[Images_Data[Datas.images[I].name]].Mapy = 0;
+        };
+      };
+
+      console.log(Datas);
+
+      for(var I = 0; I < Map.length; I++){
+        for(var J = 0; J < Map[I].length; J++){
+          if(Map[I][J].type=="オブジェ"){
+            Images(100,100,(J+8)*100-50,(I+4)*100,Map[I][J].image,Map[I][J].name);
+            if(Map[I][J].images){
+              Image[Images_Data[Map[I][J].name]].images = Stage_Datas[Map[I][J].images];
+              Image[Images_Data[Map[I][J].name]].Move = 0;
+              Image[Images_Data[Map[I][J].name]].Number = 0;
+              Image[Images_Data[Map[I][J].name]].向き = Map[I][J].向き;
+              Image[Images_Data[Map[I][J].name]].上 = Image[Images_Data[Map[I][J].name]].images.上;
+              Image[Images_Data[Map[I][J].name]].下 = Image[Images_Data[Map[I][J].name]].images.下;
+              Image[Images_Data[Map[I][J].name]].左 = Image[Images_Data[Map[I][J].name]].images.左;
+              Image[Images_Data[Map[I][J].name]].右 = Image[Images_Data[Map[I][J].name]].images.右;
+              Image[Images_Data[Map[I][J].name]].歩上 = Image[Images_Data[Map[I][J].name]].images.歩上;
+              Image[Images_Data[Map[I][J].name]].歩下 = Image[Images_Data[Map[I][J].name]].images.歩下;
+              Image[Images_Data[Map[I][J].name]].歩左 = Image[Images_Data[Map[I][J].name]].images.歩左;
+              Image[Images_Data[Map[I][J].name]].歩右 = Image[Images_Data[Map[I][J].name]].images.歩右;
+              if(Map[I][J].moves){
+                Image[Images_Data[Map[I][J].name]].moves_number = 0;
+                Image[Images_Data[Map[I][J].name]].moves = Map[I][J].moves;
+                Image[Images_Data[Map[I][J].name]].time = 0;
+                if(Map[I][J].times) Image[Images_Data[Map[I][J].name]].times = Map[I][J].times;
+                else Image[Images_Data[Map[I][J].name]].times = 10;
+              };
+            };
+            Image[Images_Data[Map[I][J].name]].Mapx = J;
+            Image[Images_Data[Map[I][J].name]].Mapy = I;
+            Image[Images_Data[Map[I][J].name]]._element.src = Image[Images_Data[Map[I][J].name]][Image[Images_Data[Map[I][J].name]].向き][0];
+          };
+          if(Map[I][J] == "動") Map[I][J] = "□";
+        };
+      };
+
+      Map_X = Character_X;
+      Map_Y = Character_Y;
+
+      for(var i = 0; i < Image.length; i++){
+        if(Image[i].name!="人"){
+          Image[i].x = (Image[i].Mapx + 8) * 100-50 - Map_X * 100;
+          Image[i].y = (Image[i].Mapy + 4) * 100 - Map_Y * 100;
+        };
+      };
+
+      var Blackout = new Sprite();
+      Blackout._element = document.createElement("img");
+      Blackout._element.src = "image/黒.png";
+      Blackout.width = width;
+      Blackout.height = height;
+      Blackout.tl.fadeOut(10);
+      scene.addChild(Blackout);
+
+      scene.addEventListener("enterframe",function(){
+
+        if(Blackout.opacity==0){
+
+          switch(Human.向き){
+            case "上":
+              Check_X = Map_X;
+              Check_Y = Map_Y - 1;
+              break;
+            case "下":
+              Check_X = Map_X;
+              Check_Y = Map_Y + 1;
+              break;
+            case "左":
+              Check_X = Map_X - 1;
+              Check_Y = Map_Y;
+              break;
+            case "右":
+              Check_X = Map_X + 1;
+              Check_Y = Map_Y;
+              break;
+          };
+
+          for(var i = 0; i < Image.length; i++){
+            if(Image[i].name!="人"){
+              switch (Human.向き) {
+                case "上":
+                  Image[i].x = (Image[i].Mapx + 8) * 100-50 - Map_X * 100;
+                  Image[i].y = (Image[i].Mapy + 4) * 100 - Map_Y * 100 - Move;
+                  break;
+                case "下":
+                  Image[i].x = (Image[i].Mapx + 8) * 100-50 - Map_X * 100;
+                  Image[i].y = (Image[i].Mapy + 4) * 100 - Map_Y * 100 + Move;
+                  break;
+                case "左":
+                  Image[i].x = (Image[i].Mapx + 8) * 100-50 - Map_X * 100 - Move;
+                  Image[i].y = (Image[i].Mapy + 4) * 100 - Map_Y * 100;
+                  break;
+                case "右":
+                  Image[i].x = (Image[i].Mapx + 8) * 100-50 - Map_X * 100 + Move;
+                  Image[i].y = (Image[i].Mapy + 4) * 100 - Map_Y * 100;
+                  break;
+              };
+              if(Image[i].向き){
+                switch (Image[i].向き) {
+                  case "上":
+                    Image[i].y += Image[i].Move;
+                    break;
+                  case "下":
+                    Image[i].y -= Image[i].Move;
+                    break;
+                  case "左":
+                    Image[i].x += Image[i].Move;
+                    break;
+                  case "右":
+                    Image[i].x -= Image[i].Move;
+                    break;
+                };
+                Image[i].Number++;
+                if(Image[i].Move){
+                  if(Image[i].Number >= Image[i]["歩" + Image[i].向き].length) Image[i].Number = 0;
+                  Image[i]._element.src = Image[i]["歩" + Image[i].向き][Image[i].Number];
+                }
+                else{
+                  if(Image[i].Number >= Image[i][Image[i].向き].length) Image[i].Number = 0;
+                  Image[i]._element.src = Image[i][Image[i].向き][Image[i].Number];
+                };
+              };
+            };
+          };
+
+          if(!Move&&!Touch){
+            if(Map[Map_Y][Map_X].type=="接触"){
+              Touch = true;
+              game.input.up = false;
+              game.input.down = false;
+              game.input.left = false;
+              game.input.right = false;
+              Scene_Check_Scene(Stage_Datas[Map[Map_Y][Map_X].Datas]);
+            };
+          };
+
+          Human.Number++;
+          if(Move){
+            if(Key_z){
+              if(Human.Number >= Human["走" + Human.向き].length) Human.Number = 0;
+              Image[Images_Data["人"]]._element.src = Human["走" + Human.向き][Human.Number];
+            }
+            else{
+              if(Human.Number >= Human["歩" + Human.向き].length) Human.Number = 0;
+              Image[Images_Data["人"]]._element.src = Human["歩" + Human.向き][Human.Number];
+            };
+          }
+          else{
+            if(Human.Number >= Human[Human.向き].length) Human.Number = 0;
+            Image[Images_Data["人"]]._element.src = Human[Human.向き][Human.Number];
+          };
+
+          if(Key_c){
+            if(!Move){
+              if(Check_X < Map[0].length && Check_Y < Map.length && Check_X >= 0 && Check_Y >= 0 ){
+                if(Map[Check_Y][Check_X].type=="調べる"||Map[Check_Y][Check_X].type=="オブジェ"){
+                  if(Map[Check_Y][Check_X].name){
+                    if(!Image[Images_Data[Map[Check_Y][Check_X].name]].Move){
+                      switch(Human.向き){
+                        case "上":
+                          Image[Images_Data[Map[Check_Y][Check_X].name]].向き = "下";
+                          Image[Images_Data[Map[Check_Y][Check_X].name]]._element.src = Image[Images_Data[Map[Check_Y][Check_X].name]]["下"][0];
+                          break;
+                        case "下":
+                          Image[Images_Data[Map[Check_Y][Check_X].name]].向き = "上";
+                          Image[Images_Data[Map[Check_Y][Check_X].name]]._element.src = Image[Images_Data[Map[Check_Y][Check_X].name]]["上"][0];
+                          break;
+                        case "左":
+                          Image[Images_Data[Map[Check_Y][Check_X].name]].向き = "右";
+                          Image[Images_Data[Map[Check_Y][Check_X].name]]._element.src = Image[Images_Data[Map[Check_Y][Check_X].name]]["右"][0];
+                          break;
+                        case "右":
+                          Image[Images_Data[Map[Check_Y][Check_X].name]].向き = "左";
+                          Image[Images_Data[Map[Check_Y][Check_X].name]]._element.src = Image[Images_Data[Map[Check_Y][Check_X].name]]["左"][0];
+                          break;
+                      };
+                      Image[Images_Data[Map[Check_Y][Check_X].name]].stop = 2;
+                      Scene_Check_Scene(Stage_Datas[Map[Check_Y][Check_X].Datas]);
+                    };
+                  }
+                  else Scene_Check_Scene(Stage_Datas[Map[Check_Y][Check_X].Datas]);
+                };
+              }
+              else console.log("マップ外");
+            };
+          };
+
+          for(var i = 0; i < Image.length; i++){
+            if(Image[i].Move){
+              Image[i].Move -= 10;
+              if(!Image[i].Move){
+                Map[Image[i].Beforey][Image[i].Beforex] = "□";
+              };
+            };
+          };
+
+          if(Move){
+            if(Key_z) Move -= 25;
+            else Move -= 10;
+            if(Move < 0) Move = 0;
+          };
+
+          if(Key_x){
+            console.log(JSON.stringify(Map));
+            if(Map[Map_Y][Map_X]!="■"){
+              /*
+              Images(100,100,(Map_X+8)*100-50,(Map_Y+4)*100,"image/配置.png","■");
+              Image[Images_Data["■"]].Mapx = Map_X;
+              Image[Images_Data["■"]].Mapy = Map_Y;
+              Map[Map_Y][Map_X] = "■";
+              */
+            };
+          };
+
+          if(Move_box){
+            for (var i = 0; i < Move_box.length; i++) {
+              if(Move_box[i][0]=="人"){
+                if(Move_human(Move_box[i][1],true)){
+                  Move_box = null;
+                  break;
+                };
+              };
+            }
+          }
+          else{
+            if(game.input.up&&!game.input.down&&!game.input.left&&!game.input.right) Move_human("上");
+            if(!game.input.up&&game.input.down&&!game.input.left&&!game.input.right) Move_human("下");
+            if(!game.input.up&&!game.input.down&&game.input.left&&!game.input.right) Move_human("左");
+            if(!game.input.up&&!game.input.down&&!game.input.left&&game.input.right) Move_human("右");
+          };
+
+          for(var i = 0; i < Image.length; i++){
+            if(Image[i].moves){
+              Image[i].time++;
+              if(Image[i].times==Image[i].time){
+                Image[i].time = 0;
+                Image[i].moves_number++;
+                if(Image[i].moves_number >= Image[i].moves.length) Image[i].moves_number = 0;
+                Move_Object(Image[i],Image[i].moves[Image[i].moves_number]);
+              };
+            };
+          };
+        };
+      });
+
+      function Move_human(Direction,Automatic){
+        if(Move) return;
+        if(!Touch&&Map[Map_Y][Map_X].type=="接触") return;
+        Move = 100;
+        if(!Automatic){
+          if(Human.向き!=Direction){
+            Move = 0;
+            Human.向き = Direction;
+            Human.Number = 0;
+            Image[Images_Data["人"]]._element.src = Human[Direction][Human.Number];
+            return;
+          };
+          if(Map[Check_Y][Check_X]=="■"||Map[Check_Y][Check_X]=="動"||Map[Check_Y][Check_X].type=="調べる"||Map[Check_Y][Check_X].type=="オブジェ"){
+            Move = 0;
+            return;
+          };
+        }
+        else{
+          Human.向き = Direction;
+          Move_box_length++;
+        };
+        Touch = false;
+        switch(Direction){
+          case "上":
+            Map_Y--;
+            break;
+          case "下":
+            Map_Y++;
+            break;
+          case "左":
+            Map_X--;
+            break;
+          case "右":
+            Map_X++;
+            break;
+        };
+        if(Automatic) if(Move_box_length==Move_box.length) return(true);
+        return(false);
+      };
+
+      function Move_Object(Object,Direction){
+        if(Object.stop){
+          Object.stop--;
+          return;
+        };
+        if(Direction=="ランダム"){
+          switch (Math.floor(Math.random()*8)){
+            case 0:
+              Direction = "上";
+              break;
+            case 1:
+              Direction = "下";
+              break;
+            case 2:
+              Direction = "左";
+              break;
+            case 3:
+              Direction = "右";
+              break;
+            case 4:
+              Direction = "上を向く";
+              break;
+            case 5:
+              Direction = "下を向く";
+              break;
+            case 6:
+              Direction = "左を向く";
+              break;
+            case 7:
+              Direction = "右を向く";
+              break;
+          };
+        };
+        if(Direction=="ランダムに向く"){
+          switch (Math.floor(Math.random()*4)){
+            case 0:
+              Direction = "上を向く";
+              break;
+            case 1:
+              Direction = "下を向く";
+              break;
+            case 2:
+              Direction = "左を向く";
+              break;
+            case 3:
+              Direction = "右を向く";
+              break;
+          };
+        };
+        if(Direction=="ランダムに動く"){
+          switch (Math.floor(Math.random()*4)){
+            case 0:
+              Direction = "上";
+              break;
+            case 1:
+              Direction = "下";
+              break;
+            case 2:
+              Direction = "左";
+              break;
+            case 3:
+              Direction = "右";
+              break;
+          };
+        };
+        if(Direction=="近づく"){
+          if(Map_X==Object.Check_X){
+            if(Map_Y > Object.Check_Y) Direction = "下";
+            else Direction = "上";
+          }
+          else{
+            if(Map_X > Object.Check_X) Direction = "右";
+            else Direction = "左";
+          };
+
+        };
+        if(Object.Move) return;
+        Object.Move = 100;
+        if(Direction.substring(1)=="を向く"){
+          Object.向き = Direction.substring(0,1);
+          Object.Move = 0;
+          Object.Number = 0;
+          Object._element.src = Object[Direction.substring(0,1)][Object.Number];
+          return;
+        };
+        Object.向き = Direction;
+        switch (Direction) {
+          case "上":
+            Object.Check_X = Object.Mapx;
+            Object.Check_Y = Object.Mapy - 1;
+            break;
+          case "下":
+            Object.Check_X = Object.Mapx;
+            Object.Check_Y = Object.Mapy + 1;
+            break;
+          case "左":
+            Object.Check_X = Object.Mapx - 1;
+            Object.Check_Y = Object.Mapy;
+            break;
+          case "右":
+            Object.Check_X = Object.Mapx + 1;
+            Object.Check_Y = Object.Mapy;
+            break;
+        };
+        if(Map[Object.Check_Y][Object.Check_X]!="□"||(Map_X==Object.Check_X&&Map_Y==Object.Check_Y)){
+          Object.Move = 0;
+          return;
+        };
+
+        Map[Object.Check_Y][Object.Check_X] = Map[Object.Mapy][Object.Mapx];
+        Map[Object.Mapy][Object.Mapx] = "動";
+        Object.Beforex = Object.Mapx;
+        Object.Beforey = Object.Mapy;
+        Object.Mapx = Object.Check_X;
+        Object.Mapy = Object.Check_Y;
+
+        return;
+      };
+
+      return scene;
+    };
     var Chat_Scene = function(Datas){
+
       var scene = new Scene();
 
       if(!Datas) Datas = {1:{"text":"存在しないデータ。"}};
@@ -2066,6 +2543,7 @@ function Game_load(width,height){
           game.popScene();
           if(Datas[k].ステージ移動){
             if(Datas[k].x) Character_X = Datas[k].x;
+            if(Datas[k].y) Character_Y = Datas[k].y;
             if(Datas[k].向き) Character_direction = Datas[k].向き;
             Stage = Datas[k].ステージ移動;
             Key_z = false;
@@ -2075,7 +2553,7 @@ function Game_load(width,height){
             game.input.down = false;
             game.input.left = false;
             game.input.right = false;
-            game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+            Scene_Check_Scene(Stage_Datas[Stage]);
           }
         }
         return;
@@ -2362,6 +2840,55 @@ function Game_load(width,height){
 
       return scene;
     };
+    var Blackout_Scene = function(Datas){
+
+      var scene = new Scene();
+
+      var Blackout = new Sprite();
+      Blackout._element = document.createElement("img");
+      Blackout._element.src = "image/黒.png";
+      Blackout.width = width;
+      Blackout.height = height;
+      Blackout.opacity = 0;
+      Blackout.tl.fadeIn(10);
+      scene.addChild(Blackout);
+
+      scene.addEventListener("enterframe",function(){
+
+        if(Blackout.opacity==1){
+          game.popScene();
+          game.replaceScene(Map_Scene(Datas));
+        };
+
+      });
+
+      return scene;
+    };
+
+    function Scene_Check_Scene(Datas){
+      if(Datas.move){
+        Move_box = Datas.move;
+        Move_box_length = 0;
+      };
+      switch (Datas.type) {
+        case "マップ":
+          game.pushScene(Blackout_Scene(Datas));
+          break;
+        case "メイン":
+          game.replaceScene(Main_Scene(Datas));
+          break;
+        case "会話":
+          game.pushScene(Chat_Scene(Datas));
+          break;
+        case "ジャンプ":
+          Character_X = Datas.x;
+          Character_Y = Datas.y;
+          Character_direction = Datas.向き;
+          Scene_Check_Scene(Stage_Datas[Datas.next]);
+          break;
+      };
+      return;
+    };
 
     if(window.localStorage.getItem("Flag")){
       Flag = window.localStorage.getItem("Flag");
@@ -2410,22 +2937,23 @@ function Game_load(width,height){
         break;
     };
 
-    var URL = "https://script.google.com/macros/s/AKfycbzQm1rsU9qHfmOCRgPguLLifPIPc4Ip6NMbei5rX0EGu8-XfJj8/exec";
+    var URL = "https://script.google.com/macros/s/AKfycbw2Dx5NjCfQRv1TlpH0kSnvzvZrrLXoWI55JSpuda8XYxwEwbMd/exec";
     var Options = {
       method: "POST",
-      body:Body
+      body:JSON.stringify({Sheet_id:"13esnJ1oLnt2hvzpK6pQEJW_kVF8UkUV_u3P55zpouBM",Sheet_name:"ゲームデータ"})
     };
 
     fetch(URL,Options).then(res => res.json()).then(result => {
       for (var i = 0; i < result.length; i++) {
-        //result[i].ステージ = result[i].ステージ.replace(/\s/g,"");
-        if(result[i].名前=="変換"){
-          Change_Box = JSON.parse(result[i].ステージ);
+        if(result[i]){
+          result[i] = JSON.parse(result[i].データ1);
+          Stage_Datas[result[i].name] = result[i];
+          delete Stage_Datas[result[i].name].name;
         }
-        Stage_Datas[result[i].名前] = JSON.parse(result[i].ステージ);
+        else break;
       }
       if(!Stage_Datas[Stage]) Stage = "最初";
-      game.replaceScene(Main_Scene(Stage_Datas[Stage]));
+      Scene_Check_Scene(Stage_Datas[Stage]);
       return;
     },);
   }
