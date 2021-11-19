@@ -8,13 +8,13 @@ var Stage_X = 0;
 var Stage_Y = 0;
 var Character_X = 0;
 var Character_Y = 0;
+var Load_Map = null;
 var Character_direction = "右";
 var Flag = {};
 var Flag_name = null;
 var Chat = "最初";
 var Stage = "最初";
-var COOLTime = {c_key:0,s_key:0,run:0,down:0,right:0,left:0,up:0};
-var Run = false;
+var COOLTime = {c_key:0,s_key:0,down:0,right:0,left:0,up:0};
 var Change_Box = null;
 var Move_box = null;
 var Move_box_length = 0;
@@ -100,6 +100,10 @@ function Game_load(width,height){
       };
 
       Map = Datas.マップ;
+      if(Load_Map){
+        Map = Load_Map;
+        Load_Map = null;
+      };
 
       var scene = new Scene();
 
@@ -126,7 +130,6 @@ function Game_load(width,height){
       var Map_X = null;
       var Map_Y = null;
 
-      var Run = 5;
       var Move = 0;
       var Map_W = Map[0].length;
       var Map_H = Map.length;
@@ -172,6 +175,7 @@ function Game_load(width,height){
             case "動":
               Map[I][J] = "□";
               break;
+            case 0:
             case "■":
               break;
             default:
@@ -226,6 +230,16 @@ function Game_load(width,height){
       scene.addChild(Blackout);
 
       scene.addEventListener("enterframe",function(){
+
+        for(var K = 0; K < Object.keys(COOLTime).length; K++){
+          if(COOLTime[Object.keys(COOLTime)[K]] > 0) COOLTime[Object.keys(COOLTime)[K]]--;
+        };
+
+        Character_direction = Human.向き;
+
+        if(Key_s){
+          game.pushScene(Chat_Scene({テキスト:"セーブしますか？",選択肢:{いいえ:false,はい:"セーブ"}}));
+        };
 
         if(HTML=="スマホ") pad_keydown();
 
@@ -299,7 +313,7 @@ function Game_load(width,height){
           };
 
           if(!Move&&!Touch){
-            if(Map[Map_Y][Map_X]!="□"){
+            if(Map[Map_Y][Map_X]!="□"&&Map[Map_Y][Map_X]!=0){
               if(Stage_Datas[Map[Map_Y][Map_X]].データタイプ=="接触判定"){
                 if(Stage_Datas[Map[Map_Y][Map_X]].フラグ判断){
                   for(var I = 0; I < Object.keys(Stage_Datas[Map[Map_Y][Map_X]].フラグ判断).length; I++){
@@ -307,9 +321,17 @@ function Game_load(width,height){
                     Flag_name = Flag_judgement(Flag_name,Stage_Datas[Map[Map_Y][Map_X]].フラグ判断[Flag_name]);
                     if(!Flag_name) break;
                   };
-                };
-                Touch = true;
-                if(I==Object.keys(Stage_Datas[Map[Map_Y][Map_X]].フラグ判断).length){
+                  Touch = true;
+                  if(I==Object.keys(Stage_Datas[Map[Map_Y][Map_X]].フラグ判断).length){
+                    game.input.up = false;
+                    game.input.down = false;
+                    game.input.left = false;
+                    game.input.right = false;
+                    Scene_Check_Scene(Stage_Datas[Stage_Datas[Map[Map_Y][Map_X]].データ]);
+                  };
+                }
+                else{
+                  Touch = true;
                   game.input.up = false;
                   game.input.down = false;
                   game.input.left = false;
@@ -336,14 +358,14 @@ function Game_load(width,height){
             Image[Images_Data["主人公"]]._element.src = Human[Human.向き][Human.Number];
           };
 
-          if(Key_c){
+          if(Key_c&&!COOLTime.c_key){
             if(!Move){
               if(Check_X < Map[0].length && Check_Y < Map.length && Check_X >= 0 && Check_Y >= 0 ){
-                if(Map[Check_Y][Check_X]!="■"&&Map[Check_Y][Check_X]!="□"&&Map[Check_Y][Check_X]!="動"){
+                if(Map[Check_Y][Check_X]!="■"&&Map[Check_Y][Check_X]!="□"&&Map[Check_Y][Check_X]!=0&&Map[Check_Y][Check_X]!="動"){
                   MAP_object = Stage_Datas[Map[Check_Y][Check_X]];
                   switch(MAP_object.データタイプ){
                     case "NPC":
-                      if(MAP_object.データ.会話&&!Image[Images_Data[Map[Check_Y][Check_X]]].Move&&!Image[Images_Data[Map[Check_Y][Check_X]]].stop){
+                      if(MAP_object.データ.会話&&!Image[Images_Data[Map[Check_Y][Check_X]]].Move){
                         switch(Human.向き){
                           case "上":
                             Image[Images_Data[Map[Check_Y][Check_X]]].向き = "下";
@@ -362,9 +384,12 @@ function Game_load(width,height){
                             Image[Images_Data[Map[Check_Y][Check_X]]]._element.src = Image[Images_Data[Map[Check_Y][Check_X]]]["左"][0];
                             break;
                           };
-                        Image[Images_Data[Map[Check_Y][Check_X]]].stop = 2;
-                        Scene_Check_Scene(Stage_Datas[MAP_object.データ.会話]);
+                          Scene_Check_Scene(Stage_Datas[MAP_object.データ.会話]);
+                          return;
                       };
+                      break;
+                    case "調べる":
+                      Scene_Check_Scene(Stage_Datas[MAP_object.データ]);
                       break;
                   };
                 };
@@ -433,7 +458,7 @@ function Game_load(width,height){
 
       function Move_human(Direction,Automatic){
         if(Move) return;
-        if(!Touch&&Map[Map_Y][Map_X]!="□"){
+        if(!Touch&&Map[Map_Y][Map_X]!="□"&&Map[Map_Y][Map_X]!=0){
           if(Stage_Datas[Map[Map_Y][Map_X]].データタイプ=="接触判定") return;
         };
         Move = 100;
@@ -445,16 +470,23 @@ function Game_load(width,height){
             Image[Images_Data["主人公"]]._element.src = Human[Direction][Human.Number];
             return;
           };
-          if(Map[Check_Y][Check_X]!="□"){
-            if(Map[Check_Y][Check_X]=="動"||Map[Check_Y][Check_X]=="■"){
-              Move = 0;
-              return;
-            }
-            else if(Stage_Datas[Map[Check_Y][Check_X]].データタイプ!="接触判定"){
-              Move = 0;
-              return;
+          if(Check_X < Map[0].length && Check_Y < Map.length && Check_X >= 0 && Check_Y >= 0 ){
+            if(Map[Check_Y][Check_X]!="□"&&Map[Check_Y][Check_X]!=0){
+              if(Map[Check_Y][Check_X]=="動"||Map[Check_Y][Check_X]=="■"){
+                Move = 0;
+                return;
+              }
+              else if(Stage_Datas[Map[Check_Y][Check_X]].データタイプ!="接触判定"){
+                Move = 0;
+                return;
+              };
             };
-          };
+          }
+          else{
+            console.log("マップ外");
+            Move = 0;
+            return;
+          }
         }
         else{
           Human.向き = Direction;
@@ -475,15 +507,13 @@ function Game_load(width,height){
             Map_X++;
             break;
         };
+        Character_X = Map_X;
+        Character_Y = Map_Y;
         if(Automatic) if(Move_box_length==Move_box.length) return(true);
         return(false);
       };
 
       function Move_Object(Object,Direction){
-        if(Object.stop){
-          Object.stop--;
-          return;
-        };
         if(Direction=="ランダム"){
           switch(Math.floor(Math.random()*8)){
             case 0:
@@ -837,27 +867,30 @@ function Game_load(width,height){
               };
             };
           };
-          if(!game.input.up&&game.input.down&&!game.input.left&&!game.input.right&&!COOLTime.down){
-            COOLTime.down = 5;
-            for(var K = 0; K < Object.keys(Datas.選択肢).length; K++){
-              ChoiceText[K]._element.textContent = Object.keys(Datas.選択肢)[K];
+          if(Datas.選択肢&&!Display_text[J+1]){
+            if(!game.input.up&&game.input.down&&!game.input.left&&!game.input.right&&!COOLTime.down){
+              COOLTime.down = 5;
+              for(var K = 0; K < Object.keys(Datas.選択肢).length; K++){
+                ChoiceText[K]._element.textContent = Object.keys(Datas.選択肢)[K];
+              };
+              Choice_Number--;
+              if(Choice_Number < 0) Choice_Number = Object.keys(Datas.選択肢).length - 1;
+              Datas.次 = Datas.選択肢[Object.keys(Datas.選択肢)[Choice_Number]];
+              ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Datas.選択肢)[Choice_Number];
             };
-            Choice_Number--;
-            if(Choice_Number < 0) Choice_Number = Object.keys(Datas.選択肢).length - 1;
-            Datas.次 = Datas.選択肢[Object.keys(Datas.選択肢)[Choice_Number]];
-            ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Datas.選択肢)[Choice_Number];
-          };
-          if(game.input.up&&!game.input.down&&!game.input.left&&!game.input.right&&!COOLTime.up){
-            COOLTime.up = 5;
-            for(var K = 0; K < Object.keys(Datas.選択肢).length; K++){
-              ChoiceText[K]._element.textContent = Object.keys(Datas.選択肢)[K];
+            if(game.input.up&&!game.input.down&&!game.input.left&&!game.input.right&&!COOLTime.up){
+              COOLTime.up = 5;
+              for(var K = 0; K < Object.keys(Datas.選択肢).length; K++){
+                ChoiceText[K]._element.textContent = Object.keys(Datas.選択肢)[K];
+              };
+              Choice_Number++;
+              if(Choice_Number == Object.keys(Datas.選択肢).length) Choice_Number = 0;
+              Datas.次 = Datas.選択肢[Object.keys(Datas.選択肢)[Choice_Number]];
+              ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Datas.選択肢)[Choice_Number];
             };
-            Choice_Number++;
-            if(Choice_Number == Object.keys(Datas.選択肢).length) Choice_Number = 0;
-            Datas.次 = Datas.選択肢[Object.keys(Datas.選択肢)[Choice_Number]];
-            ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Datas.選択肢)[Choice_Number];
           };
           if(Key_c&&!Key_x){
+            COOLTime.c_key = 5;
             J++;
             if(Display_text[J]){
               I = 0;
@@ -869,7 +902,29 @@ function Game_load(width,height){
             }
             else{
               game.popScene();
-              if(Datas.次) Scene_Check_Scene(Stage_Datas[Datas.次]);
+              if(Datas.次){
+                switch(Datas.次){
+                  case "セーブ":
+                    window.localStorage.setItem("Map",JSON.stringify(Map));
+                    window.localStorage.setItem("Flag",JSON.stringify(Flag));
+                    window.localStorage.setItem("Stage",JSON.stringify(Stage));
+                    window.localStorage.setItem("Stage_X",JSON.stringify(Stage_X));
+                    window.localStorage.setItem("Stage_Y",JSON.stringify(Stage_Y));
+                    window.localStorage.setItem("Character_X",JSON.stringify(Character_X));
+                    window.localStorage.setItem("Character_Y",JSON.stringify(Character_Y));
+                    window.localStorage.setItem("Character_direction",JSON.stringify(Character_direction));
+                    console.log("セーブ完了。");
+                    game.pushScene(Chat_Scene({テキスト:"セーブしました。"}));
+                    return;
+                    break;
+                  case "セーブ削除":
+                    window.localStorage.clear();
+                    game.pushScene(Chat_Scene({テキスト:"既存セーブを削除しました。●ゲームは続けることができます。"}));
+                    return;
+                    break;
+                };
+                Scene_Check_Scene(Stage_Datas[Datas.次]);
+              };
             };
           };
         };
@@ -1318,6 +1373,7 @@ function Game_load(width,height){
     };
 
     function Scene_Check_Scene(Datas){
+      Key_c = false;
       if(!Datas) Datas = {データタイプ:"会話",データ:{テキスト:"データが見つかりませんでした。"}};
       if(Datas.フラグ判断){
         for(var I = 0; I < Object.keys(Datas.フラグ判断).length; I++){
@@ -1331,6 +1387,8 @@ function Game_load(width,height){
       };
       switch(Datas.データタイプ){
         case "マップ":
+          Stage = Datas.データ名;
+          console.log(Stage);
           game.pushScene(Blackout_Scene(Datas.データ));
           break;
         case "メイン":
@@ -1357,6 +1415,10 @@ function Game_load(width,height){
       return;
     };
 
+    if(window.localStorage.getItem("Map")){
+      Load_Map = window.localStorage.getItem("Map");
+      Load_Map = JSON.parse(Load_Map);
+    };
     if(window.localStorage.getItem("Flag")){
       Flag = window.localStorage.getItem("Flag");
       Flag = JSON.parse(Flag);
@@ -1417,11 +1479,9 @@ function Game_load(width,height){
           else  result[I] = result[I].データ1;
           result[I] = JSON.parse(result[I]);
           Stage_Datas[result[I].データ名] = result[I];
-          delete Stage_Datas[result[I].データ名].データ名;
         }
         else break;
       };
-      console.log(Stage_Datas);
       if(!Stage_Datas[Stage]) Stage = "最初";
       Scene_Check_Scene(Stage_Datas[Stage]);
       return;
