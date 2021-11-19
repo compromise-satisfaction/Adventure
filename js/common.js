@@ -73,6 +73,7 @@ $(function(){
   var gameWidth = 1600;
   switch(HTML){
     case "編集":
+    case "スマホ":
     var gameHeight = 1800;
     break;
     default:
