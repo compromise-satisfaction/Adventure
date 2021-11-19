@@ -92,18 +92,21 @@ function Game_load(width,height){
 
       Map = [];
 
-      for (var i = 0; i < 18; i++) {
+      for (var i = 0; i < 40; i++) {
         Map[i] = [];
-        for (var j = 0; j < 21; j++) {
+        for (var j = 0; j < 40; j++) {
           Map[i][j] = 0;
         };
       };
 
-      Map = Datas.マップ;
-      if(Load_Map){
-        Map = Load_Map;
-        Load_Map = null;
-      };
+      if(HTML!="編"){
+        Map = Datas.マップ;
+        if(Load_Map){
+          Map = Load_Map;
+          Load_Map = null;
+        };
+      }
+      else Map[0][0] = "1F階段";
 
       var scene = new Scene();
 
@@ -241,7 +244,7 @@ function Game_load(width,height){
           game.pushScene(Chat_Scene({テキスト:"セーブしますか？",選択肢:{いいえ:false,はい:"セーブ"}}));
         };
 
-        if(HTML=="スマホ") pad_keydown();
+        if(HTML=="スマホ"||HTML=="編集") pad_keydown();
 
         if(Blackout.opacity==0){
 
@@ -313,7 +316,7 @@ function Game_load(width,height){
           };
 
           if(!Move&&!Touch){
-            if(Map[Map_Y][Map_X]!="□"&&Map[Map_Y][Map_X]!=0){
+            if(Map[Map_Y][Map_X]!="□"&&Map[Map_Y][Map_X]!="■"&&Map[Map_Y][Map_X]!=0){
               if(Stage_Datas[Map[Map_Y][Map_X]].データタイプ=="接触判定"){
                 if(Stage_Datas[Map[Map_Y][Map_X]].フラグ判断){
                   for(var I = 0; I < Object.keys(Stage_Datas[Map[Map_Y][Map_X]].フラグ判断).length; I++){
@@ -415,13 +418,11 @@ function Game_load(width,height){
 
           if(Key_x){
             console.log(JSON.stringify(Map));
-            if(Map[Map_Y][Map_X]!="■"){
-              /*
+            if(Map[Map_Y][Map_X]!="■"&&HTML=="編集"){
               Images(100,100,(Map_X+8)*100-50,(Map_Y+4)*100,"image/配置.png","■");
               Image[Images_Data["■"]].Mapx = Map_X;
               Image[Images_Data["■"]].Mapy = Map_Y;
               Map[Map_Y][Map_X] = "■";
-              */
             };
           };
 
@@ -458,7 +459,7 @@ function Game_load(width,height){
 
       function Move_human(Direction,Automatic){
         if(Move) return;
-        if(!Touch&&Map[Map_Y][Map_X]!="□"&&Map[Map_Y][Map_X]!=0){
+        if(!Touch&&Map[Map_Y][Map_X]!="□"&&Map[Map_Y][Map_X]!="■"&&Map[Map_Y][Map_X]!=0){
           if(Stage_Datas[Map[Map_Y][Map_X]].データタイプ=="接触判定") return;
         };
         Move = 100;
@@ -628,7 +629,7 @@ function Game_load(width,height){
         return;
       };
 
-      if(HTML=="スマホ"){
+      if(HTML=="スマホ"||HTML=="編集"){
 
         Images(width,height/2,0,height/2,"image/白.png","白");
 
@@ -839,7 +840,7 @@ function Game_load(width,height){
           if(COOLTime[Object.keys(COOLTime)[K]] > 0) COOLTime[Object.keys(COOLTime)[K]]--;
         };
 
-        if(HTML=="スマホ") pad_keydown();
+        if(HTML=="スマホ"||HTML=="編集") pad_keydown();
 
         if(Write){
           if(Key_z) while(Write) Text_write();
@@ -1260,7 +1261,7 @@ function Game_load(width,height){
 
       */
 
-      if(HTML=="スマホ"){
+      if(HTML=="スマホ"||HTML=="編集"){
 
         Images(width,height/2,0,height/2,"image/白.png","白");
 
@@ -1450,6 +1451,7 @@ function Game_load(width,height){
 
     switch(HTML){
       case "管理者":
+        var Data_number = "データ1";
         var Body = "書き込み" + JSON.stringify(Stage_Datas);
         break;
       case "編集":
@@ -1458,10 +1460,12 @@ function Game_load(width,height){
           Stage_Datas = JSON.parse(Stage_Datas);
         }
         else Stage_Datas = {};
+        var Data_number = "データ2";
         var Body = "読み込み";
         break;
       default:
         Stage_Datas = {};
+        var Data_number = "データ1";
         var Body = "読み込み";
         break;
     };
@@ -1474,9 +1478,9 @@ function Game_load(width,height){
 
     fetch(URL,Options).then(res => res.json()).then(result => {
       for(var I = 0; I < result.length; I++){
-        if(result[I].データ1){
-          if(result[I].データ1.substring(0,1)!="{") result[I] = "{" + result[I].データ1 + "}";
-          else  result[I] = result[I].データ1;
+        if(result[I][Data_number]){
+          if(result[I][Data_number].substring(0,1)!="{") result[I] = "{" + result[I][Data_number] + "}";
+          else  result[I] = result[I][Data_number];
           result[I] = JSON.parse(result[I]);
           Stage_Datas[result[I].データ名] = result[I];
         }
