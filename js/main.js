@@ -761,7 +761,7 @@ function Game_load(width,height){
         var Image_keys = null;
         for(var I = 0; I < Object.keys(Datas.画像).length; I++){
           Image_keys = Object.keys(Datas.画像)[I];
-          Images(width,height,0,0,false,Image_keys);
+          Images(width,900,0,0,false,Image_keys);
           if(Datas.画像[Image_keys].x) Image[Images_Data[Image_keys]].x = Datas.画像[Image_keys].x;
           if(Datas.画像[Image_keys].y) Image[Images_Data[Image_keys]].y = Datas.画像[Image_keys].y;
           if(Datas.画像[Image_keys].width) Image[Images_Data[Image_keys]].width = Datas.画像[Image_keys].width;
