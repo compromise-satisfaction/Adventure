@@ -68,6 +68,10 @@ window.addEventListener("keyup",function(e){
 function Flag_judgement(Name,Condition){
   var Judge = null;
   if(Flag[Name]==undefined) Flag[Name] = 0;
+  if(Condition["!="]!=undefined){
+    if(Flag[Name]!=Condition["!="]) Judge = true;
+    else Judge = false;
+  };
   if(Condition["="]!=undefined){
     if(Flag[Name]==Condition["="]) Judge = true;
     else Judge = false;
