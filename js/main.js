@@ -1464,7 +1464,10 @@ function Game_load(width,height){
           Flag_name = Flag_judgement(Flag_name,Datas.フラグ判断[Flag_name]);
           if(!Flag_name) break;
         };
-        if(I!=Object.keys(Datas.フラグ判断).length) return;
+        if(I!=Object.keys(Datas.フラグ判断).length){
+          if(Datas.フラグ無し) Scene_Check_Scene(Stage_Datas[Datas.フラグ無し]);
+          return;
+        };
       };
       if(Datas.move){
         Move_box = Datas.move;
