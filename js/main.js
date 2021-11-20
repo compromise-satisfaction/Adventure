@@ -90,23 +90,11 @@ function Game_load(width,height){
 
       var scene = new Scene();
 
-      Map = [];
-
-      for (var i = 0; i < 40; i++) {
-        Map[i] = [];
-        for (var j = 0; j < 40; j++) {
-          Map[i][j] = 0;
-        };
+      Map = Datas.マップ;
+      if(Load_Map){
+        Map = Load_Map;
+        Load_Map = null;
       };
-
-      if(HTML!="編"){
-        Map = Datas.マップ;
-        if(Load_Map){
-          Map = Load_Map;
-          Load_Map = null;
-        };
-      }
-      else Map[0][0] = "1F階段";
 
       var scene = new Scene();
 
@@ -240,8 +228,11 @@ function Game_load(width,height){
 
         Character_direction = Human.向き;
 
+        var Key_s_data = {テキスト:"セーブしますか？"};
         if(Key_s){
-          game.pushScene(Chat_Scene({テキスト:"セーブしますか？",選択肢:{いいえ:false,はい:"セーブ"}}));
+          if(HTML=="編集") Key_s_data.選択肢 = {最初から:"最初から",マップ読み込み:"マップ読み込み",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
+          else Key_s_data.選択肢 = {いいえ:false,はい:"セーブ"};
+          game.pushScene(Chat_Scene(Key_s_data));
         };
 
         if(HTML=="スマホ"||HTML=="編集") pad_keydown();
@@ -770,7 +761,6 @@ function Game_load(width,height){
         };
       };
 
-      //Images(width,height,0,0,false,"背景");
       Images(width,400,0,480,"image/textbox.png","テキストボックス");
       Image[Images_Data.テキストボックス].opacity = 0.5;
 
@@ -921,6 +911,22 @@ function Game_load(width,height){
                   case "セーブ削除":
                     window.localStorage.clear();
                     game.pushScene(Chat_Scene({テキスト:"既存セーブを削除しました。●ゲームは続けることができます。"}));
+                    return;
+                    break;
+                  case "マップ読み込み":
+                    Map = [];
+                    for (var i = 0; i < 15; i++) {
+                      Map[i] = [];
+                      for (var j = 0; j < 15; j++) {
+                        Map[i][j] = "□";
+                      };
+                    };
+                    console.log(JSON.stringify(Map));
+                    game.pushScene(Chat_Scene({テキスト:"マップを読み込みました。"}));
+                    return;
+                    break;
+                  case "最初から":
+                    Scene_Check_Scene(Stage_Datas["最初"]);
                     return;
                     break;
                 };
