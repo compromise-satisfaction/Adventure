@@ -152,7 +152,8 @@ function Game_load(width,height){
 
       for(var I = 0; I < Object.keys(Datas.画像).length; I++){
         if(Object.keys(Datas.画像)[I]=="主人公"){
-          Human.画像 = Stage_Datas[Datas.画像[Object.keys(Datas.画像)[I]]];
+          if(!Flag.主人公) Flag.主人公 = Datas.画像[Object.keys(Datas.画像)[I]];
+          Human.画像 = Stage_Datas[Flag.主人公];
           Images(100,100,1600/2-50,900/2-50,false,"主人公");
           Human.向き = Character_direction;
           Human.上 = Human.画像.上;
