@@ -9,7 +9,9 @@ var Stage_Y = 0;
 var Create_Map = null;
 var Character_X = 0;
 var Character_Y = 0;
+var Object_moves = {};
 var Load_Map = null;
+var Load_Object_moves = null;
 var Character_direction = "右";
 var Flag = {};
 var Flag_name = null;
@@ -87,13 +89,19 @@ function Game_load(width,height){
   game.fps = 20;
   game.onload = function(){
 
-    var Map_Scene = function(Datas){
+    var Map_Scene = function(Datas,Stage_name){
+
+      console.log(Stage_name);
 
       var scene = new Scene();
 
       Map = Datas.マップ;
       if(Load_Map){
-        Map = Load_Map;
+        for (var i = 0; i < Map.length; i++) {
+          for (var j = 0; j < Map[i].length; j++) {
+            Map[i][j] = Load_Map[i][j];
+          };
+        };
         Load_Map = null;
       };
 
@@ -171,6 +179,13 @@ function Game_load(width,height){
 
       var MAP_object = null;
 
+      if(!Object_moves[Stage_name]) Object_moves[Stage_name] = {};
+
+      if(Load_Object_moves){
+        Object_moves[Stage_name] = Load_Object_moves[Stage_name];
+        Load_Object_moves = null;
+      };
+
       for(var I = 0; I < Map.length; I++){
         for(var J = 0; J < Map[I].length; J++){
           switch(Map[I][J]){
@@ -183,32 +198,37 @@ function Game_load(width,height){
               break;
             default:
               MAP_object = Stage_Datas[Map[I][J]];
-              if(MAP_object.データタイプ=="NPC"){
-                MAP_object = MAP_object.データ;
-                Images(100,100,(J+8)*100-50,(I+4)*100,false,Map[I][J]);
-                Image[Images_Data[Map[I][J]]].画像 = Stage_Datas[MAP_object.画像];
-                Image[Images_Data[Map[I][J]]].Move = 0;
-                Image[Images_Data[Map[I][J]]].Number = 0;
-                Image[Images_Data[Map[I][J]]].向き = MAP_object.向き;
-                Image[Images_Data[Map[I][J]]].上 = Image[Images_Data[Map[I][J]]].画像.上;
-                Image[Images_Data[Map[I][J]]].下 = Image[Images_Data[Map[I][J]]].画像.下;
-                Image[Images_Data[Map[I][J]]].左 = Image[Images_Data[Map[I][J]]].画像.左;
-                Image[Images_Data[Map[I][J]]].右 = Image[Images_Data[Map[I][J]]].画像.右;
-                Image[Images_Data[Map[I][J]]].歩上 = Image[Images_Data[Map[I][J]]].画像.歩上;
-                Image[Images_Data[Map[I][J]]].歩下 = Image[Images_Data[Map[I][J]]].画像.歩下;
-                Image[Images_Data[Map[I][J]]].歩左 = Image[Images_Data[Map[I][J]]].画像.歩左;
-                Image[Images_Data[Map[I][J]]].歩右 = Image[Images_Data[Map[I][J]]].画像.歩右;
-                if(MAP_object.動作){
-                  Image[Images_Data[Map[I][J]]].moves_number = 0;
-                  Image[Images_Data[Map[I][J]]].動作 = MAP_object.動作;
-                  Image[Images_Data[Map[I][J]]].time = 0;
-                  if(MAP_object.時間) Image[Images_Data[Map[I][J]]].times = MAP_object.時間;
-                  else Image[Images_Data[Map[I][J]]].times = 10;
+              if(MAP_object){
+                if(MAP_object.データタイプ=="NPC"){
+                  MAP_object = MAP_object.データ;
+                  Images(100,100,(J+8)*100-50,(I+4)*100,false,Map[I][J]);
+                  Image[Images_Data[Map[I][J]]].画像 = Stage_Datas[MAP_object.画像];
+                  Image[Images_Data[Map[I][J]]].Move = 0;
+                  Image[Images_Data[Map[I][J]]].Number = 0;
+                  Image[Images_Data[Map[I][J]]].向き = MAP_object.向き;
+                  Image[Images_Data[Map[I][J]]].上 = Image[Images_Data[Map[I][J]]].画像.上;
+                  Image[Images_Data[Map[I][J]]].下 = Image[Images_Data[Map[I][J]]].画像.下;
+                  Image[Images_Data[Map[I][J]]].左 = Image[Images_Data[Map[I][J]]].画像.左;
+                  Image[Images_Data[Map[I][J]]].右 = Image[Images_Data[Map[I][J]]].画像.右;
+                  Image[Images_Data[Map[I][J]]].歩上 = Image[Images_Data[Map[I][J]]].画像.歩上;
+                  Image[Images_Data[Map[I][J]]].歩下 = Image[Images_Data[Map[I][J]]].画像.歩下;
+                  Image[Images_Data[Map[I][J]]].歩左 = Image[Images_Data[Map[I][J]]].画像.歩左;
+                  Image[Images_Data[Map[I][J]]].歩右 = Image[Images_Data[Map[I][J]]].画像.歩右;
+                  if(MAP_object.動作){
+                    Image[Images_Data[Map[I][J]]].time = 0;
+                    if(Object_moves[Stage_name][[Map[I][J]]]){
+                      Image[Images_Data[Map[I][J]]].向き = Object_moves[Stage_name][[Map[I][J]]].向き;
+                    }
+                    else Object_moves[Stage_name][[Map[I][J]]] = {動作:MAP_object.動作,数:0};
+                    if(MAP_object.時間) Image[Images_Data[Map[I][J]]].times = MAP_object.時間;
+                    else Image[Images_Data[Map[I][J]]].times = 10;
+                  };
+                  Image[Images_Data[Map[I][J]]].Mapx = J;
+                  Image[Images_Data[Map[I][J]]].Mapy = I;
+                  Image[Images_Data[Map[I][J]]]._element.src = Image[Images_Data[Map[I][J]]][Image[Images_Data[Map[I][J]]].向き][0];
                 };
-                Image[Images_Data[Map[I][J]]].Mapx = J;
-                Image[Images_Data[Map[I][J]]].Mapy = I;
-                Image[Images_Data[Map[I][J]]]._element.src = Image[Images_Data[Map[I][J]]][Image[Images_Data[Map[I][J]]].向き][0];
-              };
+              }
+              else Map[I][J] = "■";
               break;
           };
         };
@@ -450,6 +470,22 @@ function Game_load(width,height){
             if(!game.input.up&&!game.input.down&&!game.input.left&&game.input.right) Move_human("右");
           };
 
+          var Object_move = null;
+          var Object_image = null;
+
+          for(var I = 0; I < Object.keys(Object_moves[Stage_name]).length; I++){
+            Object_image = Object.keys(Object_moves[Stage_name])[I];
+            Object_move = Object_moves[Stage_name][Object_image];
+            Object_image = Image[Images_Data[Object_image]];
+            Object_image.time++;
+            if(Object_image.times==Object_image.time){
+              Object_image.time = 0;
+              if(Object_move.数 >= Object_move.動作.length) Object_move.数 = 0;
+              if(Move_Object(Object_image,Object_move.動作[Object_move.数])) Object_move.数++;
+              Object_move.向き = Object_image.向き;
+            };
+          };
+
           for(var i = 0; i < Image.length; i++){
             if(Image[i].動作){
               Image[i].time++;
@@ -593,14 +629,14 @@ function Game_load(width,height){
           };
 
         };
-        if(Object.Move) return;
+        if(Object.Move) return(false);
         Object.Move = 100;
         if(Direction.substring(1)=="を向く"){
           Object.向き = Direction.substring(0,1);
           Object.Move = 0;
           Object.Number = 0;
           Object._element.src = Object[Direction.substring(0,1)][Object.Number];
-          return;
+          return(true);
         };
         Object.向き = Direction;
         switch(Direction){
@@ -623,7 +659,7 @@ function Game_load(width,height){
         };
         if(Map[Object.Check_Y][Object.Check_X]!="□"||(Map_X==Object.Check_X&&Map_Y==Object.Check_Y)){
           Object.Move = 0;
-          return;
+          return(false);
         };
 
         Map[Object.Check_Y][Object.Check_X] = Map[Object.Mapy][Object.Mapx];
@@ -633,7 +669,7 @@ function Game_load(width,height){
         Object.Mapx = Object.Check_X;
         Object.Mapy = Object.Check_Y;
 
-        return;
+        return(true);
       };
 
       if(HTML=="スマホ"||HTML=="編集"){
@@ -919,6 +955,7 @@ function Game_load(width,height){
                     window.localStorage.setItem("Stage_Y",JSON.stringify(Stage_Y));
                     window.localStorage.setItem("Character_X",JSON.stringify(Character_X));
                     window.localStorage.setItem("Character_Y",JSON.stringify(Character_Y));
+                    window.localStorage.setItem("Object_moves",JSON.stringify(Object_moves));
                     window.localStorage.setItem("Character_direction",JSON.stringify(Character_direction));
                     console.log("セーブ完了。");
                     game.pushScene(Chat_Scene({テキスト:"セーブしました。"}));
@@ -1364,7 +1401,7 @@ function Game_load(width,height){
 
       return scene;
     };
-    var Blackout_Scene = function(Datas){
+    var Blackout_Scene = function(Datas,Stage_name){
       var scene = new Scene();
       var Blackout = new Sprite();
       Blackout._element = document.createElement("img");
@@ -1377,7 +1414,7 @@ function Game_load(width,height){
       scene.addEventListener("enterframe",function(){
         if(Blackout.opacity==1){
           game.popScene();
-          game.replaceScene(Map_Scene(Datas));
+          game.replaceScene(Map_Scene(Datas,Stage_name));
         };
       });
       return scene;
@@ -1399,8 +1436,7 @@ function Game_load(width,height){
       switch(Datas.データタイプ){
         case "マップ":
           Stage = Datas.データ名;
-          console.log(Stage);
-          game.pushScene(Blackout_Scene(Datas.データ));
+          game.pushScene(Blackout_Scene(Datas.データ,Stage));
           break;
         case "メイン":
           game.replaceScene(Main_Scene(Datas.データ));
@@ -1429,6 +1465,10 @@ function Game_load(width,height){
     if(window.localStorage.getItem("Map")){
       Load_Map = window.localStorage.getItem("Map");
       Load_Map = JSON.parse(Load_Map);
+    };
+    if(window.localStorage.getItem("Object_moves")){
+      Load_Object_moves = window.localStorage.getItem("Object_moves");
+      Load_Object_moves = JSON.parse(Load_Object_moves);
     };
     if(window.localStorage.getItem("Flag")){
       Flag = window.localStorage.getItem("Flag");
