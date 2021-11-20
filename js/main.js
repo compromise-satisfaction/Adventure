@@ -1461,7 +1461,10 @@ function Game_load(width,height){
               Flag[Flag_name] = Datas.フラグ獲得[Flag_name];
             };
           };
-          if(Datas.次) Scene_Check_Scene(Stage_Datas[Datas.次]);
+          if(Datas.次){
+            if(Datas.次=="暗転") Scene_Check_Scene(Stage_Datas[Stage]);
+            else Scene_Check_Scene(Stage_Datas[Datas.次]);
+          };
           break;
       };
       return;
