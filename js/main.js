@@ -408,13 +408,14 @@ function Game_load(width,height){
           };
 
           if(Key_x){
-            console.log(JSON.stringify(Map));
             if(Map[Map_Y][Map_X]!="■"&&HTML=="編集"){
               Images(100,100,(Map_X+8)*100-50,(Map_Y+4)*100,"image/配置.png","■");
               Image[Images_Data["■"]].Mapx = Map_X;
               Image[Images_Data["■"]].Mapy = Map_Y;
               Map[Map_Y][Map_X] = "■";
             };
+            console.log(JSON.stringify(Map).replace(/],/g,"],\n"));
+            console.log(Map_X,Map_Y);
           };
 
           if(Move_box){
@@ -921,7 +922,6 @@ function Game_load(width,height){
                         Map[i][j] = "□";
                       };
                     };
-                    console.log(JSON.stringify(Map));
                     game.pushScene(Chat_Scene({テキスト:"マップを読み込みました。"}));
                     return;
                     break;
