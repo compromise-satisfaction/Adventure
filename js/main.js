@@ -810,6 +810,10 @@ function Game_load(width,height){
           if(Datas.画像[Image_keys].width) Image[Images_Data[Image_keys]].width = Datas.画像[Image_keys].width;
           if(Datas.画像[Image_keys].height) Image[Images_Data[Image_keys]].height = Datas.画像[Image_keys].height;
           if(Datas.画像[Image_keys].src) Image[Images_Data[Image_keys]]._element.src = Datas.画像[Image_keys].src;
+          if(Datas.画像[Image_keys].fadeIn){
+            Image[Images_Data[Image_keys]].opacity = 0;
+            Image[Images_Data[Image_keys]].tl.fadeIn(Datas.画像[Image_keys].fadeIn);
+          };
         };
       };
 
