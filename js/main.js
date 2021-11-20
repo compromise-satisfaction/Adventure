@@ -201,8 +201,19 @@ function Game_load(width,height){
               MAP_object = Stage_Datas[Map[I][J]];
               if(MAP_object){
                 if(MAP_object.データタイプ=="NPC"){
-                  MAP_object = MAP_object.データ;
                   Images(100,100,(J+8)*100-50,(I+4)*100,false,Map[I][J]);
+                  if(MAP_object.フラグ判断){
+                    for(var K = 0; K < Object.keys(MAP_object.フラグ判断).length; K++){
+                      Flag_name = Object.keys(MAP_object.フラグ判断)[K];
+                      Flag_name = Flag_judgement(Flag_name,MAP_object.フラグ判断[Flag_name]);
+                      if(!Flag_name) break;
+                    };
+                    if(K!=Object.keys(MAP_object.フラグ判断).length){
+                      Image[Images_Data[Map[I][J]]].非存在 = true;
+                      continue;
+                    };
+                  };
+                  MAP_object = MAP_object.データ;
                   Image[Images_Data[Map[I][J]]].画像 = Stage_Datas[MAP_object.画像];
                   Image[Images_Data[Map[I][J]]].Move = 0;
                   Image[Images_Data[Map[I][J]]].Number = 0;
@@ -395,6 +406,7 @@ function Game_load(width,height){
                   MAP_object = Stage_Datas[Map[Check_Y][Check_X]];
                   switch(MAP_object.データタイプ){
                     case "NPC":
+                      if(Image[Images_Data[Map[Check_Y][Check_X]]].非存在) break;
                       if(MAP_object.データ.会話&&!Image[Images_Data[Map[Check_Y][Check_X]]].Move){
                         switch(Human.向き){
                           case "上":
@@ -521,9 +533,23 @@ function Game_load(width,height){
                 Move = 0;
                 return;
               }
-              else if(Stage_Datas[Map[Check_Y][Check_X]].データタイプ!="接触判定"){
-                Move = 0;
-                return;
+              else{
+                switch(Stage_Datas[Map[Check_Y][Check_X]].データタイプ){
+                  case "NPC":
+                    if(Image[Images_Data[Map[Check_Y][Check_X]]].非存在) break;
+                    else{
+                      Move = 0;
+                      return;
+                    }
+                    break;
+                  case "接触判定":
+                    break;
+                  default:
+                    Move = 0;
+                    return;
+                    break;
+
+                };
               };
             };
           }
@@ -1430,9 +1456,11 @@ function Game_load(width,height){
       if(!Datas) Datas = {データタイプ:"会話",データ:{テキスト:"データが見つかりませんでした。"}};
       if(Datas.フラグ判断){
         for(var I = 0; I < Object.keys(Datas.フラグ判断).length; I++){
-          //Flag_name = Object.keys(Datas.フラグ判断)[I];
-          //Flag[Flag_name] = Datas.フラグ判断[Flag_name];
+          Flag_name = Object.keys(Datas.フラグ判断)[I];
+          Flag_name = Flag_judgement(Flag_name,Datas.フラグ判断[Flag_name]);
+          if(!Flag_name) break;
         };
+        if(I!=Object.keys(Datas.フラグ判断).length) return;
       };
       if(Datas.move){
         Move_box = Datas.move;
