@@ -6,6 +6,7 @@ var Key_c = false;
 var Key_s = false;
 var Stage_X = 0;
 var Stage_Y = 0;
+var Create_Map = null;
 var Character_X = 0;
 var Character_Y = 0;
 var Load_Map = null;
@@ -96,6 +97,18 @@ function Game_load(width,height){
         Load_Map = null;
       };
 
+      Create_Map = Datas.マップ;
+
+      if(Create_Map.作成中){
+        Map = [];
+        for (var i = 0; i < Create_Map.作成中[1]; i++) {
+          Map[i] = [];
+          for (var j = 0; j < Create_Map.作成中[0]; j++) {
+            Map[i][j] = "□";
+          };
+        };
+      };
+
       var scene = new Scene();
 
       var Image = [];
@@ -128,7 +141,6 @@ function Game_load(width,height){
       var Check_Y = null;
       var Human = {};
       var Touch = true;
-
 
       for(var I = 0; I < Object.keys(Datas.画像).length; I++){
         if(Object.keys(Datas.画像)[I]=="主人公"){
@@ -229,9 +241,12 @@ function Game_load(width,height){
         Character_direction = Human.向き;
 
         var Key_s_data = {テキスト:"セーブしますか？"};
+        Key_s_data.選択肢 = {最初から:"最初から",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
         if(Key_s){
-          if(HTML=="編集") Key_s_data.選択肢 = {最初から:"最初から",マップ読み込み:"マップ読み込み",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
-          else Key_s_data.選択肢 = {いいえ:false,はい:"セーブ"};
+          if(HTML!="編集"){
+            delete Key_s_data.選択肢.最初から;
+            delete Key_s_data.選択肢.セーブ削除;
+          };
           game.pushScene(Chat_Scene(Key_s_data));
         };
 
@@ -914,17 +929,6 @@ function Game_load(width,height){
                     game.pushScene(Chat_Scene({テキスト:"既存セーブを削除しました。●ゲームは続けることができます。"}));
                     return;
                     break;
-                  case "マップ読み込み":
-                    Map = [];
-                    for (var i = 0; i < 15; i++) {
-                      Map[i] = [];
-                      for (var j = 0; j < 15; j++) {
-                        Map[i][j] = "□";
-                      };
-                    };
-                    game.pushScene(Chat_Scene({テキスト:"マップを読み込みました。"}));
-                    return;
-                    break;
                   case "最初から":
                     Scene_Check_Scene(Stage_Datas["最初"]);
                     return;
@@ -1466,7 +1470,7 @@ function Game_load(width,height){
           Stage_Datas = JSON.parse(Stage_Datas);
         }
         else Stage_Datas = {};
-        var Data_number = "データ2";
+        var Data_number = "データ1";
         var Body = "読み込み";
         break;
       default:
