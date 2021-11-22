@@ -1449,11 +1449,12 @@ function Game_load(width,height){
                   else Flag[Flag_name] = Datas.フラグ獲得[Flag_name]*1;
                   break;
                 default:
-                  if(Datas.フラグ獲得[Flag_name].match([/\D/])) Flag[Flag_name] = Datas.フラグ獲得[Flag_name];
+                  if(Datas.フラグ獲得[Flag_name].match(/\D/)) Flag[Flag_name] = Datas.フラグ獲得[Flag_name];
                   else Flag[Flag_name] = Datas.フラグ獲得[Flag_name]*1;
                   break;
               };
             };
+            console.log(Flag);
           };
           if(Datas.次){
             if(Datas.次=="暗転") Scene_Check_Scene(Stage_Datas[Stage]);
