@@ -1125,9 +1125,20 @@ function Game_load(width,height){
 
       for(var I = 0; I < 5; I++) Choice();
 
+      var Text_text = Datas.テキスト.substring(0);
+      var Match_text = Text_text.match(/\(フラグ:.+:フラグ\)/g);
+
+      if(Match_text){
+        for(var I = 0; I < Match_text.length; I++){
+          Match_text[I] = Match_text[I].substring(5,Match_text[I].length-5);
+          Text_text = Text_text.replace(/\(フラグ:(.+):フラグ\)/g,Flag[Match_text[I]]);
+        };
+      };
+
       var Write = true;
-      var Display_text = Datas.テキスト.match(/.{1,120}/g);
+      var Display_text = Text_text.match(/.{1,120}/g);
       var Display_name = Datas.名前;
+
 
       var Kaigyo = 0;
       var Kaigyo_S = 0;
