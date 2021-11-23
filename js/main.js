@@ -960,32 +960,34 @@ function Game_load(width,height){
 
       if(HTML=="スマホ"||HTML=="編集"){
 
+        var Button_size = 400;
+
         var Pad1 = new Pad("image/pad.png",800);
         Pad1.y = height - 800;
         scene.addChild(Pad1);
 
         var X_B = new Sprite();
         X_B._element = document.createElement("img");
-        X_B.width = 250;
-        X_B.height = 250;
-        X_B.x = width - 250;
-        X_B.y = height - 500;
+        X_B.width = Button_size;
+        X_B.height = Button_size;
+        X_B.x = width - Button_size;
+        X_B.y = height - Button_size * 2;
         scene.addChild(X_B);
 
         var C_B = new Sprite();
         C_B._element = document.createElement("img");
-        C_B.width = 250;
-        C_B.height = 250;
-        C_B.x = width - 250;
-        C_B.y = height - 250;
+        C_B.width = Button_size;
+        C_B.height = Button_size;
+        C_B.x = width - Button_size;
+        C_B.y = height - Button_size;
         scene.addChild(C_B);
 
         var Z_B = new Sprite();
         Z_B._element = document.createElement("img");
-        Z_B.width = 250;
-        Z_B.height = 250;
-        Z_B.x = width - 500;
-        Z_B.y = height - 250;
+        Z_B.width = Button_size;
+        Z_B.height = Button_size;
+        Z_B.x = width - Button_size * 2;
+        Z_B.y = height - Button_size;
         scene.addChild(Z_B);
 
         X_B.addEventListener("touchstart",function(){
@@ -1316,32 +1318,34 @@ function Game_load(width,height){
 
       if(HTML=="スマホ"||HTML=="編集"){
 
+        var Button_size = 400;
+
         var Pad1 = new Pad("image/pad.png",800);
         Pad1.y = height - 800;
         scene.addChild(Pad1);
 
         var X_B = new Sprite();
         X_B._element = document.createElement("img");
-        X_B.width = 250;
-        X_B.height = 250;
-        X_B.x = width - 250;
-        X_B.y = height - 500;
+        X_B.width = Button_size;
+        X_B.height = Button_size;
+        X_B.x = width - Button_size;
+        X_B.y = height - Button_size * 2;
         scene.addChild(X_B);
 
         var C_B = new Sprite();
         C_B._element = document.createElement("img");
-        C_B.width = 250;
-        C_B.height = 250;
-        C_B.x = width - 250;
-        C_B.y = height - 250;
+        C_B.width = Button_size;
+        C_B.height = Button_size;
+        C_B.x = width - Button_size;
+        C_B.y = height - Button_size;
         scene.addChild(C_B);
 
         var Z_B = new Sprite();
         Z_B._element = document.createElement("img");
-        Z_B.width = 250;
-        Z_B.height = 250;
-        Z_B.x = width - 500;
-        Z_B.y = height - 250;
+        Z_B.width = Button_size;
+        Z_B.height = Button_size;
+        Z_B.x = width - Button_size * 2;
+        Z_B.y = height - Button_size;
         scene.addChild(Z_B);
 
         X_B.addEventListener("touchstart",function(){
