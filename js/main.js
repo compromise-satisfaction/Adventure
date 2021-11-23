@@ -96,7 +96,6 @@ function Game_load(width,height){
 
     var Map_Scene = function(Datas,Stage_name){
 
-      console.clear();
       console.log(Stage_name);
 
       var scene = new Scene();
@@ -433,7 +432,6 @@ function Game_load(width,height){
               delete Key_s_data.選択肢.セーブ削除;
             };
             game.pushScene(Chat_Scene(Key_s_data));
-            console.clear();
             console.log(Arrangement[Stage_name]);
           };
           if(Key_s){
@@ -443,7 +441,6 @@ function Game_load(width,height){
               Image[Images_Data["■"]].Mapy = Map_Y;
               Map[Map_Y][Map_X] = "■";
             };
-            console.clear();
             console.log(JSON.stringify(Map).replace(/],/g,"],\n"));
           };
 
@@ -521,7 +518,7 @@ function Game_load(width,height){
               game.input.down = false;
               game.input.left = false;
               game.input.right = false;
-              if(Touch_data.獲得) Flag_get(Touch_data.フラグ獲得);
+              if(Touch_data.フラグ獲得) Flag_get(Touch_data.フラグ獲得);
               Scene_Check_Scene(Stage_Datas[Touch_data.データ]);
               Touch_data = false;
             };
@@ -553,7 +550,6 @@ function Game_load(width,height){
                 if(Check_X < Map[0].length && Check_Y < Map.length && Check_X >= 0 && Check_Y >= 0 ){
                   Arrangement_point = Arrangement[Stage_name]["X_" + Check_X + " Y_" + Check_Y];
                   if(Arrangement_point&&Arrangement_point!="動"){
-                    console.clear();
                     console.log(Arrangement_point);
                     Object_image = Image[Images_Data[Arrangement_point]];
                     MAP_object = Stage_Datas[Object_image.データ名];
@@ -1247,7 +1243,6 @@ function Game_load(width,height){
                     window.localStorage.setItem("Character_Y",JSON.stringify(Character_Y));
                     window.localStorage.setItem("Object_moves",JSON.stringify(Object_moves));
                     window.localStorage.setItem("Character_direction",JSON.stringify(Character_direction));
-                    console.clear();
                     console.log("セーブ完了。");
                     game.pushScene(Chat_Scene({テキスト:"セーブしました。"}));
                     return;
@@ -1462,7 +1457,6 @@ function Game_load(width,height){
             break;
         };
       };
-      console.clear();
       console.log(Flag);
       return;
     };
