@@ -761,7 +761,7 @@ function Game_load(width,height){
                         };
                       };
                     };
-                    if(MAP_object.データ.接触) Scene_Check_Scene(Stage_Datas[MAP_object.データ.接触]);
+                    if(MAP_object.データ.向かう) Scene_Check_Scene(Stage_Datas[MAP_object.データ.向かう]);
                     return;
                     break;
                   default:
