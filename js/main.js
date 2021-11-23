@@ -1230,6 +1230,7 @@ function Game_load(width,height){
               };
             }
             else{
+              Key_c = false;
               game.popScene();
               if(Datas.次){
                 switch(Datas.次){
@@ -1405,6 +1406,7 @@ function Game_load(width,height){
       scene.addChild(Blackout);
       scene.addEventListener("enterframe",function(){
         if(Blackout.opacity==1){
+          Key_c = false;
           game.popScene();
           game.replaceScene(Map_Scene(Datas,Stage_name));
         };
