@@ -33,20 +33,20 @@ BGM.addEventListener("ended",function(e){
 
 if(HTML!="スマホ"){
   window.addEventListener("keydown",function(e){
-  switch(e.key){
-    case "z":
-      Key_z = true;
-      break;
-    case "x":
-      Key_x = true;
-      break;
-    case "c":
-      Key_c = true;
-      break;
-    case "s":
-      Key_s = true;
-      break;
-  }
+    switch(e.key){
+      case "z":
+        Key_z = true;
+        break;
+      case "x":
+        Key_x = true;
+        break;
+      case "c":
+        Key_c = true;
+        break;
+      case "s":
+        Key_s = true;
+        break;
+    }
   });
   window.addEventListener("keyup",function(e){
     switch(e.key){
@@ -370,22 +370,22 @@ function Game_load(width,height){
             else Wait = false;
             for(var I = 0; I < Image.length; I++){
               switch(Human.向き){
-                  case "上":
-                    Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
-                    Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 - Move;
-                    break;
-                  case "下":
-                    Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
-                    Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 + Move;
-                    break;
-                  case "左":
-                    Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 - Move;
-                    Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
-                    break;
-                  case "右":
-                    Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 + Move;
-                    Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
-                    break;
+                case "上":
+                  Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
+                  Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 - Move;
+                  break;
+                case "下":
+                  Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
+                  Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 + Move;
+                  break;
+                case "左":
+                  Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 - Move;
+                  Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
+                  break;
+                case "右":
+                  Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 + Move;
+                  Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
+                  break;
               };
               if(Image[I].向き){
                 switch(Image[I].向き){
@@ -459,23 +459,23 @@ function Game_load(width,height){
 
             for(var I = 0; I < Image.length; I++){
               switch(Human.向き){
-                  case "上":
-                    Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
-                    Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 - Move;
-                    break;
-                  case "下":
-                    Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
-                    Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 + Move;
-                    break;
-                  case "左":
-                    Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 - Move;
-                    Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
-                    break;
-                  case "右":
-                    Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 + Move;
-                    Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
-                    break;
-          };
+                case "上":
+                  Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
+                  Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 - Move;
+                  break;
+                case "下":
+                  Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
+                  Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 + Move;
+                  break;
+                case "左":
+                  Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 - Move;
+                  Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
+                  break;
+                case "右":
+                  Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 + Move;
+                  Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
+                  break;
+              };
               if(Image[I].向き){
                 switch(Image[I].向き){
                   case "上":
@@ -563,9 +563,9 @@ function Game_load(width,height){
                               Object_image.向き = "左";
                               Object_image._element.src = Object_image["左"][0];
                               break;
-                            };
-                            Scene_Check_Scene(Stage_Datas[MAP_object.データ.会話]);
-                            return;
+                          };
+                          Scene_Check_Scene(Stage_Datas[MAP_object.データ.会話]);
+                          return;
                         };
                         break;
                       case "調べる":
@@ -718,22 +718,22 @@ function Game_load(width,height){
                     Move = 0;
                     for(var I = 0; I < Image.length; I++){
                       switch(Human.向き){
-                          case "上":
-                            Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
-                            Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 - Move;
-                            break;
-                          case "下":
-                            Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
-                            Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 + Move;
-                            break;
-                          case "左":
-                            Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 - Move;
-                            Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
-                            break;
-                          case "右":
-                            Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 + Move;
-                            Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
-                            break;
+                        case "上":
+                          Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
+                          Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 - Move;
+                          break;
+                        case "下":
+                          Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
+                          Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 + Move;
+                          break;
+                        case "左":
+                          Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 - Move;
+                          Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
+                          break;
+                        case "右":
+                          Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 + Move;
+                          Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
+                          break;
                       };
                       if(Image[I].向き){
                         switch(Image[I].向き){
@@ -1044,7 +1044,7 @@ function Game_load(width,height){
 
       if(!Datas) Datas = {text:"存在しないデータ。"};
       if(Change_Box){
-      for (var i = 0; i < Change_Box.length; i++) {
+        for (var i = 0; i < Change_Box.length; i++) {
           var Reg = new RegExp(Change_Box[i][0],"g");
           Datas = JSON.stringify(Datas);
           Datas = Datas.replace(Reg,Change_Box[i][1]);
@@ -1420,43 +1420,43 @@ function Game_load(width,height){
         Flag_name = Object.keys(Datas)[I];
         switch(Flag_name){
           case "x":
-          Character_X = Datas[Flag_name];
-          break;
+            Character_X = Datas[Flag_name];
+            break;
           case "y":
-          Character_Y = Datas[Flag_name];
-          break;
+            Character_Y = Datas[Flag_name];
+            break;
           case "向き":
-          Character_direction = Datas[Flag_name];
-          break;
+            Character_direction = Datas[Flag_name];
+            break;
           default:
-          switch(Datas[Flag_name].substring(0,1)){
-            case "+":
-            if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
-            else Flag[Flag_name] = Datas[Flag_name].substring(1)*1;
-            break;
-            case "-":
-            if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
-            else Flag[Flag_name] = Datas[Flag_name]*1;
-            break;
-            default:
-            switch(Datas[Flag_name]){
-              case 0:
-              case "0":
-              case "消去":
-              case "消滅":
-              case "削除":
-              case "delete":
-              case "Delete":
-              case "デリート":
-              delete Flag[Flag_name];
-              break;
+            switch((Datas[Flag_name]+"").substring(0,1)){
+              case "+":
+                if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
+                else Flag[Flag_name] = Datas[Flag_name].substring(1)*1;
+                break;
+              case "-":
+                if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
+                else Flag[Flag_name] = Datas[Flag_name]*1;
+                break;
               default:
-              Flag[Flag_name] = Datas[Flag_name];
-              break;
+                switch(Datas[Flag_name]){
+                  case 0:
+                  case "0":
+                  case "消去":
+                  case "消滅":
+                  case "削除":
+                  case "delete":
+                  case "Delete":
+                  case "デリート":
+                    delete Flag[Flag_name];
+                    break;
+                  default:
+                    Flag[Flag_name] = Datas[Flag_name];
+                    break;
+                };
+                break;
             };
             break;
-          };
-          break;
         };
       };
       console.log(Flag);
@@ -1479,14 +1479,14 @@ function Game_load(width,height){
         };
       };
       if(Datas.フラグ獲得) Flag_get(Datas.フラグ獲得);
-      if(Datas.マップ処理){
-        Move_box = Datas.マップ処理;
-        Move_box_length = 0;
-      };
       switch(Datas.データタイプ){
         case "マップ":
           Stage = Datas.データ名;
           game.pushScene(Blackout_Scene(Datas.データ,Stage));
+          break;
+        case "マップ処理":
+          Move_box = Datas.データ;
+          Move_box_length = 0;
           break;
         case "メイン":
           game.replaceScene(Main_Scene(Datas.データ));
@@ -1569,18 +1569,18 @@ function Game_load(width,height){
     };
 
     fetch(URL,Options).then(res => res.json()).then(result => {
-      for(var I = 0; I < result.length; I++){
-        if(result[I][Data_number]){
-          if(result[I][Data_number].substring(0,1)!="{") result[I] = "{" + result[I][Data_number] + "}";
-          else  result[I] = result[I][Data_number];
-          result[I] = JSON.parse(result[I]);
-          Stage_Datas[result[I].データ名] = result[I];
-        }
-        else break;
-      };
-      if(!Stage_Datas[Stage]) Stage = "最初";
-      Scene_Check_Scene(Stage_Datas[Stage]);
-      return;
+                                                    for(var I = 0; I < result.length; I++){
+      if(result[I][Data_number]){
+        if(result[I][Data_number].substring(0,1)!="{") result[I] = "{" + result[I][Data_number] + "}";
+        else  result[I] = result[I][Data_number];
+        result[I] = JSON.parse(result[I]);
+        Stage_Datas[result[I].データ名] = result[I];
+      }
+      else break;
+    };
+    if(!Stage_Datas[Stage]) Stage = "最初";
+    Scene_Check_Scene(Stage_Datas[Stage]);
+    return;
   },);
 };
 game.start();
