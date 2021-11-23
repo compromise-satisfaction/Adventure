@@ -1494,7 +1494,7 @@ function Game_load(width,height){
         case "会話":
           game.pushScene(Chat_Scene(Datas.データ));
           break;
-        case "ジャンプ":
+        default:
           if(Datas.次){
             if(Datas.次=="暗転") Scene_Check_Scene(Stage_Datas[Stage]);
             else Scene_Check_Scene(Stage_Datas[Datas.次]);
