@@ -1132,7 +1132,7 @@ function Game_load(width,height){
         for(var I = 0; I < Match_text.length; I++){
           Match_text[I] = Match_text[I].substring(5,Match_text[I].length-5);
           if(!Flag[Match_text[I]]) Flag[Match_text[I]] = 0;
-          Text_text = Text_text.replace(/\(フラグ:(.+?):フラグ\)/g,Flag[Match_text[I]]);
+          Text_text = Text_text.replace(/\(フラグ:(.+?):フラグ\)/,Flag[Match_text[I]]);
         };
       };
 
