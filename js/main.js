@@ -1,9 +1,5 @@
 enchant();
 
-var Key_z = false;
-var Key_x = false;
-var Key_c = false;
-var Key_s = false;
 var Stage_X = 0;
 var Stage_Y = 0;
 var Create_Map = null;
@@ -14,13 +10,26 @@ var Load_Arrangement = null;
 var Object_moves = {};
 var Load_Object_moves = null;
 var Character_direction = "右";
-var Flag = {};
+var Flag = {
+  決定キー:"c",加速キー:"z",停止キー:"x",セーブキー:"s",
+  上キー:"↑",下キー:"↓",左キー:"←",右キー:"→"
+};
 var Flag_name = null;
 var Chat = "最初";
 var Stage = "最初";
-var COOLTime = {c_key:0,s_key:0,down:0,right:0,left:0,up:0};
+var Key_config = {
+  決定:{キー:Flag.決定キー,プッシュ:false,タイム:0},
+  加速:{キー:Flag.加速キー,プッシュ:false,タイム:0},
+  停止:{キー:Flag.停止キー,プッシュ:false,タイム:0},
+  セーブ:{キー:Flag.セーブキー,プッシュ:false,タイム:0},
+  上:{キー:Flag.上キー,プッシュ:false,タイム:0},
+  下:{キー:Flag.下キー,プッシュ:false,タイム:0},
+  左:{キー:Flag.左キー,プッシュ:false,タイム:0},
+  右:{キー:Flag.右キー,プッシュ:false,タイム:0}
+};
 var Change_Box = null;
 var Move_box = null;
+var Button_size = 400;
 
 var SE1 = document.createElement("audio");
 var SE2 = document.createElement("audio");
@@ -34,35 +43,35 @@ BGM.addEventListener("ended",function(e){
 if(HTML!="スマホ"){
   window.addEventListener("keydown",function(e){
     switch(e.key){
-      case "z":
-        Key_z = true;
+      case Key_config.決定.キー:
+        Key_config.決定.プッシュ = true;
         break;
-      case "x":
-        Key_x = true;
+      case Key_config.加速.キー:
+        Key_config.加速.プッシュ = true;
         break;
-      case "c":
-        Key_c = true;
+      case Key_config.停止.キー:
+        Key_config.停止.プッシュ = true;
         break;
-      case "s":
-        Key_s = true;
+      case Key_config.セーブ.キー:
+        Key_config.セーブ.キー = true;
         break;
-    }
+    };
   });
   window.addEventListener("keyup",function(e){
     switch(e.key){
-      case "z":
-        Key_z = false;
+      case Key_config.決定.キー:
+        Key_config.決定.プッシュ = false;
         break;
-      case "x":
-        Key_x = false;
+      case Key_config.加速.キー:
+        Key_config.加速.プッシュ = false;
         break;
-      case "c":
-        Key_c = false;
+      case Key_config.停止.キー:
+        Key_config.停止.プッシュ = false;
         break;
-      case "s":
-        Key_s = false;
+      case Key_config.セーブ.キー:
+        Key_config.セーブ.キー = false;
         break;
-    }
+    };
   });
 };
 
@@ -413,8 +422,11 @@ function Game_load(width,height){
         }
         else{
 
-          for(var K = 0; K < Object.keys(COOLTime).length; K++){
-            if(COOLTime[Object.keys(COOLTime)[K]] > 0) COOLTime[Object.keys(COOLTime)[K]]--;
+          for(var I = 0; I < Object.keys(Key_config).length; I++){
+            if(Key_config[Object.keys(Key_config)[I]].タイム){
+              console.log(Key_config[Object.keys(Key_config)[I]].キー);
+              Key_config[Object.keys(Key_config)[I]].タイム--;
+            };
           };
 
           Character_direction = Human.向き;
@@ -500,7 +512,7 @@ function Game_load(width,height){
 
             Human.Number++;
             if(Move){
-              if(Key_z){
+              if(Key_config.加速.プッシュ){
                 if(Human.Number >= Human["走" + Human.向き].length) Human.Number = 0;
                 Image[Images_Data["主人公"]]._element.src = Human["走" + Human.向き][Human.Number];
                 Move -= 25;
@@ -520,8 +532,8 @@ function Game_load(width,height){
               Image[Images_Data["主人公"]]._element.src = Human[Human.向き][Human.Number];
             };
 
-            if(!Move&&!COOLTime.c_key&&Key_c){
-              COOLTime.c_key = 5;
+            if(!Move&&!Key_config.決定.タイム&&Key_config.決定.プッシュ){
+              Key_config.決定.タイム = 5;
               if(Check_X < Map[0].length && Check_Y < Map.length && Check_X >= 0 && Check_Y >= 0 ){
                 Arrangement_point = Arrangement[Stage_name]["X_" + Check_X + " Y_" + Check_Y];
                 if(Arrangement_point&&Arrangement_point!="動"){
@@ -562,17 +574,17 @@ function Game_load(width,height){
               }
               else console.log("マップ外");
             };
-            var Key_s_data = {テキスト:"セーブしますか？"};
-            Key_s_data.選択肢 = {最初から:"最初から",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
-            if(!Move&&Key_x){
+            var Save_data = {テキスト:"セーブしますか？"};
+            Save_data.選択肢 = {最初から:"最初から",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
+            if(!Move&&Key_config.停止.プッシュ){
               if(HTML!="編集"){
-                delete Key_s_data.選択肢.最初から;
-                delete Key_s_data.選択肢.セーブ削除;
+                delete Save_data.選択肢.最初から;
+                delete Save_data.選択肢.セーブ削除;
               };
-              game.pushScene(Chat_Scene(Key_s_data));
+              game.pushScene(Chat_Scene(Save_data));
               console.log(Arrangement[Stage_name]);
             };
-            if(Key_s){
+            if(Key_config.セーブ.プッシュ){
               if(Map[Map_Y][Map_X]!="■"&&HTML=="編集"){
                 Images(100,100,(Map_X+8)*100-50,(Map_Y+4)*100,"image/配置.png","■");
                 Image[Images_Data["■"]].Mapx = Map_X;
@@ -687,7 +699,7 @@ function Game_load(width,height){
 
         if(Instruction.フラグ獲得) Flag_get(Instruction.フラグ獲得);
         if(Instruction.移動) Scene_Check_Scene(Stage_Datas[Instruction.移動]);
-        
+
         return;
       };
 
@@ -960,65 +972,73 @@ function Game_load(width,height){
 
       if(HTML=="スマホ"||HTML=="編集"){
 
-        var Button_size = 400;
-
-        var Pad1 = new Pad("image/pad.png",800);
-        Pad1.y = height - 800;
+        var Pad1 = new Pad("image/pad.png",Button_size*2);
+        Pad1.y = height - Button_size*2;
         scene.addChild(Pad1);
 
-        var X_B = new Sprite();
-        X_B._element = document.createElement("img");
-        X_B.width = Button_size;
-        X_B.height = Button_size;
-        X_B.x = width - Button_size;
-        X_B.y = height - Button_size * 2;
-        scene.addChild(X_B);
+        var Ui_Button = [];
+        var Ui_Button_count = null;
 
-        var C_B = new Sprite();
-        C_B._element = document.createElement("img");
-        C_B.width = Button_size;
-        C_B.height = Button_size;
-        C_B.x = width - Button_size;
-        C_B.y = height - Button_size;
-        scene.addChild(C_B);
+        function Buttons(X,Y,W,H,V){
+          Ui_Button_count = Ui_Button.length;
+          Ui_Button[Ui_Button_count] = new Button(V,"light",W,H);
+          Ui_Button[Ui_Button_count].moveTo(X,Y);
+          Ui_Button[Ui_Button_count].original_Y = Y;
+          Ui_Button[Ui_Button_count]._style["font-size"] = H/2.2;
+          Ui_Button[Ui_Button_count].addEventListener("touchstart",function(e){
+            switch(V){
+              case Key_config.決定.キー:
+                Key_config.決定.プッシュ = true;
+                break;
+              case Key_config.加速.キー:
+                Key_config.加速.プッシュ = true;
+                break;
+              case Key_config.停止.キー:
+                Key_config.停止.プッシュ = true;
+                break;
+              case Key_config.セーブ.キー:
+                Key_config.セーブ.キー = true;
+                break;
+            };
+            return;
+          });
+          Ui_Button[Ui_Button_count].addEventListener("touchend",function(e){
+            switch(V){
+              case Key_config.決定.キー:
+                Key_config.決定.プッシュ = false;
+                break;
+              case Key_config.加速.キー:
+                Key_config.加速.プッシュ = false;
+                break;
+              case Key_config.停止.キー:
+                Key_config.停止.プッシュ = false;
+                break;
+              case Key_config.セーブ.キー:
+                Key_config.セーブ.キー = false;
+                break;
+            };
+            return;
+          });
+          switch(V){
+            case Key_config.決定.キー:
+              Ui_Button[Ui_Button_count].key = "決定";
+              break;
+            case Key_config.加速.キー:
+              Ui_Button[Ui_Button_count].key = "加速";
+              break;
+            case Key_config.停止.キー:
+              Ui_Button[Ui_Button_count].key = "停止";
+              break;
+            case Key_config.セーブ.キー:
+              Ui_Button[Ui_Button_count].key = "セーブ";
+              break;
+            };
+          scene.addChild(Ui_Button[Ui_Button_count]);
+        };
 
-        var Z_B = new Sprite();
-        Z_B._element = document.createElement("img");
-        Z_B.width = Button_size;
-        Z_B.height = Button_size;
-        Z_B.x = width - Button_size * 2;
-        Z_B.y = height - Button_size;
-        scene.addChild(Z_B);
-
-        X_B.addEventListener("touchstart",function(){
-          Key_x = true;
-          return;
-        });
-
-        X_B.addEventListener("touchend",function(){
-          Key_x = false;
-          return;
-        });
-
-        C_B.addEventListener("touchstart",function(){
-          Key_c = true;
-          return;
-        });
-
-        C_B.addEventListener("touchend",function(){
-          Key_c = false;
-          return;
-        });
-
-        Z_B.addEventListener("touchstart",function(){
-          Key_z = true;
-          return;
-        });
-
-        Z_B.addEventListener("touchend",function(){
-          Key_z = false;
-          return;
-        });
+        Buttons(width-Button_size*2,height-Button_size,Button_size,Button_size,Key_config.加速.キー);
+        Buttons(width-Button_size,height-Button_size*2,Button_size,Button_size,Key_config.停止.キー);
+        Buttons(width-Button_size,height-Button_size,Button_size,Button_size,Key_config.決定.キー);
 
         function pad_keydown(){
           Pad1._element.src = "image/pad.png";
@@ -1038,15 +1058,20 @@ function Game_load(width,height){
             Pad1.rotation = 90;
             Pad1._element.src = "image/pad_keydown.png";
           };
-          if(Key_z) Z_B._element.src = "image/z_down.png";
-          else Z_B._element.src = "image/z.png";
-          if(Key_x) X_B._element.src = "image/x_down.png";
-          else X_B._element.src = "image/x.png";
-          if(Key_c) C_B._element.src = "image/c_down.png";
-          else C_B._element.src = "image/c.png";
+          for(var I = 0; I < Ui_Button.length; I++){
+          if(Key_config[Ui_Button[I].key].プッシュ){
+            Ui_Button[I]._applyTheme(Ui_Button[I].theme.active);
+            Ui_Button[I].pressed = true;
+            Ui_Button[I].y = Ui_Button[I].original_Y + 1;
+          }
+          else{
+            Ui_Button[I]._applyTheme(Ui_Button[I].theme.normal);
+            Ui_Button[I].pressed = false;
+            Ui_Button[I].y = Ui_Button[I].original_Y - 1;
+          };
+        };
           return;
         };
-
       };
 
       return scene;
@@ -1178,18 +1203,21 @@ function Game_load(width,height){
 
       scene.addEventListener("enterframe",function(){
 
-        for(var K = 0; K < Object.keys(COOLTime).length; K++){
-          if(COOLTime[Object.keys(COOLTime)[K]] > 0) COOLTime[Object.keys(COOLTime)[K]]--;
+        for(var I = 0; I < Object.keys(Key_config).length; I++){
+          if(Key_config[Object.keys(Key_config)[I]].タイム){
+            console.log(Key_config[Object.keys(Key_config)[I]].キー);
+            Key_config[Object.keys(Key_config)[I]].タイム--;
+          };
         };
 
         if(HTML=="スマホ"||HTML=="編集") pad_keydown();
 
         if(Write){
-          if(Key_z) while(Write) Text_write();
+          if(Key_config.加速.プッシュ) while(Write) Text_write();
           else Text_write();
         }
         else{
-          if(Key_x){
+          if(Key_config.停止.プッシュ){
             Image[Images_Data.テキストボックス].opacity = 0;
             for(var K = 0; K < Row * One_column; K++) Text[K].opacity = 0;
             for(var K = 0; K < 5; K++){
@@ -1210,8 +1238,8 @@ function Game_load(width,height){
             };
           };
           if(Datas.選択肢&&!Display_text[J+1]){
-            if(!game.input.up&&game.input.down&&!game.input.left&&!game.input.right&&!COOLTime.down){
-              COOLTime.down = 5;
+            if(!game.input.up&&game.input.down&&!game.input.left&&!game.input.right&&!Key_config.下.タイム){
+              Key_config.下.タイム = 5;
               for(var K = 0; K < Object.keys(Datas.選択肢).length; K++){
                 ChoiceText[K]._element.textContent = Object.keys(Datas.選択肢)[K];
               };
@@ -1220,8 +1248,8 @@ function Game_load(width,height){
               Datas.次 = Datas.選択肢[Object.keys(Datas.選択肢)[Choice_Number]];
               ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Datas.選択肢)[Choice_Number];
             };
-            if(game.input.up&&!game.input.down&&!game.input.left&&!game.input.right&&!COOLTime.up){
-              COOLTime.up = 5;
+            if(game.input.up&&!game.input.down&&!game.input.left&&!game.input.right&&!Key_config.上.タイム){
+              Key_config.上.タイム = 5;
               for(var K = 0; K < Object.keys(Datas.選択肢).length; K++){
                 ChoiceText[K]._element.textContent = Object.keys(Datas.選択肢)[K];
               };
@@ -1231,8 +1259,8 @@ function Game_load(width,height){
               ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Datas.選択肢)[Choice_Number];
             };
           };
-          if(!Key_x&&!COOLTime.c_key&&Key_c){
-            COOLTime.c_key = 5;
+          if(!Key_config.停止.プッシュ&&!Key_config.決定.タイム&&Key_config.決定.プッシュ){
+            Key_config.決定.タイム = 5;
             J++;
             if(Display_text[J]){
               I = 0;
@@ -1317,65 +1345,73 @@ function Game_load(width,height){
 
       if(HTML=="スマホ"||HTML=="編集"){
 
-        var Button_size = 400;
-
-        var Pad1 = new Pad("image/pad.png",800);
-        Pad1.y = height - 800;
+        var Pad1 = new Pad("image/pad.png",Button_size*2);
+        Pad1.y = height - Button_size*2;
         scene.addChild(Pad1);
 
-        var X_B = new Sprite();
-        X_B._element = document.createElement("img");
-        X_B.width = Button_size;
-        X_B.height = Button_size;
-        X_B.x = width - Button_size;
-        X_B.y = height - Button_size * 2;
-        scene.addChild(X_B);
+        var Ui_Button = [];
+        var Ui_Button_count = null;
 
-        var C_B = new Sprite();
-        C_B._element = document.createElement("img");
-        C_B.width = Button_size;
-        C_B.height = Button_size;
-        C_B.x = width - Button_size;
-        C_B.y = height - Button_size;
-        scene.addChild(C_B);
+        function Buttons(X,Y,W,H,V){
+          Ui_Button_count = Ui_Button.length;
+          Ui_Button[Ui_Button_count] = new Button(V,"light",W,H);
+          Ui_Button[Ui_Button_count].moveTo(X,Y);
+          Ui_Button[Ui_Button_count].original_Y = Y;
+          Ui_Button[Ui_Button_count]._style["font-size"] = H/2.2;
+          Ui_Button[Ui_Button_count].addEventListener("touchstart",function(e){
+            switch(V){
+              case Key_config.決定.キー:
+                Key_config.決定.プッシュ = true;
+                break;
+              case Key_config.加速.キー:
+                Key_config.加速.プッシュ = true;
+                break;
+              case Key_config.停止.キー:
+                Key_config.停止.プッシュ = true;
+                break;
+              case Key_config.セーブ.キー:
+                Key_config.セーブ.キー = true;
+                break;
+            };
+            return;
+          });
+          Ui_Button[Ui_Button_count].addEventListener("touchend",function(e){
+            switch(V){
+              case Key_config.決定.キー:
+                Key_config.決定.プッシュ = false;
+                break;
+              case Key_config.加速.キー:
+                Key_config.加速.プッシュ = false;
+                break;
+              case Key_config.停止.キー:
+                Key_config.停止.プッシュ = false;
+                break;
+              case Key_config.セーブ.キー:
+                Key_config.セーブ.キー = false;
+                break;
+            };
+            return;
+          });
+          switch(V){
+            case Key_config.決定.キー:
+              Ui_Button[Ui_Button_count].key = "決定";
+              break;
+            case Key_config.加速.キー:
+              Ui_Button[Ui_Button_count].key = "加速";
+              break;
+            case Key_config.停止.キー:
+              Ui_Button[Ui_Button_count].key = "停止";
+              break;
+            case Key_config.セーブ.キー:
+              Ui_Button[Ui_Button_count].key = "セーブ";
+              break;
+            };
+          scene.addChild(Ui_Button[Ui_Button_count]);
+        };
 
-        var Z_B = new Sprite();
-        Z_B._element = document.createElement("img");
-        Z_B.width = Button_size;
-        Z_B.height = Button_size;
-        Z_B.x = width - Button_size * 2;
-        Z_B.y = height - Button_size;
-        scene.addChild(Z_B);
-
-        X_B.addEventListener("touchstart",function(){
-          Key_x = true;
-          return;
-        });
-
-        X_B.addEventListener("touchend",function(){
-          Key_x = false;
-          return;
-        });
-
-        C_B.addEventListener("touchstart",function(){
-          Key_c = true;
-          return;
-        });
-
-        C_B.addEventListener("touchend",function(){
-          Key_c = false;
-          return;
-        });
-
-        Z_B.addEventListener("touchstart",function(){
-          Key_z = true;
-          return;
-        });
-
-        Z_B.addEventListener("touchend",function(){
-          Key_z = false;
-          return;
-        });
+        Buttons(width-Button_size*2,height-Button_size,Button_size,Button_size,Key_config.加速.キー);
+        Buttons(width-Button_size,height-Button_size*2,Button_size,Button_size,Key_config.停止.キー);
+        Buttons(width-Button_size,height-Button_size,Button_size,Button_size,Key_config.決定.キー);
 
         function pad_keydown(){
           Pad1._element.src = "image/pad.png";
@@ -1395,17 +1431,21 @@ function Game_load(width,height){
             Pad1.rotation = 90;
             Pad1._element.src = "image/pad_keydown.png";
           };
-          if(Key_z) Z_B._element.src = "image/z_down.png";
-          else Z_B._element.src = "image/z.png";
-          if(Key_x) X_B._element.src = "image/x_down.png";
-          else X_B._element.src = "image/x.png";
-          if(Key_c) C_B._element.src = "image/c_down.png";
-          else C_B._element.src = "image/c.png";
+          for(var I = 0; I < Ui_Button.length; I++){
+          if(Key_config[Ui_Button[I].key].プッシュ){
+            Ui_Button[I]._applyTheme(Ui_Button[I].theme.active);
+            Ui_Button[I].pressed = true;
+            Ui_Button[I].y = Ui_Button[I].original_Y + 1;
+          }
+          else{
+            Ui_Button[I]._applyTheme(Ui_Button[I].theme.normal);
+            Ui_Button[I].pressed = false;
+            Ui_Button[I].y = Ui_Button[I].original_Y - 1;
+          };
+        };
           return;
         };
-
       };
-
       return scene;
     };
     var Blackout_Scene = function(Datas,Stage_name){
@@ -1471,6 +1511,14 @@ function Game_load(width,height){
             break;
         };
       };
+      Key_config.決定.キー = Flag.決定キー;
+      Key_config.加速.キー = Flag.加速キー;
+      Key_config.停止.キー = Flag.停止キー;
+      Key_config.セーブ.キー = Flag.セーブキー;
+      Key_config.上.キー = Flag.上キー;
+      Key_config.下.キー = Flag.下キー;
+      Key_config.左.キー = Flag.左キー;
+      Key_config.右.キー = Flag.右キー;
       console.log(Flag);
       return;
     };
@@ -1526,6 +1574,14 @@ function Game_load(width,height){
     if(window.localStorage.getItem("Flag")){
       Flag = window.localStorage.getItem("Flag");
       Flag = JSON.parse(Flag);
+      if(!Flag.決定キー) Flag.決定キー = "c";
+      if(!Flag.加速キー) Flag.加速キー = "z";
+      if(!Flag.停止キー) Flag.停止キー = "x";
+      if(!Flag.セーブキー) Flag.セーブキー = "s";
+      if(!Flag.上キー) Flag.上キー = "↑";
+      if(!Flag.下キー) Flag.下キー = "↓";
+      if(!Flag.左キー) Flag.左キー = "←";
+      if(!Flag.右キー) Flag.右キー = "→";
     };
     if(window.localStorage.getItem("Stage")){
       Stage = window.localStorage.getItem("Stage");
