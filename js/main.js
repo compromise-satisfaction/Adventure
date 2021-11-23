@@ -717,55 +717,64 @@ function Game_load(width,height){
                     Touch_data = MAP_object;
                     break;
                   case "NPC":
-                    Move = 0;
-                    for(var I = 0; I < Image.length; I++){
-                      switch(Human.向き){
-                        case "上":
-                          Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
-                          Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 - Move;
-                          break;
-                        case "下":
-                          Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
-                          Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 + Move;
-                          break;
-                        case "左":
-                          Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 - Move;
-                          Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
-                          break;
-                        case "右":
-                          Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 + Move;
-                          Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
-                          break;
-                      };
-                      if(Image[I].向き){
-                        switch(Image[I].向き){
-                          case "上":
-                            Image[I].y += Image[I].Move;
+                    if(MAP_object.データ.接触){
+                      Touch_data = MAP_object;
+                      break;
+                    }
+                    else{
+                      Move = 0;
+                      if(MAP_object.データ.向かう){
+                        for(var I = 0; I < Image.length; I++){
+                          switch(Human.向き){
+                            case "上":
+                            Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
+                            Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 - Move;
                             break;
-                          case "下":
-                            Image[I].y -= Image[I].Move;
+                            case "下":
+                            Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
+                            Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 + Move;
                             break;
-                          case "左":
-                            Image[I].x += Image[I].Move;
+                            case "左":
+                            Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 - Move;
+                            Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
                             break;
-                          case "右":
-                            Image[I].x -= Image[I].Move;
+                            case "右":
+                            Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 + Move;
+                            Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
                             break;
+                          };
+                          if(Image[I].向き){
+                            switch(Image[I].向き){
+                              case "上":
+                              Image[I].y += Image[I].Move;
+                              break;
+                              case "下":
+                              Image[I].y -= Image[I].Move;
+                              break;
+                              case "左":
+                              Image[I].x += Image[I].Move;
+                              break;
+                              case "右":
+                              Image[I].x -= Image[I].Move;
+                              break;
+                            };
+                            Image[I].Number++;
+                            if(Image[I].Move){
+                              if(Image[I].Number >= Image[I]["歩" + Image[I].向き].length) Image[I].Number = 0;
+                              Image[I]._element.src = Image[I]["歩" + Image[I].向き][Image[I].Number];
+                              Wait = true;
+                            }
+                            else{
+                              if(Image[I].Number >= Image[I][Image[I].向き].length) Image[I].Number = 0;
+                              Image[I]._element.src = Image[I][Image[I].向き][Image[I].Number];
+                            };
+                          };
                         };
-                        Image[I].Number++;
-                        if(Image[I].Move){
-                          if(Image[I].Number >= Image[I]["歩" + Image[I].向き].length) Image[I].Number = 0;
-                          Image[I]._element.src = Image[I]["歩" + Image[I].向き][Image[I].Number];
-                          Wait = true;
-                        }
-                        else{
-                          if(Image[I].Number >= Image[I][Image[I].向き].length) Image[I].Number = 0;
-                          Image[I]._element.src = Image[I][Image[I].向き][Image[I].Number];
-                        };
+                        if(MAP_object.フラグ獲得) Flag_get(MAP_object.フラグ獲得);
+                        Scene_Check_Scene(Stage_Datas[MAP_object.データ.向かう]);
                       };
+                      return;
                     };
-                    if(MAP_object.データ.向かう) Scene_Check_Scene(Stage_Datas[MAP_object.データ.向かう]);
-                    return;
                     break;
                   default:
                     Move = 0;
