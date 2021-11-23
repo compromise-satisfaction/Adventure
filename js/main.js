@@ -508,7 +508,8 @@ function Game_load(width,height){
               game.input.down = false;
               game.input.left = false;
               game.input.right = false;
-              Scene_Check_Scene(Stage_Datas[Touch_data]);
+              if(Touch_data.フラグ獲得) Flag_get(Touch_data.フラグ獲得);
+              Scene_Check_Scene(Stage_Datas[Touch_data.データ]);
               Touch_data = false;
             };
 
@@ -711,7 +712,7 @@ function Game_load(width,height){
               if(MAP_object){
                 switch(MAP_object.データタイプ){
                   case "接触判定":
-                    Touch_data = MAP_object.データ;
+                    Touch_data = MAP_object;
                     break;
                   case "NPC":
                     Move = 0;
@@ -1414,6 +1415,54 @@ function Game_load(width,height){
       return scene;
     };
 
+    function Flag_get(Datas){
+      for(var I = 0; I < Object.keys(Datas).length; I++){
+        Flag_name = Object.keys(Datas)[I];
+        switch(Flag_name){
+          case "x":
+          Character_X = Datas[Flag_name];
+          break;
+          case "y":
+          Character_Y = Datas[Flag_name];
+          break;
+          case "向き":
+          Character_direction = Datas[Flag_name];
+          break;
+          default:
+          switch(Datas[Flag_name].substring(0,1)){
+            case "+":
+            if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
+            else Flag[Flag_name] = Datas[Flag_name].substring(1)*1;
+            break;
+            case "-":
+            if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
+            else Flag[Flag_name] = Datas[Flag_name]*1;
+            break;
+            default:
+            switch(Datas[Flag_name]){
+              case 0:
+              case "0":
+              case "消去":
+              case "消滅":
+              case "削除":
+              case "delete":
+              case "Delete":
+              case "デリート":
+              delete Flag[Flag_name];
+              break;
+              default:
+              Flag[Flag_name] = Datas[Flag_name];
+              break;
+            };
+            break;
+          };
+          break;
+        };
+      };
+      console.log(Flag);
+      return;
+    };
+
     function Scene_Check_Scene(Datas){
       Key_c = false;
       if(!Datas) Datas = {データタイプ:"会話",データ:{テキスト:"データが見つかりませんでした。"}};
@@ -1429,52 +1478,7 @@ function Game_load(width,height){
           return;
         };
       };
-      if(Datas.フラグ獲得){
-        for(var I = 0; I < Object.keys(Datas.フラグ獲得).length; I++){
-          Flag_name = Object.keys(Datas.フラグ獲得)[I];
-          switch(Flag_name){
-            case "x":
-              Character_X = Datas.フラグ獲得[Flag_name];
-              break;
-            case "y":
-              Character_Y = Datas.フラグ獲得[Flag_name];
-              break;
-            case "向き":
-              Character_direction = Datas.フラグ獲得[Flag_name];
-              break;
-            default:
-              switch(Datas.フラグ獲得[Flag_name].substring(0,1)){
-                case "+":
-                  if(Flag[Flag_name]) Flag[Flag_name] += Datas.フラグ獲得[Flag_name]*1;
-                  else Flag[Flag_name] = Datas.フラグ獲得[Flag_name].substring(1)*1;
-                  break;
-                case "-":
-                  if(Flag[Flag_name]) Flag[Flag_name] += Datas.フラグ獲得[Flag_name]*1;
-                  else Flag[Flag_name] = Datas.フラグ獲得[Flag_name]*1;
-                  break;
-                default:
-                  switch(Datas.フラグ獲得[Flag_name]){
-                    case 0:
-                    case "0":
-                    case "消去":
-                    case "消滅":
-                    case "削除":
-                    case "delete":
-                    case "Delete":
-                    case "デリート":
-                      delete Flag[Flag_name];
-                      break;
-                    default:
-                      Flag[Flag_name] = Datas.フラグ獲得[Flag_name];
-                      break;
-                  };
-                  break;
-              };
-              break;
-          };
-        };
-        console.log(Flag);
-      };
+      if(Datas.フラグ獲得) Flag_get(Datas.フラグ獲得);
       if(Datas.マップ処理){
         Move_box = Datas.マップ処理;
         Move_box_length = 0;
