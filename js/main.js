@@ -424,26 +424,6 @@ function Game_load(width,height){
 
           Character_direction = Human.向き;
 
-          var Key_s_data = {テキスト:"セーブしますか？"};
-          Key_s_data.選択肢 = {最初から:"最初から",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
-          if(Key_x){
-            if(HTML!="編集"){
-              delete Key_s_data.選択肢.最初から;
-              delete Key_s_data.選択肢.セーブ削除;
-            };
-            game.pushScene(Chat_Scene(Key_s_data));
-            console.log(Arrangement[Stage_name]);
-          };
-          if(Key_s){
-            if(Map[Map_Y][Map_X]!="■"&&HTML=="編集"){
-              Images(100,100,(Map_X+8)*100-50,(Map_Y+4)*100,"image/配置.png","■");
-              Image[Images_Data["■"]].Mapx = Map_X;
-              Image[Images_Data["■"]].Mapy = Map_Y;
-              Map[Map_Y][Map_X] = "■";
-            };
-            console.log(JSON.stringify(Map).replace(/],/g,"],\n"));
-          };
-
           if(HTML=="スマホ"||HTML=="編集") pad_keydown();
 
           if(Blackout.opacity==0){
@@ -545,49 +525,66 @@ function Game_load(width,height){
               Image[Images_Data["主人公"]]._element.src = Human[Human.向き][Human.Number];
             };
 
-            if(!COOLTime.c_key&&Key_c){
+            if(!Move&&!COOLTime.c_key&&Key_c){
               COOLTime.c_key = 5;
-              if(!Move){
-                if(Check_X < Map[0].length && Check_Y < Map.length && Check_X >= 0 && Check_Y >= 0 ){
-                  Arrangement_point = Arrangement[Stage_name]["X_" + Check_X + " Y_" + Check_Y];
-                  if(Arrangement_point&&Arrangement_point!="動"){
-                    console.log(Arrangement_point);
-                    Object_image = Image[Images_Data[Arrangement_point]];
-                    MAP_object = Stage_Datas[Object_image.データ名];
-                    switch(MAP_object.データタイプ){
-                      case "NPC":
-                        if(MAP_object.データ.会話&&!Object_image.Move){
-                          switch(Human.向き){
-                            case "上":
-                              Object_image.向き = "下";
-                              Object_image._element.src = Object_image["下"][0];
-                              break;
-                            case "下":
-                              Object_image.向き = "上";
-                              Object_image._element.src = Object_image["上"][0];
-                              break;
-                            case "左":
-                              Object_image.向き = "右";
-                              Object_image._element.src = Object_image["右"][0];
-                              break;
-                            case "右":
-                              Object_image.向き = "左";
-                              Object_image._element.src = Object_image["左"][0];
-                              break;
-                          };
-                          Scene_Check_Scene(Stage_Datas[MAP_object.データ.会話]);
-                          return;
+              if(Check_X < Map[0].length && Check_Y < Map.length && Check_X >= 0 && Check_Y >= 0 ){
+                Arrangement_point = Arrangement[Stage_name]["X_" + Check_X + " Y_" + Check_Y];
+                if(Arrangement_point&&Arrangement_point!="動"){
+                  console.log(Arrangement_point);
+                  Object_image = Image[Images_Data[Arrangement_point]];
+                  MAP_object = Stage_Datas[Object_image.データ名];
+                  switch(MAP_object.データタイプ){
+                    case "NPC":
+                      if(MAP_object.データ.会話&&!Object_image.Move){
+                        switch(Human.向き){
+                          case "上":
+                            Object_image.向き = "下";
+                            Object_image._element.src = Object_image["下"][0];
+                            break;
+                          case "下":
+                            Object_image.向き = "上";
+                            Object_image._element.src = Object_image["上"][0];
+                            break;
+                          case "左":
+                            Object_image.向き = "右";
+                            Object_image._element.src = Object_image["右"][0];
+                            break;
+                          case "右":
+                            Object_image.向き = "左";
+                            Object_image._element.src = Object_image["左"][0];
+                            break;
                         };
-                        break;
-                      case "調べる":
-                        Scene_Check_Scene(Stage_Datas[MAP_object.データ]);
-                        break;
-                    };
-                  }
-                  else console.log(Check_X,Check_Y);
+                        Scene_Check_Scene(Stage_Datas[MAP_object.データ.会話]);
+                        return;
+                      };
+                      break;
+                    case "調べる":
+                      Scene_Check_Scene(Stage_Datas[MAP_object.データ]);
+                      break;
+                  };
                 }
-                else console.log("マップ外");
+                else console.log(Check_X,Check_Y);
+              }
+              else console.log("マップ外");
+            };
+            var Key_s_data = {テキスト:"セーブしますか？"};
+            Key_s_data.選択肢 = {最初から:"最初から",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
+            if(!Move&&Key_x){
+              if(HTML!="編集"){
+                delete Key_s_data.選択肢.最初から;
+                delete Key_s_data.選択肢.セーブ削除;
               };
+              game.pushScene(Chat_Scene(Key_s_data));
+              console.log(Arrangement[Stage_name]);
+            };
+            if(Key_s){
+              if(Map[Map_Y][Map_X]!="■"&&HTML=="編集"){
+                Images(100,100,(Map_X+8)*100-50,(Map_Y+4)*100,"image/配置.png","■");
+                Image[Images_Data["■"]].Mapx = Map_X;
+                Image[Images_Data["■"]].Mapy = Map_Y;
+                Map[Map_Y][Map_X] = "■";
+              };
+              console.log(JSON.stringify(Map).replace(/],/g,"],\n"));
             };
 
             for(var I = 0; I < Image.length; I++){
