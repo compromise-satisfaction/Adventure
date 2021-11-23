@@ -642,6 +642,9 @@ function Game_load(width,height){
           if(Image[K].名前==a) break;
         };
         switch(b){
+          case "フラグ獲得":
+            Flag_get(JSON.parse(a));
+            break;
           case "移動":
             Scene_Check_Scene(Stage_Datas[a]);
             return;
