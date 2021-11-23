@@ -1420,7 +1420,7 @@ function Game_load(width,height){
       if(Datas.フラグ判断){
         for(var I = 0; I < Object.keys(Datas.フラグ判断).length; I++){
           Flag_name = Object.keys(Datas.フラグ判断)[I];
-          if(Flag_name=="ランダム") Flag_name = Math.floor(Math.random()*Datas.フラグ判断[Flag_name]);
+          if(Flag_name=="ランダム") Flag_name = !Math.floor(Math.random()*Datas.フラグ判断[Flag_name]);
           else Flag_name = Flag_judgement(Flag_name,Datas.フラグ判断[Flag_name]);
           if(!Flag_name) break;
         };
