@@ -1444,18 +1444,32 @@ function Game_load(width,height){
               break;
             default:
               switch(Datas.フラグ獲得[Flag_name].substring(0,1)){
-              case "+":
-              if(Flag[Flag_name]) Flag[Flag_name] += Datas.フラグ獲得[Flag_name]*1;
-              else Flag[Flag_name] = Datas.フラグ獲得[Flag_name].substring(1)*1;
-              break;
-              case "-":
-              if(Flag[Flag_name]) Flag[Flag_name] += Datas.フラグ獲得[Flag_name]*1;
-              else Flag[Flag_name] = Datas.フラグ獲得[Flag_name]*1;
-              break;
-              default:
-              Flag[Flag_name] = Datas.フラグ獲得[Flag_name]*1;
-              break;
-            };
+                case "+":
+                  if(Flag[Flag_name]) Flag[Flag_name] += Datas.フラグ獲得[Flag_name]*1;
+                  else Flag[Flag_name] = Datas.フラグ獲得[Flag_name].substring(1)*1;
+                  break;
+                case "-":
+                  if(Flag[Flag_name]) Flag[Flag_name] += Datas.フラグ獲得[Flag_name]*1;
+                  else Flag[Flag_name] = Datas.フラグ獲得[Flag_name]*1;
+                  break;
+                default:
+                  switch(Datas.フラグ獲得[Flag_name]){
+                    case 0:
+                    case "0":
+                    case "消去":
+                    case "消滅":
+                    case "削除":
+                    case "delete":
+                    case "Delete":
+                    case "デリート":
+                      delete Flag[Flag_name];
+                      break;
+                    default:
+                      Flag[Flag_name] = Datas.フラグ獲得[Flag_name];
+                      break;
+                  };
+                  break;
+              };
               break;
           };
         };
