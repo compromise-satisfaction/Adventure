@@ -1429,6 +1429,26 @@ function Game_load(width,height){
           return;
         };
       };
+
+      if(Datas.フラグ獲得){
+        for(var I = 0; I < Object.keys(Datas.フラグ獲得).length; I++){
+          Flag_name = Object.keys(Datas.フラグ獲得)[I];
+          switch(Datas.フラグ獲得[Flag_name].substring(0,1)){
+            case "+":
+              if(Flag[Flag_name]) Flag[Flag_name] += Datas.フラグ獲得[Flag_name]*1;
+              else Flag[Flag_name] = Datas.フラグ獲得[Flag_name].substring(1)*1;
+              break;
+            case "-":
+              if(Flag[Flag_name]) Flag[Flag_name] += Datas.フラグ獲得[Flag_name]*1;
+              else Flag[Flag_name] = Datas.フラグ獲得[Flag_name]*1;
+              break;
+            default:
+              Flag[Flag_name] = Datas.フラグ獲得[Flag_name]*1;
+              break;
+          };
+        };
+        console.log(Flag);
+      };
       if(Datas.マップ処理){
         Move_box = Datas.マップ処理;
         Move_box_length = 0;
@@ -1449,25 +1469,6 @@ function Game_load(width,height){
             if(Datas.データ.x!=undefined) Character_X = Datas.データ.x;
             if(Datas.データ.y!=undefined) Character_Y = Datas.データ.y;
             if(Datas.データ.向き) Character_direction = Datas.データ.向き;
-          };
-          if(Datas.フラグ獲得){
-            for(var I = 0; I < Object.keys(Datas.フラグ獲得).length; I++){
-              Flag_name = Object.keys(Datas.フラグ獲得)[I];
-              switch(Datas.フラグ獲得[Flag_name].substring(0,1)){
-                case "+":
-                  if(Flag[Flag_name]) Flag[Flag_name] += Datas.フラグ獲得[Flag_name]*1;
-                  else Flag[Flag_name] = Datas.フラグ獲得[Flag_name].substring(1)*1;
-                  break;
-                case "-":
-                  if(Flag[Flag_name]) Flag[Flag_name] += Datas.フラグ獲得[Flag_name]*1;
-                  else Flag[Flag_name] = Datas.フラグ獲得[Flag_name]*1;
-                  break;
-                default:
-                  Flag[Flag_name] = Datas.フラグ獲得[Flag_name]*1;
-                  break;
-              };
-            };
-            console.log(Flag);
           };
           if(Datas.次){
             if(Datas.次=="暗転") Scene_Check_Scene(Stage_Datas[Stage]);
