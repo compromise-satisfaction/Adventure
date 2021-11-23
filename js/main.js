@@ -426,12 +426,22 @@ function Game_load(width,height){
 
           var Key_s_data = {テキスト:"セーブしますか？"};
           Key_s_data.選択肢 = {最初から:"最初から",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
-          if(Key_s){
+          if(Key_x){
             if(HTML!="編集"){
               delete Key_s_data.選択肢.最初から;
               delete Key_s_data.選択肢.セーブ削除;
             };
             game.pushScene(Chat_Scene(Key_s_data));
+            console.log(Arrangement[Stage_name]);
+          };
+          if(Key_s){
+            if(Map[Map_Y][Map_X]!="■"&&HTML=="編集"){
+              Images(100,100,(Map_X+8)*100-50,(Map_Y+4)*100,"image/配置.png","■");
+              Image[Images_Data["■"]].Mapx = Map_X;
+              Image[Images_Data["■"]].Mapy = Map_Y;
+              Map[Map_Y][Map_X] = "■";
+            };
+            console.log(JSON.stringify(Map).replace(/],/g,"],\n"));
           };
 
           if(HTML=="スマホ"||HTML=="編集") pad_keydown();
@@ -586,17 +596,6 @@ function Game_load(width,height){
                   delete Arrangement[Stage_name]["X_" + Image[I].Beforex + " Y_" + Image[I].Beforey];
                 };
               };
-            };
-
-            if(Key_x){
-              if(Map[Map_Y][Map_X]!="■"&&HTML=="編集"){
-                Images(100,100,(Map_X+8)*100-50,(Map_Y+4)*100,"image/配置.png","■");
-                Image[Images_Data["■"]].Mapx = Map_X;
-                Image[Images_Data["■"]].Mapy = Map_Y;
-                Map[Map_Y][Map_X] = "■";
-                console.log(JSON.stringify(Map).replace(/],/g,"],\n"));
-              };
-              console.log(Arrangement[Stage_name]);
             };
 
             if(game.input.up&&!game.input.down&&!game.input.left&&!game.input.right) Move_human("上");
@@ -1177,7 +1176,6 @@ function Game_load(width,height){
         }
         else{
           if(Key_x){
-            console.log(Flag);
             Image[Images_Data.テキストボックス].opacity = 0;
             for(var K = 0; K < Row * One_column; K++) Text[K].opacity = 0;
             for(var K = 0; K < 5; K++){
