@@ -545,7 +545,8 @@ function Game_load(width,height){
               Image[Images_Data["主人公"]]._element.src = Human[Human.向き][Human.Number];
             };
 
-            if(Key_c&&!COOLTime.c_key){
+            if(!COOLTime.c_key&&Key_c){
+              COOLTime.c_key = 5;
               if(!Move){
                 if(Check_X < Map[0].length && Check_Y < Map.length && Check_X >= 0 && Check_Y >= 0 ){
                   Arrangement_point = Arrangement[Stage_name]["X_" + Check_X + " Y_" + Check_Y];
@@ -1231,7 +1232,7 @@ function Game_load(width,height){
               ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Datas.選択肢)[Choice_Number];
             };
           };
-          if(Key_c&&!Key_x&&!COOLTime.c_key){
+          if(!Key_x&&!COOLTime.c_key&&Key_c){
             COOLTime.c_key = 5;
             J++;
             if(Display_text[J]){
@@ -1243,7 +1244,6 @@ function Game_load(width,height){
               };
             }
             else{
-              Key_c = false;
               game.popScene();
               if(Datas.次){
                 switch(Datas.次){
@@ -1421,7 +1421,6 @@ function Game_load(width,height){
       scene.addChild(Blackout);
       scene.addEventListener("enterframe",function(){
         if(Blackout.opacity==1){
-          Key_c = false;
           game.popScene();
           game.replaceScene(Map_Scene(Datas,Stage_name));
         };
@@ -1478,7 +1477,6 @@ function Game_load(width,height){
     };
 
     function Scene_Check_Scene(Datas){
-      Key_c = false;
       if(!Datas) Datas = {データタイプ:"会話",データ:{テキスト:"データが見つかりませんでした。"}};
       if(Datas.フラグ判断){
         for(var I = 0; I < Object.keys(Datas.フラグ判断).length; I++){
