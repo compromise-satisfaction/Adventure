@@ -344,14 +344,9 @@ function Game_load(width,height){
 
       scene.addEventListener("enterframe",function(){
 
-        var Move_instruction = null;
-
         if(Move_box){
           if(!Wait){
-            for(var I = 0; I < Move_box[Move_box_length].length; I++){
-              Move_instruction = Move_box[Move_box_length][I].match(/(.+):(.+)/)
-              Auto_map_action(Move_instruction[1],Move_instruction[2]);
-            };
+            Auto_map_action(Move_box[Move_box_length]);
             Move_box_length++;
             if(Move_box_length == Move_box.length) Move_box = null;
           }
@@ -635,57 +630,64 @@ function Game_load(width,height){
 
       });
 
-      function Auto_map_action(a,b){
-        for(var K = 0; K < Image.length; K++){
-          if(Image[K].名前==a) break;
-        };
-        switch(b){
-          case "フラグ獲得":
-            Flag_get(JSON.parse(a));
-            break;
-          case "移動":
-            Scene_Check_Scene(Stage_Datas[a]);
-            return;
-            break;
-          case "上":
-          case "下":
-          case "左":
-          case "右":
-            if(Image[K].名前=="主人公") Move_human(b,true);
-            else Move_Object(a,b);
+      function Auto_map_action(Instruction){
+
+        var Direction = null;
+
+        for(var I = 0; I < 4; I++){
+          switch(I){
+            case 0:
+              Direction = "上";
+              break;
+            case 1:
+              Direction = "下";
+              break;
+            case 2:
+              Direction = "左";
+              break;
+            case 3:
+              Direction = "右";
+              break;
+          };
+          if(Instruction[Direction]){
+            for(var J = 0; J < Instruction[Direction].length; J++){
+              if(Instruction[Direction][J]=="主人公") Move_human(Direction,true);
+              else{
+                for(var K = 0; K < Image.length; K++) if(Image[K].名前==Instruction[Direction][J]) break;
+                Move_Object(Image[K],Direction);
+              };
+            };
             Wait = true;
-            break;
-          case "待機":
-            var Now = new Date().getTime();
-            var Time_wait = Now + a*1;
-            while(Time_wait > new Date().getTime());
-            break;
-          case "上を向く":
-            Image[K].向き = "上";
-            Image[K].Number = 0;
-            Image[K]._element.src = Image[K][Image[K].向き][Image[K].Number];
-            break;
-          case "下を向く":
-            Image[K].向き = "下";
-            Image[K].Number = 0;
-            Image[K]._element.src = Image[K][Image[K].向き][Image[K].Number];
-            break;
-          case "左を向く":
-            Image[K].向き = "左";
-            Image[K].Number = 0;
-            Image[K]._element.src = Image[K][Image[K].向き][Image[K].Number];
-            break;
-          case "右を向く":
-            Image[K].向き = "右";
-            Image[K].Number = 0;
-            Image[K]._element.src = Image[K][Image[K].向き][Image[K].Number];
-            break;
-          case "消滅":
+          };
+          if(Instruction[Direction + "を向く"]){
+            for(var J = 0; J < Instruction[Direction + "を向く"].length; J++){
+              for(var K = 0; K < Image.length; K++) if(Image[K].名前==Instruction[Direction + "を向く"][J]) break;
+              Image[K].向き = Direction;
+              Image[K].Number = 0;
+              Image[K]._element.src = Image[K][Image[K].向き][Image[K].Number];
+            };
+            Wait = true;
+          };
+        };
+
+        if(Instruction.待機){
+          var Now = new Date().getTime();
+          var Time_wait = Now + Instruction.待機;
+          while(Time_wait > new Date().getTime());
+        };
+
+        if(Instruction.消滅){
+          for(var J = 0; J < Instruction.消滅.length; J++){
+            for(var K = 0; K < Image.length; K++) if(Image[K].名前==Instruction.消滅[J]) break;
             delete Arrangement[Stage_name]["X_" + Image[K].Mapx + " Y_" + Image[K].Mapy];
             scene.removeChild(Image[K]);
             Image[K] = {};
-            break;
+          };
         };
+
+        if(Instruction.フラグ獲得) Flag_get(Instruction.フラグ獲得);
+        if(Instruction.移動) Scene_Check_Scene(Stage_Datas[Instruction.移動]);
+        
         return;
       };
 
