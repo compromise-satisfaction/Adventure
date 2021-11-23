@@ -1140,7 +1140,6 @@ function Game_load(width,height){
       var Display_text = Text_text.match(/.{1,120}/g);
       var Display_name = Datas.名前;
 
-
       var Kaigyo = 0;
       var Kaigyo_S = 0;
       var Match = null;
