@@ -729,7 +729,7 @@ function Game_load(width,height){
                     break;
                   case "NPC":
                     if(MAP_object.データ.接触){
-                      Touch_data = MAP_object;
+                      Touch_data = {データ:MAP_object.データ.接触};
                       break;
                     }
                     else{
