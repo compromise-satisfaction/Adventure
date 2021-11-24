@@ -154,6 +154,7 @@ function Game_load(width,height){
       var Check_X = null;
       var Check_Y = null;
       var Human = {};
+      var Head_data = false;
       var Touch_data = false;
       var MAP_object_X = null;
       var MAP_object_Y = null;
@@ -499,6 +500,12 @@ function Game_load(width,height){
               };
             };
 
+            if(Head_data){
+              if(Head_data.フラグ獲得) Flag_get(Head_data.フラグ獲得);
+              Scene_Check_Scene(Stage_Datas[Head_data.データ.向かう]);
+              return;
+            };
+
             if(!Move&&Touch_data){
               game.input.up = false;
               game.input.down = false;
@@ -507,6 +514,7 @@ function Game_load(width,height){
               if(Touch_data.フラグ獲得) Flag_get(Touch_data.フラグ獲得);
               Scene_Check_Scene(Stage_Datas[Touch_data.データ]);
               Touch_data = false;
+              return;
             };
 
             Human.Number++;
@@ -735,55 +743,8 @@ function Game_load(width,height){
                     else{
                       Move = 0;
                       if(MAP_object.データ.向かう){
-                        for(var I = 0; I < Image.length; I++){
-                          switch(Human.向き){
-                            case "上":
-                            Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
-                            Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 - Move;
-                            break;
-                            case "下":
-                            Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100;
-                            Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100 + Move;
-                            break;
-                            case "左":
-                            Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 - Move;
-                            Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
-                            break;
-                            case "右":
-                            Image[I].x = (Image[I].Mapx + 8) * 100-50 - Map_X * 100 + Move;
-                            Image[I].y = (Image[I].Mapy + 4) * 100 - Map_Y * 100;
-                            break;
-                          };
-                          if(Image[I].向き){
-                            switch(Image[I].向き){
-                              case "上":
-                              Image[I].y += Image[I].Move;
-                              break;
-                              case "下":
-                              Image[I].y -= Image[I].Move;
-                              break;
-                              case "左":
-                              Image[I].x += Image[I].Move;
-                              break;
-                              case "右":
-                              Image[I].x -= Image[I].Move;
-                              break;
-                            };
-                            Image[I].Number++;
-                            if(Image[I].Move){
-                              if(Image[I].Number >= Image[I]["歩" + Image[I].向き].length) Image[I].Number = 0;
-                              Image[I]._element.src = Image[I]["歩" + Image[I].向き][Image[I].Number];
-                              Wait = true;
-                            }
-                            else{
-                              if(Image[I].Number >= Image[I][Image[I].向き].length) Image[I].Number = 0;
-                              Image[I]._element.src = Image[I][Image[I].向き][Image[I].Number];
-                            };
-                          };
-                        };
-                        if(MAP_object.フラグ獲得) Flag_get(MAP_object.フラグ獲得);
-                        Scene_Check_Scene(Stage_Datas[MAP_object.データ.向かう]);
-                      };
+                        Head_data = MAP_object;
+                      }
                       return;
                     };
                     break;
