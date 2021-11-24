@@ -422,10 +422,9 @@ function Game_load(width,height){
         }
         else{
 
-          for(var I = 0; I < Object.keys(Key_config).length; I++){
-            if(Key_config[Object.keys(Key_config)[I]].タイム){
-              console.log(Key_config[Object.keys(Key_config)[I]].キー);
-              Key_config[Object.keys(Key_config)[I]].タイム--;
+          for(var L = 0; L < Object.keys(Key_config).length; L++){
+            if(Key_config[Object.keys(Key_config)[L]].タイム){
+              Key_config[Object.keys(Key_config)[L]].タイム--;
             };
           };
 
@@ -1175,6 +1174,7 @@ function Game_load(width,height){
         };
       };
 
+
       var Write = true;
       var Display_text = Text_text.match(/.{1,120}/g);
       var Display_name = Datas.名前;
@@ -1203,10 +1203,9 @@ function Game_load(width,height){
 
       scene.addEventListener("enterframe",function(){
 
-        for(var I = 0; I < Object.keys(Key_config).length; I++){
-          if(Key_config[Object.keys(Key_config)[I]].タイム){
-            console.log(Key_config[Object.keys(Key_config)[I]].キー);
-            Key_config[Object.keys(Key_config)[I]].タイム--;
+        for(var L = 0; L < Object.keys(Key_config).length; L++){
+          if(Key_config[Object.keys(Key_config)[L]].タイム){
+            Key_config[Object.keys(Key_config)[L]].タイム--;
           };
         };
 
@@ -1446,6 +1445,7 @@ function Game_load(width,height){
           return;
         };
       };
+
       return scene;
     };
     var Blackout_Scene = function(Datas,Stage_name){
