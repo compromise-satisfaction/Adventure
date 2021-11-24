@@ -30,6 +30,7 @@ var Key_config = {
 var Change_Box = null;
 var Move_box = null;
 var Button_size = 400;
+var This_object = null;
 
 var SE1 = document.createElement("audio");
 var SE2 = document.createElement("audio");
@@ -53,7 +54,7 @@ if(HTML!="スマホ"){
         Key_config.停止.プッシュ = true;
         break;
       case Key_config.セーブ.キー:
-        Key_config.セーブ.キー = true;
+        Key_config.セーブ.プッシュ = true;
         break;
     };
   });
@@ -69,7 +70,7 @@ if(HTML!="スマホ"){
         Key_config.停止.プッシュ = false;
         break;
       case Key_config.セーブ.キー:
-        Key_config.セーブ.キー = false;
+        Key_config.セーブ.プッシュ = false;
         break;
     };
   });
@@ -161,13 +162,9 @@ function Game_load(width,height){
       var Arrangement_point = null;
       var Arrangement_write = false;
 
-
       var MAP_object = null;
 
-      if(Load_Arrangement){
-        Arrangement[Stage_name] = Load_Arrangement[Stage_name];
-        Load_Arrangement = null;
-      };
+      if(Load_Arrangement) Arrangement[Stage_name] = Load_Arrangement[Stage_name];
 
       if(Load_Object_moves){
         Object_moves[Stage_name] = Load_Object_moves[Stage_name];
@@ -195,7 +192,7 @@ function Game_load(width,height){
         switch(Object.keys(Datas.画像)[I]){
           case "主人公":
             if(!Flag.主人公) Flag.主人公 = Datas.画像[Object.keys(Datas.画像)[I]];
-            Human.画像 = Stage_Datas[Flag.主人公];
+            Human.画像 = Stage_Datas[Flag.主人公].データ;
             Images(100,100,1600/2-50,900/2-50,false,"主人公");
             Human.向き = Character_direction;
             Human.上 = Human.画像.上;
@@ -262,9 +259,15 @@ function Game_load(width,height){
                       };
                     };
                     if(J==Object.keys(Arrangement[Stage_name]).length){
-                      Image[Image_count].Mapx = MAP_object_X;
-                      Image[Image_count].Mapy = MAP_object_Y;
-                      Arrangement[Stage_name]["X_" + MAP_object_X + " Y_" + MAP_object_Y] = Object.keys(Datas.画像)[I];
+                      if(Load_Arrangement){
+                        scene.removeChild(Image[Image_count]);
+                        Image[Image_count] = {};
+                      }
+                      else{
+                        Image[Image_count].Mapx = MAP_object_X;
+                        Image[Image_count].Mapy = MAP_object_Y;
+                        Arrangement[Stage_name]["X_" + MAP_object_X + " Y_" + MAP_object_Y] = Object.keys(Datas.画像)[I];
+                      };
                     };
                   };
                   break;
@@ -273,7 +276,7 @@ function Game_load(width,height){
                   Object_image = Image[Images_Data[Object.keys(Datas.画像)[I]]];
                   Object_image.データ名 = MAP_object.データ名;
                   MAP_object = MAP_object.データ;
-                  Object_image.画像 = Stage_Datas[MAP_object.画像];
+                  Object_image.画像 = Stage_Datas[MAP_object.画像].データ;
                   Object_image.Move = 0;
                   Object_image.Number = 0;
                   Object_image.向き = MAP_object.向き;
@@ -311,9 +314,15 @@ function Game_load(width,height){
                       };
                     };
                     if(J==Object.keys(Arrangement[Stage_name]).length){
-                      Object_image.Mapx = MAP_object_X;
-                      Object_image.Mapy = MAP_object_Y;
-                      Arrangement[Stage_name]["X_" + MAP_object_X + " Y_" + MAP_object_Y] = Object.keys(Datas.画像)[I];
+                      if(Load_Arrangement){
+                        scene.removeChild(Object_image);
+                        Object_image = {};
+                      }
+                      else{
+                        Object_image.Mapx = MAP_object_X;
+                        Object_image.Mapy = MAP_object_Y;
+                        Arrangement[Stage_name]["X_" + MAP_object_X + " Y_" + MAP_object_Y] = Object.keys(Datas.画像)[I];
+                      };
                     };
                   };
                   break;
@@ -327,6 +336,8 @@ function Game_load(width,height){
             break;
         };
       };
+
+      Load_Arrangement = null;
 
       Map_X = Character_X;
       Map_Y = Character_Y;
@@ -500,45 +511,6 @@ function Game_load(width,height){
               };
             };
 
-            if(Head_data){
-              if(Head_data.フラグ獲得) Flag_get(Head_data.フラグ獲得);
-              Scene_Check_Scene(Stage_Datas[Head_data.データ.向かう]);
-              return;
-            };
-
-            if(!Move&&Touch_data){
-              game.input.up = false;
-              game.input.down = false;
-              game.input.left = false;
-              game.input.right = false;
-              if(Touch_data.フラグ獲得) Flag_get(Touch_data.フラグ獲得);
-              Scene_Check_Scene(Stage_Datas[Touch_data.データ]);
-              Touch_data = false;
-              return;
-            };
-
-            Human.Number++;
-            if(Move){
-              if(Key_config.加速.プッシュ){
-                if(Human.Number >= Human["走" + Human.向き].length) Human.Number = 0;
-                Image[Images_Data["主人公"]]._element.src = Human["走" + Human.向き][Human.Number];
-                Move -= 25;
-              }
-              else{
-                if(Human.Number >= Human["歩" + Human.向き].length) Human.Number = 0;
-                Image[Images_Data["主人公"]]._element.src = Human["歩" + Human.向き][Human.Number];
-                Move -= 10;
-              };
-              if(Move < 0) Move = 0;
-              if(Move==0&&Arrangement[Stage_name]["X_" + Human.Beforex + " Y_" + Human.Beforey]=="動"){
-                delete Arrangement[Stage_name]["X_" + Human.Beforex + " Y_" + Human.Beforey];
-              };
-            }
-            else{
-              if(Human.Number >= Human[Human.向き].length) Human.Number = 0;
-              Image[Images_Data["主人公"]]._element.src = Human[Human.向き][Human.Number];
-            };
-
             if(!Move&&!Key_config.決定.タイム&&Key_config.決定.プッシュ){
               Key_config.決定.タイム = 5;
               if(Check_X < Map[0].length && Check_Y < Map.length && Check_X >= 0 && Check_Y >= 0 ){
@@ -574,6 +546,7 @@ function Game_load(width,height){
                       break;
                     case "調べる":
                       Scene_Check_Scene(Stage_Datas[MAP_object.データ]);
+                      return;
                       break;
                   };
                 }
@@ -581,17 +554,18 @@ function Game_load(width,height){
               }
               else console.log("マップ外");
             };
-            var Save_data = {テキスト:"セーブしますか？"};
-            Save_data.選択肢 = {最初から:"最初から",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
-            if(!Move&&Key_config.停止.プッシュ){
+            if(!Touch_data&&Key_config.セーブ.プッシュ){
+              var Save_data = {テキスト:"セーブしますか？"};
+              Save_data.選択肢 = {最初から:"最初から",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
               if(HTML!="編集"){
                 delete Save_data.選択肢.最初から;
                 delete Save_data.選択肢.セーブ削除;
               };
-              game.pushScene(Chat_Scene(Save_data));
               console.log(Arrangement[Stage_name]);
+              game.pushScene(Chat_Scene(Save_data));
+              return;
             };
-            if(Key_config.セーブ.プッシュ){
+            if(Key_config.停止.プッシュ){
               if(Map[Map_Y][Map_X]!="■"&&HTML=="編集"){
                 Images(100,100,(Map_X+8)*100-50,(Map_Y+4)*100,"image/配置.png","■");
                 Image[Images_Data["■"]].Mapx = Map_X;
@@ -599,6 +573,46 @@ function Game_load(width,height){
                 Map[Map_Y][Map_X] = "■";
               };
               console.log(JSON.stringify(Map).replace(/],/g,"],\n"));
+            };
+
+            if(Head_data){
+              if(Head_data.フラグ獲得) Flag_get(Head_data.フラグ獲得);
+              Scene_Check_Scene(Stage_Datas[Head_data.データ.向かう]);
+              Head_data = false;
+              return;
+            };
+
+            if(!Move&&Touch_data){
+              game.input.up = false;
+              game.input.down = false;
+              game.input.left = false;
+              game.input.right = false;
+              if(Touch_data.フラグ獲得) Flag_get(Touch_data.フラグ獲得);
+              Scene_Check_Scene(Stage_Datas[Touch_data.データ]);
+              Touch_data = false;
+              return;
+            };
+
+            Human.Number++;
+            if(Move){
+              if(Key_config.加速.プッシュ){
+                if(Human.Number >= Human["走" + Human.向き].length) Human.Number = 0;
+                Image[Images_Data["主人公"]]._element.src = Human["走" + Human.向き][Human.Number];
+                Move -= 25;
+              }
+              else{
+                if(Human.Number >= Human["歩" + Human.向き].length) Human.Number = 0;
+                Image[Images_Data["主人公"]]._element.src = Human["歩" + Human.向き][Human.Number];
+                Move -= 10;
+              };
+              if(Move < 0) Move = 0;
+              if(Move==0&&Arrangement[Stage_name]["X_" + Human.Beforex + " Y_" + Human.Beforey]=="動"){
+                delete Arrangement[Stage_name]["X_" + Human.Beforex + " Y_" + Human.Beforey];
+              };
+            }
+            else{
+              if(Human.Number >= Human[Human.向き].length) Human.Number = 0;
+              Image[Images_Data["主人公"]]._element.src = Human[Human.向き][Human.Number];
             };
 
             for(var I = 0; I < Image.length; I++){
@@ -672,18 +686,28 @@ function Game_load(width,height){
             for(var J = 0; J < Instruction[Direction].length; J++){
               if(Instruction[Direction][J]=="主人公") Move_human(Direction,true);
               else{
-                for(var K = 0; K < Image.length; K++) if(Image[K].名前==Instruction[Direction][J]) break;
-                Move_Object(Image[K],Direction);
+                if(Instruction[Direction][J]=="自分") Move_Object(This_object,Direction);
+                else{
+                  for(var K = 0; K < Image.length; K++) if(Image[K].名前==Instruction[Direction][J]) break;
+                  Move_Object(Image[K],Direction);
+                };
               };
             };
             Wait = true;
           };
           if(Instruction[Direction + "を向く"]){
             for(var J = 0; J < Instruction[Direction + "を向く"].length; J++){
-              for(var K = 0; K < Image.length; K++) if(Image[K].名前==Instruction[Direction + "を向く"][J]) break;
-              Image[K].向き = Direction;
-              Image[K].Number = 0;
-              Image[K]._element.src = Image[K][Image[K].向き][Image[K].Number];
+              if(Instruction[Direction + "を向く"][J]=="自分"){
+                This_object.向き = Direction;
+                This_object.Number = 0;
+                This_object._element.src = This_object[This_object.向き][This_object.Number];
+              }
+              else{
+                for(var K = 0; K < Image.length; K++) if(Image[K].名前==Instruction[Direction + "を向く"][J]) break;
+                Image[K].向き = Direction;
+                Image[K].Number = 0;
+                Image[K]._element.src = Image[K][Image[K].向き][Image[K].Number];
+              };
             };
             Wait = true;
           };
@@ -696,11 +720,19 @@ function Game_load(width,height){
         };
 
         if(Instruction.消滅){
+          console.log("消滅");
           for(var J = 0; J < Instruction.消滅.length; J++){
-            for(var K = 0; K < Image.length; K++) if(Image[K].名前==Instruction.消滅[J]) break;
-            delete Arrangement[Stage_name]["X_" + Image[K].Mapx + " Y_" + Image[K].Mapy];
-            scene.removeChild(Image[K]);
-            Image[K] = {};
+            if(Instruction.消滅[J]=="自分"){
+              delete Arrangement[Stage_name]["X_" + This_object.Mapx + " Y_" + This_object.Mapy];
+              scene.removeChild(This_object);
+              This_object = {};
+            }
+            else{
+              for(var K = 0; K < Image.length; K++) if(Image[K].名前==Instruction.消滅[J]) break;
+              delete Arrangement[Stage_name]["X_" + Image[K].Mapx + " Y_" + Image[K].Mapy];
+              scene.removeChild(Image[K]);
+              Image[K] = {};
+            };
           };
         };
 
@@ -737,12 +769,14 @@ function Game_load(width,height){
                     break;
                   case "NPC":
                     if(MAP_object.データ.接触){
+                      This_object = Object_image;
                       Touch_data = {データ:MAP_object.データ.接触};
                       break;
                     }
                     else{
                       Move = 0;
                       if(MAP_object.データ.向かう){
+                        This_object = Object_image;
                         Head_data = MAP_object;
                       }
                       return;
@@ -957,7 +991,7 @@ function Game_load(width,height){
                 Key_config.停止.プッシュ = true;
                 break;
               case Key_config.セーブ.キー:
-                Key_config.セーブ.キー = true;
+                Key_config.セーブ.プッシュ = true;
                 break;
             };
             return;
@@ -974,7 +1008,7 @@ function Game_load(width,height){
                 Key_config.停止.プッシュ = false;
                 break;
               case Key_config.セーブ.キー:
-                Key_config.セーブ.キー = false;
+                Key_config.セーブ.プッシュ = false;
                 break;
             };
             return;
@@ -996,9 +1030,10 @@ function Game_load(width,height){
           scene.addChild(Ui_Button[Ui_Button_count]);
         };
 
+        Buttons(width-Button_size,height-Button_size,Button_size,Button_size,Key_config.決定.キー);
         Buttons(width-Button_size*2,height-Button_size,Button_size,Button_size,Key_config.加速.キー);
         Buttons(width-Button_size,height-Button_size*2,Button_size,Button_size,Key_config.停止.キー);
-        Buttons(width-Button_size,height-Button_size,Button_size,Button_size,Key_config.決定.キー);
+        Buttons(width-Button_size*2,height-Button_size*2,Button_size,Button_size,Key_config.セーブ.キー);
 
         function pad_keydown(){
           Pad1._element.src = "image/pad.png";
@@ -1263,6 +1298,7 @@ function Game_load(width,height){
             };
           };
         };
+        return;
       });
 
       function Text_write(){
@@ -1330,7 +1366,7 @@ function Game_load(width,height){
                 Key_config.停止.プッシュ = true;
                 break;
               case Key_config.セーブ.キー:
-                Key_config.セーブ.キー = true;
+                Key_config.セーブ.プッシュ = true;
                 break;
             };
             return;
@@ -1347,7 +1383,7 @@ function Game_load(width,height){
                 Key_config.停止.プッシュ = false;
                 break;
               case Key_config.セーブ.キー:
-                Key_config.セーブ.キー = false;
+                Key_config.セーブ.プッシュ = false;
                 break;
             };
             return;
@@ -1369,9 +1405,10 @@ function Game_load(width,height){
           scene.addChild(Ui_Button[Ui_Button_count]);
         };
 
+        Buttons(width-Button_size,height-Button_size,Button_size,Button_size,Key_config.決定.キー);
         Buttons(width-Button_size*2,height-Button_size,Button_size,Button_size,Key_config.加速.キー);
         Buttons(width-Button_size,height-Button_size*2,Button_size,Button_size,Key_config.停止.キー);
-        Buttons(width-Button_size,height-Button_size,Button_size,Button_size,Key_config.決定.キー);
+        Buttons(width-Button_size*2,height-Button_size*2,Button_size,Button_size,Key_config.セーブ.キー);
 
         function pad_keydown(){
           Pad1._element.src = "image/pad.png";
