@@ -521,27 +521,33 @@ function Game_load(width,height){
                   MAP_object = Stage_Datas[Object_image.データ名];
                   switch(MAP_object.データタイプ){
                     case "NPC":
-                      if(MAP_object.データ.会話&&!Object_image.Move){
-                        switch(Human.向き){
-                          case "上":
+                      if(!Object_image.Move){
+                        if(MAP_object.データ.会話){
+                          switch(Human.向き){
+                            case "上":
                             Object_image.向き = "下";
                             Object_image._element.src = Object_image["下"][0];
                             break;
-                          case "下":
+                            case "下":
                             Object_image.向き = "上";
                             Object_image._element.src = Object_image["上"][0];
                             break;
-                          case "左":
+                            case "左":
                             Object_image.向き = "右";
                             Object_image._element.src = Object_image["右"][0];
                             break;
-                          case "右":
+                            case "右":
                             Object_image.向き = "左";
                             Object_image._element.src = Object_image["左"][0];
                             break;
+                          };
+                          Scene_Check_Scene(Stage_Datas[MAP_object.データ.会話]);
+                          return;
                         };
-                        Scene_Check_Scene(Stage_Datas[MAP_object.データ.会話]);
-                        return;
+                        if(MAP_object.データ.調べる){
+                          Scene_Check_Scene(Stage_Datas[MAP_object.データ.調べる]);
+                          return;
+                        };
                       };
                       break;
                     case "調べる":
@@ -1634,17 +1640,41 @@ function Game_load(width,height){
     };
 
     fetch(URL,Options).then(res => res.json()).then(result => {
-                                                    for(var I = 0; I < result.length; I++){
+    for(var I = 0; I < result.length; I++){
       if(result[I][Data_number]){
         if(result[I][Data_number].substring(0,1)!="{") result[I] = "{" + result[I][Data_number] + "}";
         else  result[I] = result[I][Data_number];
-        console.log(result[I]);
-        result[I] = JSON.parse(result[I]);
-        console.clear();
-        Stage_Datas[result[I].データ名] = result[I];
+        try{
+          result[I] = JSON.parse(result[I]);
+        }
+        catch(e){
+          console.log(result[I]);
+          break;
+        }
+        if(result[I].データタイプ=="変換"){
+          var Converting_data = result[I].変換データ;
+        }
+        else Stage_Datas[result[I].データ名] = result[I];
       }
       else break;
     };
+
+    if(Converting_data){
+      var Converting1 = null;
+      var Converting2 = null;
+      for(var I = 0; I < Object.keys(Stage_Datas).length; I++){
+        Converting1 = Stage_Datas[Object.keys(Stage_Datas)[I]];
+        Converting1 = JSON.stringify(Converting1);
+        for(var J = 0; J < Object.keys(Converting_data).length; J++){
+          Converting2 = Object.keys(Converting_data)[J];
+          while(Converting1.match(Converting2)){
+            Converting1 = Converting1.replace(Converting2,Converting_data[Converting2]);
+          };
+          Stage_Datas[Object.keys(Stage_Datas)[I]] = JSON.parse(Converting1);
+        };
+      };
+    };
+
     if(!Stage_Datas[Stage]) Stage = "最初";
     Scene_Check_Scene(Stage_Datas[Stage]);
     return;
