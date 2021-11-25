@@ -443,7 +443,7 @@ function Game_load(width,height){
       scene.addEventListener("enterframe",function(){
 
         if(Move_box){
-          if(!Move_box_length) for(var I = 0; I < Image.length; I++) Image[I].Move = 0;
+          //if(!Move_box_length) for(var I = 0; I < Image.length; I++) Image[I].Move = 0;
           if(!Wait){
             Auto_map_action(Move_box[Move_box_length]);
             Move_box_length++;
