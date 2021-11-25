@@ -9,9 +9,10 @@ var Arrangement = {};
 var Load_Arrangement = null;
 var Object_moves = {};
 var Load_Object_moves = null;
+var Setting_key = null;
 var Character_direction = "右";
 var Flag = {
-  決定キー:"c",加速キー:"z",停止キー:"x",セーブキー:"s",
+  決定キー:"c",加速キー:"z",停止キー:"x",メニューキー:"s",
   上キー:"↑",下キー:"↓",左キー:"←",右キー:"→"
 };
 var Flag_name = null;
@@ -21,16 +22,17 @@ var Key_config = {
   決定:{キー:Flag.決定キー,プッシュ:false,タイム:0},
   加速:{キー:Flag.加速キー,プッシュ:false,タイム:0},
   停止:{キー:Flag.停止キー,プッシュ:false,タイム:0},
-  セーブ:{キー:Flag.セーブキー,プッシュ:false,タイム:0},
+  メニュー:{キー:Flag.メニューキー,プッシュ:false,タイム:0},
   上:{キー:Flag.上キー,プッシュ:false,タイム:0},
   下:{キー:Flag.下キー,プッシュ:false,タイム:0},
   左:{キー:Flag.左キー,プッシュ:false,タイム:0},
   右:{キー:Flag.右キー,プッシュ:false,タイム:0}
 };
-var Change_Box = null;
 var Move_box = null;
 var Button_size = 400;
 var This_object = null;
+var Key_config_setting = false;
+var Key_config_setting_write = null;
 
 var SE1 = document.createElement("audio");
 var SE2 = document.createElement("audio");
@@ -43,7 +45,51 @@ BGM.addEventListener("ended",function(e){
 
 if(HTML!="スマホ"){
   window.addEventListener("keydown",function(e){
-    switch(e.key){
+
+    if(Key_config_setting&&!Key_config_setting_write){
+      Key_config_setting = false;
+      switch(Setting_key){
+        case "↑":
+          Flag.上キー = e.key;
+          break;
+        case "↓":
+          Flag.下キー = e.key;
+          break;
+        case "←":
+          Flag.左キー = e.key;
+          break;
+        case "→":
+          Flag.右キー = e.key;
+          break;
+        case "c":
+          Flag.決定キー = e.key;
+          break;
+        case "z":
+          Flag.加速キー = e.key;
+          break;
+        case "x":
+          Flag.停止キー = e.key;
+          break;
+        case "s":
+          Flag.メニューキー = e.key;
+          break;
+      };
+      return;
+    }
+    else{
+      switch(e.key){
+      case Key_config.上.キー:
+        Key_config.上.プッシュ = true;
+        break;
+      case Key_config.下.キー:
+        Key_config.下.プッシュ = true;
+        break;
+      case Key_config.左.キー:
+        Key_config.左.プッシュ = true;
+        break;
+      case Key_config.右.キー:
+        Key_config.右.プッシュ = true;
+        break;
       case Key_config.決定.キー:
         Key_config.決定.プッシュ = true;
         break;
@@ -53,13 +99,27 @@ if(HTML!="スマホ"){
       case Key_config.停止.キー:
         Key_config.停止.プッシュ = true;
         break;
-      case Key_config.セーブ.キー:
-        Key_config.セーブ.プッシュ = true;
+      case Key_config.メニュー.キー:
+        Key_config.メニュー.プッシュ = true;
         break;
     };
+    };
+
   });
   window.addEventListener("keyup",function(e){
     switch(e.key){
+      case Key_config.上.キー:
+        Key_config.上.プッシュ = false;
+        break;
+      case Key_config.下.キー:
+        Key_config.下.プッシュ = false;
+        break;
+      case Key_config.左.キー:
+        Key_config.左.プッシュ = false;
+        break;
+      case Key_config.右.キー:
+        Key_config.右.プッシュ = false;
+        break;
       case Key_config.決定.キー:
         Key_config.決定.プッシュ = false;
         break;
@@ -69,8 +129,8 @@ if(HTML!="スマホ"){
       case Key_config.停止.キー:
         Key_config.停止.プッシュ = false;
         break;
-      case Key_config.セーブ.キー:
-        Key_config.セーブ.プッシュ = false;
+      case Key_config.メニュー.キー:
+        Key_config.メニュー.プッシュ = false;
         break;
     };
   });
@@ -383,6 +443,7 @@ function Game_load(width,height){
       scene.addEventListener("enterframe",function(){
 
         if(Move_box){
+          if(!Move_box_length) for(var I = 0; I < Image.length; I++) Image[I].Move = 0;
           if(!Wait){
             Auto_map_action(Move_box[Move_box_length]);
             Move_box_length++;
@@ -577,16 +638,16 @@ function Game_load(width,height){
               }
               else console.log("マップ外");
             };
-            if(!Touch_data&&Key_config.セーブ.プッシュ){
-              var Save_data = {テキスト:"セーブしますか？"};
-              Save_data.選択肢 = {テストルーム:"テストルーム",最初から:"最初から",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
+            if(!Touch_data&&Key_config.メニュー.プッシュ){
+              var Menu_data = {テキスト:" ",名前:"メニュー"};
+              Menu_data.選択肢 = {テストルーム:"テストルーム",最初から:"最初から",閉じる:false,キー設定:"キー設定",セーブ:"セーブ"};
               if(HTML!="編集"){
-                delete Save_data.選択肢.最初から;
-                delete Save_data.選択肢.セーブ削除;
-                delete Save_data.選択肢.テストルーム;
+                delete Menu_data.選択肢.最初から;
+                delete Menu_data.選択肢.セーブ削除;
+                delete Menu_data.選択肢.テストルーム;
               };
               console.log(Arrangement[Stage_name]);
-              game.pushScene(Chat_Scene(Save_data));
+              game.pushScene(Chat_Scene(Menu_data));
               return;
             };
             if(Key_config.停止.プッシュ){
@@ -648,10 +709,16 @@ function Game_load(width,height){
               };
             };
 
+            if(Key_config.上.キー != "↑") game.input.up = Key_config.上.プッシュ;
+            if(Key_config.下.キー != "↓") game.input.down = Key_config.下.プッシュ;
+            if(Key_config.左.キー != "←") game.input.left = Key_config.左.プッシュ;
+            if(Key_config.右.キー != "→") game.input.right = Key_config.右.プッシュ;
+
             if(game.input.up&&!game.input.down&&!game.input.left&&!game.input.right) Move_human("上");
             if(!game.input.up&&game.input.down&&!game.input.left&&!game.input.right) Move_human("下");
             if(!game.input.up&&!game.input.down&&game.input.left&&!game.input.right) Move_human("左");
             if(!game.input.up&&!game.input.down&&!game.input.left&&game.input.right) Move_human("右");
+
           };
 
           var Object_move = null;
@@ -1019,8 +1086,8 @@ function Game_load(width,height){
               case Key_config.停止.キー:
                 Key_config.停止.プッシュ = true;
                 break;
-              case Key_config.セーブ.キー:
-                Key_config.セーブ.プッシュ = true;
+              case Key_config.メニュー.キー:
+                Key_config.メニュー.プッシュ = true;
                 break;
             };
             return;
@@ -1036,8 +1103,8 @@ function Game_load(width,height){
               case Key_config.停止.キー:
                 Key_config.停止.プッシュ = false;
                 break;
-              case Key_config.セーブ.キー:
-                Key_config.セーブ.プッシュ = false;
+              case Key_config.メニュー.キー:
+                Key_config.メニュー.プッシュ = false;
                 break;
             };
             return;
@@ -1052,8 +1119,8 @@ function Game_load(width,height){
             case Key_config.停止.キー:
               Ui_Button[Ui_Button_count].key = "停止";
               break;
-            case Key_config.セーブ.キー:
-              Ui_Button[Ui_Button_count].key = "セーブ";
+            case Key_config.メニュー.キー:
+              Ui_Button[Ui_Button_count].key = "メニュー";
               break;
             };
           scene.addChild(Ui_Button[Ui_Button_count]);
@@ -1062,7 +1129,7 @@ function Game_load(width,height){
         Buttons(width-Button_size,height-Button_size,Button_size,Button_size,Key_config.決定.キー);
         Buttons(width-Button_size*2,height-Button_size,Button_size,Button_size,Key_config.加速.キー);
         Buttons(width-Button_size,height-Button_size*2,Button_size,Button_size,Key_config.停止.キー);
-        Buttons(width-Button_size*2,height-Button_size*2,Button_size,Button_size,Key_config.セーブ.キー);
+        Buttons(width-Button_size*2,height-Button_size*2,Button_size,Button_size,Key_config.メニュー.キー);
 
         function pad_keydown(){
           Pad1._element.src = "image/pad.png";
@@ -1105,14 +1172,6 @@ function Game_load(width,height){
       var scene = new Scene();
 
       if(!Datas) Datas = {text:"存在しないデータ。"};
-      if(Change_Box){
-        for (var i = 0; i < Change_Box.length; i++) {
-          var Reg = new RegExp(Change_Box[i][0],"g");
-          Datas = JSON.stringify(Datas);
-          Datas = Datas.replace(Reg,Change_Box[i][1]);
-          Datas = JSON.parse(Datas);
-        };
-      };
 
       var Image_count = null;
       var Image = [];
@@ -1198,7 +1257,6 @@ function Game_load(width,height){
           Text_text = Text_text.replace(/\(フラグ:(.+?):フラグ\)/,Flag[Match_text[I]]);
         };
       };
-
 
       var Write = true;
       var Display_text = Text_text.match(/.{1,120}/g);
@@ -1312,6 +1370,30 @@ function Game_load(width,height){
                     game.pushScene(Chat_Scene({テキスト:"セーブしました。"}));
                     return;
                     break;
+                  case "キー設定c":
+                  case "キー設定z":
+                  case "キー設定x":
+                  case "キー設定s":
+                  case "キー設定↑":
+                  case "キー設定↓":
+                  case "キー設定←":
+                  case "キー設定→":
+                    Setting_key = Datas.次.substring(4);
+                    game.pushScene(Key_setting_Scene());
+                    return;
+                    break;
+                  case "矢印キー設定":
+                    Menu_data = {テキスト:" ",名前:"どのキーを設定しますか？"};
+                    Menu_data.選択肢 = {他のキー:"キー設定","→":"キー設定→","←":"キー設定←","↓":"キー設定↓","↑":"キー設定↑"};
+                    game.pushScene(Chat_Scene(Menu_data));
+                    return;
+                    break;
+                  case "キー設定":
+                    Menu_data = {テキスト:" ",名前:"どのキーを設定しますか？"};
+                    Menu_data.選択肢 = {矢印キー:"矢印キー設定",s:"キー設定s",x:"キー設定x",z:"キー設定z",c:"キー設定c"};
+                    game.pushScene(Chat_Scene(Menu_data));
+                    return;
+                    break;
                   case "セーブ削除":
                     window.localStorage.clear();
                     game.pushScene(Chat_Scene({テキスト:"既存セーブを削除しました。●ゲームは続けることができます。"}));
@@ -1329,7 +1411,7 @@ function Game_load(width,height){
                     Load_Object_moves = null;
                     Character_direction = "右";
                     Flag = {
-                      決定キー:"c",加速キー:"z",停止キー:"x",セーブキー:"s",
+                      決定キー:"c",加速キー:"z",停止キー:"x",メニューキー:"s",
                       上キー:"↑",下キー:"↓",左キー:"←",右キー:"→"
                     };
                     Flag_name = null;
@@ -1339,13 +1421,12 @@ function Game_load(width,height){
                       決定:{キー:Flag.決定キー,プッシュ:false,タイム:0},
                       加速:{キー:Flag.加速キー,プッシュ:false,タイム:0},
                       停止:{キー:Flag.停止キー,プッシュ:false,タイム:0},
-                      セーブ:{キー:Flag.セーブキー,プッシュ:false,タイム:0},
+                      メニュー:{キー:Flag.メニューキー,プッシュ:false,タイム:0},
                       上:{キー:Flag.上キー,プッシュ:false,タイム:0},
                       下:{キー:Flag.下キー,プッシュ:false,タイム:0},
                       左:{キー:Flag.左キー,プッシュ:false,タイム:0},
                       右:{キー:Flag.右キー,プッシュ:false,タイム:0}
                     };
-                    Change_Box = null;
                     Move_box = null;
                     Button_size = 400;
                     This_object = null;
@@ -1429,8 +1510,8 @@ function Game_load(width,height){
               case Key_config.停止.キー:
                 Key_config.停止.プッシュ = true;
                 break;
-              case Key_config.セーブ.キー:
-                Key_config.セーブ.プッシュ = true;
+              case Key_config.メニュー.キー:
+                Key_config.メニュー.プッシュ = true;
                 break;
             };
             return;
@@ -1446,8 +1527,8 @@ function Game_load(width,height){
               case Key_config.停止.キー:
                 Key_config.停止.プッシュ = false;
                 break;
-              case Key_config.セーブ.キー:
-                Key_config.セーブ.プッシュ = false;
+              case Key_config.メニュー.キー:
+                Key_config.メニュー.プッシュ = false;
                 break;
             };
             return;
@@ -1462,8 +1543,8 @@ function Game_load(width,height){
             case Key_config.停止.キー:
               Ui_Button[Ui_Button_count].key = "停止";
               break;
-            case Key_config.セーブ.キー:
-              Ui_Button[Ui_Button_count].key = "セーブ";
+            case Key_config.メニュー.キー:
+              Ui_Button[Ui_Button_count].key = "メニュー";
               break;
             };
           scene.addChild(Ui_Button[Ui_Button_count]);
@@ -1472,7 +1553,7 @@ function Game_load(width,height){
         Buttons(width-Button_size,height-Button_size,Button_size,Button_size,Key_config.決定.キー);
         Buttons(width-Button_size*2,height-Button_size,Button_size,Button_size,Key_config.加速.キー);
         Buttons(width-Button_size,height-Button_size*2,Button_size,Button_size,Key_config.停止.キー);
-        Buttons(width-Button_size*2,height-Button_size*2,Button_size,Button_size,Key_config.セーブ.キー);
+        Buttons(width-Button_size*2,height-Button_size*2,Button_size,Button_size,Key_config.メニュー.キー);
 
         function pad_keydown(){
           Pad1._element.src = "image/pad.png";
@@ -1529,6 +1610,106 @@ function Game_load(width,height){
       });
       return scene;
     };
+    var Key_setting_Scene = function(){
+      var scene = new Scene();
+
+      Key_config_setting = true;
+      Key_config_setting_write = true;
+
+      var Image_count = null;
+      var Image = [];
+      var Images_Data = {};
+
+      function Images(Width,Height,X,Y,Src,Name){
+        Image_count = Image.length;
+        Image[Image_count] = new Sprite();
+        Image[Image_count]._element = document.createElement("img");
+        if(Src) Image[Image_count]._element.src = Src;
+        else Image[Image_count]._element.src = "image/透明.png";
+        Image[Image_count].width = Width;
+        Image[Image_count].height = Height;
+        Image[Image_count].x = X;
+        Image[Image_count].y = Y;
+        Image[Image_count].名前 = Name;
+        Images_Data[Name] = Image_count;
+        scene.addChild(Image[Image_count]);
+        return;
+      };
+
+      var Numbers = 430;
+      var Row = 6;
+      var One_column = 20;
+      var I = 0;
+
+      function Texts(a){
+        if(!a){
+          Key_config_setting_write = false;
+          return;
+        }
+        if(I%One_column==0) Numbers += 62;
+        Text[I] = new Sprite();
+        Text[I]._element = document.createElement("innerHTML");
+        Text[I]._style.font  = "60px monospace";
+        Text[I]._element.textContent = a;
+        Text[I]._style.color = "white";
+        Text[I].x = 62 * (I%One_column) + 180;
+        Text[I].y = Numbers;
+        scene.addChild(Text[I]);
+        I++;
+        return;
+      };
+
+      Images(width,400,0,480,"image/textbox.png","テキストボックス");
+      Image[Images_Data.テキストボックス].opacity = 0.5;
+
+      var Key_text = "設定したいキーを押してください。";
+
+      function key_set_input(Key){
+        switch(Setting_key){
+          case "↑":
+            Flag.上キー = Key;
+            break;
+          case "↓":
+            Flag.下キー = Key;
+            break;
+          case "←":
+            Flag.左キー = Key;
+            break;
+          case "→":
+            Flag.右キー = Key;
+            break;
+          case "c":
+            Flag.決定キー = Key;
+            break;
+          case "z":
+            Flag.加速キー = Key;
+            break;
+          case "x":
+            Flag.停止キー = Key;
+            break;
+          case "s":
+            Flag.メニューキー = Key;
+            break;
+        };
+        Key_config_setting = false;
+        return;
+      };
+
+      scene.addEventListener("enterframe",function(){
+        if(Key_config_setting_write) Texts(Key_text[I]);
+        else{
+          if(game.input.up) key_set_input("↑");
+          if(game.input.down) key_set_input("↓");
+          if(game.input.left) key_set_input("←");
+          if(game.input.right) key_set_input("→");
+          if(!Key_config_setting){
+            game.replaceScene(Chat_Scene({テキスト:"設定しました。●マップが切り替わると同時に適用されます。"}));
+          };
+        };
+      });
+
+      return scene;
+    };
 
     function Flag_get(Datas){
       for(var I = 0; I < Object.keys(Datas).length; I++){
@@ -1577,7 +1758,7 @@ function Game_load(width,height){
       Key_config.決定.キー = Flag.決定キー;
       Key_config.加速.キー = Flag.加速キー;
       Key_config.停止.キー = Flag.停止キー;
-      Key_config.セーブ.キー = Flag.セーブキー;
+      Key_config.メニュー.キー = Flag.メニューキー;
       Key_config.上.キー = Flag.上キー;
       Key_config.下.キー = Flag.下キー;
       Key_config.左.キー = Flag.左キー;
@@ -1640,7 +1821,7 @@ function Game_load(width,height){
       if(!Flag.決定キー) Flag.決定キー = "c";
       if(!Flag.加速キー) Flag.加速キー = "z";
       if(!Flag.停止キー) Flag.停止キー = "x";
-      if(!Flag.セーブキー) Flag.セーブキー = "s";
+      if(!Flag.メニューキー) Flag.メニューキー = "s";
       if(!Flag.上キー) Flag.上キー = "↑";
       if(!Flag.下キー) Flag.下キー = "↓";
       if(!Flag.左キー) Flag.左キー = "←";
