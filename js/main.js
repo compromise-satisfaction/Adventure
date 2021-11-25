@@ -437,6 +437,7 @@ function Game_load(width,height){
                 };
                 Image[I].Number++;
                 if(Image[I].Move){
+                  Image[I].Move -= 10;
                   if(Image[I].Number >= Image[I]["歩" + Image[I].向き].length) Image[I].Number = 0;
                   Image[I]._element.src = Image[I]["歩" + Image[I].向き][Image[I].Number];
                   Wait = true;
@@ -450,7 +451,6 @@ function Game_load(width,height){
           };
         }
         else{
-
           for(var L = 0; L < Object.keys(Key_config).length; L++){
             if(Key_config[Object.keys(Key_config)[L]].タイム){
               Key_config[Object.keys(Key_config)[L]].タイム--;
