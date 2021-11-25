@@ -683,7 +683,8 @@ function Game_load(width,height){
               if(Key_config.加速.プッシュ){
                 if(Human.Number >= Human["走" + Human.向き].length) Human.Number = 0;
                 Image[Images_Data["主人公"]]._element.src = Human["走" + Human.向き][Human.Number];
-                Move -= 25;
+                if(HTML=="編集") Move -= 100;
+                else Move -= 25;
               }
               else{
                 if(Human.Number >= Human["歩" + Human.向き].length) Human.Number = 0;
