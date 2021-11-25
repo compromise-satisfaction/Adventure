@@ -1262,6 +1262,16 @@ function Game_load(width,height){
       var Display_text = Text_text.match(/.{1,120}/g);
       var Display_name = Datas.名前;
 
+      if(Display_name) Match_text = Display_name.match(/\(フラグ:.+?:フラグ\)/g);
+
+      if(Match_text){
+        for(var I = 0; I < Match_text.length; I++){
+          Match_text[I] = Match_text[I].substring(5,Match_text[I].length-5);
+          if(!Flag[Match_text[I]]) Flag[Match_text[I]] = 0;
+          Display_name = Display_name.replace(/\(フラグ:(.+?):フラグ\)/,Flag[Match_text[I]]);
+        };
+      };
+
       var Kaigyo = 0;
       var Kaigyo_S = 0;
       var Match = null;
