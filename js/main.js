@@ -142,7 +142,7 @@ function Flag_judgement(Name,Condition){
   if(Condition["!="]!=undefined){
     if(Array.isArray(Condition["!="])){
       for(var I = 0; I < Condition["!="].length; I++){
-        if(Flag[Name]==Condition["!="]){
+        if(Flag[Name]==Condition["!="][I]){
           Judge = false;
           break;
         };
