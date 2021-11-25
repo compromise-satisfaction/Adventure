@@ -1292,6 +1292,22 @@ function Game_load(width,height){
 
       if(Datas.音) SE1.src = Datas.音;
 
+      var Options_text = JSON.stringify(Datas.選択肢);
+      if(Options_text) Options_text = JSON.parse(Options_text);
+
+      if(Datas.選択肢出現条件){
+        var Options_texts_one = null;
+        for(var I = 0; I < Object.keys(Datas.選択肢出現条件).length;I++){
+          Options_texts_one = Datas.選択肢出現条件[Object.keys(Datas.選択肢出現条件)[I]];
+          for(var J = 0; J < Object.keys(Options_texts_one).length; J++){
+            Flag_name = Object.keys(Options_texts_one)[J];
+            if(Flag_name=="ランダム") Flag_name = !Math.floor(Math.random()*Options_texts_one[Flag_name]);
+            else Flag_name = Flag_judgement(Flag_name,Options_texts_one[Flag_name]);
+            if(!Flag_name) delete Options_text[Object.keys(Datas.選択肢出現条件)[I]];
+          };
+        };
+      };
+
       I = 0;
       J = 0;
 
@@ -1322,34 +1338,34 @@ function Game_load(width,height){
             Image[Images_Data.テキストボックス].opacity = 0.5;
             for(var K = 0; K < Row * One_column; K++) Text[K].opacity = 1;
             if(!Display_text[J+1]){
-              if(Datas.選択肢){
-                for(var K = 0; K < Object.keys(Datas.選択肢).length; K++){
+              if(Options_text){
+                for(var K = 0; K < Object.keys(Options_text).length; K++){
                   ChoiceText[K].opacity = 1;
                   Image[Images_Data["選択肢"+K]].opacity = 0.5;
                 };
               };
             };
           };
-          if(Datas.選択肢&&!Display_text[J+1]){
+          if(Options_text&&!Display_text[J+1]){
             if(!game.input.up&&game.input.down&&!game.input.left&&!game.input.right&&!Key_config.下.タイム){
               Key_config.下.タイム = 5;
-              for(var K = 0; K < Object.keys(Datas.選択肢).length; K++){
-                ChoiceText[K]._element.textContent = Object.keys(Datas.選択肢)[K];
+              for(var K = 0; K < Object.keys(Options_text).length; K++){
+                ChoiceText[K]._element.textContent = Object.keys(Options_text)[K];
               };
               Choice_Number--;
-              if(Choice_Number < 0) Choice_Number = Object.keys(Datas.選択肢).length - 1;
-              Datas.次 = Datas.選択肢[Object.keys(Datas.選択肢)[Choice_Number]];
-              ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Datas.選択肢)[Choice_Number];
+              if(Choice_Number < 0) Choice_Number = Object.keys(Options_text).length - 1;
+              Datas.次 = Options_text[Object.keys(Options_text)[Choice_Number]];
+              ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Options_text)[Choice_Number];
             };
             if(game.input.up&&!game.input.down&&!game.input.left&&!game.input.right&&!Key_config.上.タイム){
               Key_config.上.タイム = 5;
-              for(var K = 0; K < Object.keys(Datas.選択肢).length; K++){
-                ChoiceText[K]._element.textContent = Object.keys(Datas.選択肢)[K];
+              for(var K = 0; K < Object.keys(Options_text).length; K++){
+                ChoiceText[K]._element.textContent = Object.keys(Options_text)[K];
               };
               Choice_Number++;
-              if(Choice_Number == Object.keys(Datas.選択肢).length) Choice_Number = 0;
-              Datas.次 = Datas.選択肢[Object.keys(Datas.選択肢)[Choice_Number]];
-              ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Datas.選択肢)[Choice_Number];
+              if(Choice_Number == Object.keys(Options_text).length) Choice_Number = 0;
+              Datas.次 = Options_text[Object.keys(Options_text)[Choice_Number]];
+              ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Options_text)[Choice_Number];
             };
           };
           if(!Key_config.停止.プッシュ&&!Key_config.決定.タイム&&Key_config.決定.プッシュ){
@@ -1482,13 +1498,13 @@ function Game_load(width,height){
         else{
           Write = false;
           if(!Display_text[J+1]){
-            if(Datas.選択肢){
-              for(var K = 0; K < Object.keys(Datas.選択肢).length; K++){
-                ChoiceText[K]._element.textContent = Object.keys(Datas.選択肢)[K];
+            if(Options_text){
+              for(var K = 0; K < Object.keys(Options_text).length; K++){
+                ChoiceText[K]._element.textContent = Object.keys(Options_text)[K];
               };
               Choice_Number = K - 1;
-              Datas.次 = Datas.選択肢[Object.keys(Datas.選択肢)[Choice_Number]];
-              ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Datas.選択肢)[Choice_Number];
+              Datas.次 = Options_text[Object.keys(Options_text)[Choice_Number]];
+              ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Options_text)[Choice_Number];
             };
           };
         };
