@@ -137,7 +137,7 @@ if(HTML!="スマホ"){
 };
 
 function Flag_judgement(Name,Condition){
-  var Judge = null;
+  var Judge = true;
   if(Flag[Name]==undefined) Flag[Name] = 0;
   if(Condition["!="]!=undefined){
     if(Array.isArray(Condition["!="])){
@@ -148,23 +148,11 @@ function Flag_judgement(Name,Condition){
         };
       };
     }
-    else{
-      if(Flag[Name]!=Condition["!="]) Judge = true;
-      else Judge = false;
-    }
+    else if(Flag[Name] == Condition["!="]) Judge = false;
   };
-  if(Condition["="]!=undefined){
-    if(Flag[Name]==Condition["="]) Judge = true;
-    else Judge = false;
-  };
-  if(Condition[">"]!=undefined){
-    if(Flag[Name] > Condition[">"]) Judge = true;
-    else Judge = false;
-  };
-  if(Condition["<"]!=undefined){
-    if(Flag[Name] < Condition["<"]) Judge = true;
-    else Judge = false;
-  };
+  if(Condition["="]!=undefined) if(Flag[Name] != Condition["="]) Judge = false;
+  if(Condition[">"]!=undefined) if(Flag[Name] <= Condition[">"]) Judge = false;
+  if(Condition["<"]!=undefined) if(Flag[Name] >= Condition["<"]) Judge = false;
   return(Judge);
 };
 
