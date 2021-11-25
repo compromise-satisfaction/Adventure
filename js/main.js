@@ -1263,6 +1263,7 @@ function Game_load(width,height){
       var Display_name = Datas.名前;
 
       if(Display_name) Match_text = Display_name.match(/\(フラグ:.+?:フラグ\)/g);
+      else Match_text = false;
 
       if(Match_text){
         for(var I = 0; I < Match_text.length; I++){
