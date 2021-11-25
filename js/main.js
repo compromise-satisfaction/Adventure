@@ -110,6 +110,13 @@ function Game_load(width,height){
 
       var scene = new Scene();
 
+      var Black = new Sprite();
+      Black._element = document.createElement("img");
+      Black._element.src = "image/黒.png";
+      Black.width = width;
+      Black.height = height;
+      scene.addChild(Black);
+
       Map = Datas.マップ;
 
       Create_Map = Datas.マップ;
@@ -123,8 +130,6 @@ function Game_load(width,height){
           };
         };
       };
-
-      var scene = new Scene();
 
       var Image = [];
       var Images_Data = [];
@@ -216,7 +221,7 @@ function Game_load(width,height){
               MAP_object_X = MAP_object.座標[0];
               MAP_object_Y = MAP_object.座標[1];
               MAP_object = Stage_Datas[MAP_object.データ];
-              if(MAP_object.フラグ判断){
+              if(MAP_object.フラグ判断&&Stage!="テストルーム"){
                 for(var K = 0; K < Object.keys(MAP_object.フラグ判断).length; K++){
                   Flag_name = Object.keys(MAP_object.フラグ判断)[K];
                   Flag_name = Flag_judgement(Flag_name,MAP_object.フラグ判断[Flag_name]);
@@ -360,6 +365,18 @@ function Game_load(width,height){
       Blackout.height = height;
       Blackout.tl.fadeOut(10);
       scene.addChild(Blackout);
+
+      if(HTML=="スマホ"||HTML=="編集"){
+        Black.height /= 2;
+        Blackout.height /= 2;
+        var White = new Sprite();
+        White._element = document.createElement("img");
+        White._element.src = "image/白.png";
+        White.y = height/2;
+        White.width = width;
+        White.height = height/2;
+        scene.addChild(White);
+      };
 
       var Wait = false;
 
@@ -513,7 +530,7 @@ function Game_load(width,height){
 
             if(!Move&&!Key_config.決定.タイム&&Key_config.決定.プッシュ){
               Key_config.決定.タイム = 5;
-              if(Check_X < Map[0].length && Check_Y < Map.length && Check_X >= 0 && Check_Y >= 0 ){
+              if(Check_X < Map[0].length && Check_Y < Map.length && Check_X >= 0 && Check_Y >= 0){
                 Arrangement_point = Arrangement[Stage_name]["X_" + Check_X + " Y_" + Check_Y];
                 if(Arrangement_point&&Arrangement_point!="動"){
                   console.log(Arrangement_point);
@@ -562,10 +579,11 @@ function Game_load(width,height){
             };
             if(!Touch_data&&Key_config.セーブ.プッシュ){
               var Save_data = {テキスト:"セーブしますか？"};
-              Save_data.選択肢 = {最初から:"最初から",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
+              Save_data.選択肢 = {テストルーム:"テストルーム",最初から:"最初から",セーブ削除:"セーブ削除",いいえ:false,はい:"セーブ"};
               if(HTML!="編集"){
                 delete Save_data.選択肢.最初から;
                 delete Save_data.選択肢.セーブ削除;
+                delete Save_data.選択肢.テストルーム;
               };
               console.log(Arrangement[Stage_name]);
               game.pushScene(Chat_Scene(Save_data));
@@ -953,6 +971,11 @@ function Game_load(width,height){
             break;
         };
 
+        if(Stage=="テストルーム"){
+          Object.Move = 0;
+          return(false);
+        };
+
         Arrangement_point = Arrangement[Stage_name]["X_" + Object.Check_X + " Y_" + Object.Check_Y];
 
         if(Map[Object.Check_Y][Object.Check_X]!="□"||Arrangement_point){
@@ -1295,8 +1318,43 @@ function Game_load(width,height){
                     return;
                     break;
                   case "最初から":
+                    Stage_X = 0;
+                    Stage_Y = 0;
+                    Create_Map = null;
+                    Character_X = 0;
+                    Character_Y = 0;
+                    Arrangement = {};
+                    Load_Arrangement = null;
+                    Object_moves = {};
+                    Load_Object_moves = null;
+                    Character_direction = "右";
+                    Flag = {
+                      決定キー:"c",加速キー:"z",停止キー:"x",セーブキー:"s",
+                      上キー:"↑",下キー:"↓",左キー:"←",右キー:"→"
+                    };
+                    Flag_name = null;
+                    Chat = "最初";
+                    Stage = "最初";
+                    Key_config = {
+                      決定:{キー:Flag.決定キー,プッシュ:false,タイム:0},
+                      加速:{キー:Flag.加速キー,プッシュ:false,タイム:0},
+                      停止:{キー:Flag.停止キー,プッシュ:false,タイム:0},
+                      セーブ:{キー:Flag.セーブキー,プッシュ:false,タイム:0},
+                      上:{キー:Flag.上キー,プッシュ:false,タイム:0},
+                      下:{キー:Flag.下キー,プッシュ:false,タイム:0},
+                      左:{キー:Flag.左キー,プッシュ:false,タイム:0},
+                      右:{キー:Flag.右キー,プッシュ:false,タイム:0}
+                    };
+                    Change_Box = null;
+                    Move_box = null;
+                    Button_size = 400;
+                    This_object = null;
                     Scene_Check_Scene(Stage_Datas["最初"]);
                     return;
+                    break;
+                  case "テストルーム":
+                    Character_X = 0;
+                    Character_Y = 0;
                     break;
                 };
                 Scene_Check_Scene(Stage_Datas[Datas.次]);
@@ -1459,6 +1517,7 @@ function Game_load(width,height){
       Blackout._element.src = "image/黒.png";
       Blackout.width = width;
       Blackout.height = height;
+      if(HTML=="スマホ"||HTML=="編集") Blackout.height /= 2;
       Blackout.opacity = 0;
       Blackout.tl.fadeIn(10);
       scene.addChild(Blackout);
@@ -1674,6 +1733,20 @@ function Game_load(width,height){
         };
       };
     };
+
+    Stage_Datas.テストルーム = {データ名:"テストルーム",データタイプ:"マップ",データ:{画像:{背景:"image/白.png"}}};
+    var Test_NPC = 1;
+
+    for(var I = 0; I < Object.keys(Stage_Datas).length; I++){
+      if(Stage_Datas[Object.keys(Stage_Datas)[I]].データタイプ=="NPC"){
+        Stage_Datas.テストルーム.データ.画像["キャラ"+Test_NPC] = {座標:[Test_NPC,Test_NPC],データ:Object.keys(Stage_Datas)[I]};
+        Test_NPC++;
+      };
+    };
+    Test_NPC++;
+
+    Stage_Datas.テストルーム.データ.画像.主人公 = true;
+    Stage_Datas.テストルーム.データ.マップ = {作成中:[Test_NPC,Test_NPC]};
 
     if(!Stage_Datas[Stage]) Stage = "最初";
     Scene_Check_Scene(Stage_Datas[Stage]);
