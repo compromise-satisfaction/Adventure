@@ -140,8 +140,18 @@ function Flag_judgement(Name,Condition){
   var Judge = null;
   if(Flag[Name]==undefined) Flag[Name] = 0;
   if(Condition["!="]!=undefined){
-    if(Flag[Name]!=Condition["!="]) Judge = true;
-    else Judge = false;
+    if(Array.isArray(Condition["!="])){
+      for(var I = 0; I < Condition["!="].length; I++){
+        if(Flag[Name]==Condition["!="]){
+          Judge = false;
+          break;
+        };
+      };
+    }
+    else{
+      if(Flag[Name]!=Condition["!="]) Judge = true;
+      else Judge = false;
+    }
   };
   if(Condition["="]!=undefined){
     if(Flag[Name]==Condition["="]) Judge = true;
