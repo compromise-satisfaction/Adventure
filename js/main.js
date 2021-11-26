@@ -16,6 +16,7 @@ var Flag = {
   上キー:"↑",下キー:"↓",左キー:"←",右キー:"→"
 };
 var Flag_name = null;
+var Flag_item_name = null;
 var Chat = "最初";
 var Stage = "最初";
 var Key_config = {
@@ -74,6 +75,14 @@ if(HTML!="スマホ"){
           Flag.メニューキー = e.key;
           break;
       };
+      Key_config.決定.キー = Flag.決定キー;
+      Key_config.加速.キー = Flag.加速キー;
+      Key_config.停止.キー = Flag.停止キー;
+      Key_config.メニュー.キー = Flag.メニューキー;
+      Key_config.上.キー = Flag.上キー;
+      Key_config.下.キー = Flag.下キー;
+      Key_config.左.キー = Flag.左キー;
+      Key_config.右.キー = Flag.右キー;
       return;
     }
     else{
@@ -139,20 +148,22 @@ if(HTML!="スマホ"){
 function Flag_judgement(Name,Condition){
   var Judge = true;
   if(Flag[Name]==undefined) Flag[Name] = 0;
+  Name = Flag[Name];
+  if(Name.数!=undefined) Name = Name.数;
   if(Condition["!="]!=undefined){
     if(Array.isArray(Condition["!="])){
       for(var I = 0; I < Condition["!="].length; I++){
-        if(Flag[Name]==Condition["!="][I]){
+        if(Name==Condition["!="][I]){
           Judge = false;
           break;
         };
       };
     }
-    else if(Flag[Name] == Condition["!="]) Judge = false;
+    else if(Name == Condition["!="]) Judge = false;
   };
-  if(Condition["="]!=undefined) if(Flag[Name] != Condition["="]) Judge = false;
-  if(Condition[">"]!=undefined) if(Flag[Name] <= Condition[">"]) Judge = false;
-  if(Condition["<"]!=undefined) if(Flag[Name] >= Condition["<"]) Judge = false;
+  if(Condition["="]!=undefined) if(Name != Condition["="]) Judge = false;
+  if(Condition[">"]!=undefined) if(Name <= Condition[">"]) Judge = false;
+  if(Condition["<"]!=undefined) if(Name >= Condition["<"]) Judge = false;
   return(Judge);
 };
 
@@ -637,7 +648,7 @@ function Game_load(width,height){
             };
             if(!Touch_data&&Key_config.メニュー.プッシュ){
               var Menu_data = {テキスト:" ",名前:"メニュー"};
-              Menu_data.選択肢 = {テストルーム:"テストルーム",最初から:"最初から",閉じる:false,キー設定:"キー設定",セーブ:"セーブ"};
+              Menu_data.選択肢 = {テストルーム:"テストルーム",閉じる:false,キー設定:"キー設定",セーブ:"セーブ",アイテム:"Item"};
               if(HTML!="編集"){
                 delete Menu_data.選択肢.最初から;
                 delete Menu_data.選択肢.セーブ削除;
@@ -1152,11 +1163,13 @@ function Game_load(width,height){
             Ui_Button[I]._applyTheme(Ui_Button[I].theme.active);
             Ui_Button[I].pressed = true;
             Ui_Button[I].y = Ui_Button[I].original_Y + 1;
+            Ui_Button[I]._text = Key_config[Ui_Button[I].key].キー;
           }
           else{
             Ui_Button[I]._applyTheme(Ui_Button[I].theme.normal);
             Ui_Button[I].pressed = false;
             Ui_Button[I].y = Ui_Button[I].original_Y - 1;
+            Ui_Button[I]._text = Key_config[Ui_Button[I].key].キー;
           };
         };
           return;
@@ -1169,7 +1182,7 @@ function Game_load(width,height){
 
       var scene = new Scene();
 
-      if(!Datas) Datas = {text:"存在しないデータ。"};
+      if(!Datas) Datas = {テキスト:"存在しないデータ。"};
 
       var Image_count = null;
       var Image = [];
@@ -1251,7 +1264,13 @@ function Game_load(width,height){
       if(Match_text){
         for(var I = 0; I < Match_text.length; I++){
           Match_text[I] = Match_text[I].substring(5,Match_text[I].length-5);
-          if(!Flag[Match_text[I]]) Flag[Match_text[I]] = 0;
+          if(Flag[Match_text[I]]){
+            if(Flag[Match_text[I]].数!=undefined){
+              Text_text = Text_text.replace(/\(フラグ:(.+?):フラグ\)/,Flag[Match_text[I]].数);
+              continue;
+            };
+          }
+          else Flag[Match_text[I]] = 0;
           Text_text = Text_text.replace(/\(フラグ:(.+?):フラグ\)/,Flag[Match_text[I]]);
         };
       };
@@ -1353,7 +1372,7 @@ function Game_load(width,height){
               Choice_Number--;
               if(Choice_Number < 0) Choice_Number = Object.keys(Options_text).length - 1;
               Datas.次 = Options_text[Object.keys(Options_text)[Choice_Number]];
-              ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Options_text)[Choice_Number];
+              ChoiceText[Choice_Number]._element.textContent = "► " + Object.keys(Options_text)[Choice_Number];
             };
             if(game.input.up&&!game.input.down&&!game.input.left&&!game.input.right&&!Key_config.上.タイム){
               Key_config.上.タイム = 5;
@@ -1363,7 +1382,7 @@ function Game_load(width,height){
               Choice_Number++;
               if(Choice_Number == Object.keys(Options_text).length) Choice_Number = 0;
               Datas.次 = Options_text[Object.keys(Options_text)[Choice_Number]];
-              ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Options_text)[Choice_Number];
+              ChoiceText[Choice_Number]._element.textContent = "► " + Object.keys(Options_text)[Choice_Number];
             };
           };
           if(!Key_config.停止.プッシュ&&!Key_config.決定.タイム&&Key_config.決定.プッシュ){
@@ -1440,6 +1459,7 @@ function Game_load(width,height){
                       上キー:"↑",下キー:"↓",左キー:"←",右キー:"→"
                     };
                     Flag_name = null;
+                    Flag_item_name = null;
                     Chat = "最初";
                     Stage = "最初";
                     Key_config = {
@@ -1461,6 +1481,10 @@ function Game_load(width,height){
                   case "テストルーム":
                     Character_X = 0;
                     Character_Y = 0;
+                    break;
+                  case "Item":
+                    game.pushScene(Item_Scene());
+                    return;
                     break;
                 };
                 Scene_Check_Scene(Stage_Datas[Datas.次]);
@@ -1502,12 +1526,218 @@ function Game_load(width,height){
               };
               Choice_Number = K - 1;
               Datas.次 = Options_text[Object.keys(Options_text)[Choice_Number]];
-              ChoiceText[Choice_Number]._element.textContent = "▶ " + Object.keys(Options_text)[Choice_Number];
+              ChoiceText[Choice_Number]._element.textContent = "► " + Object.keys(Options_text)[Choice_Number];
             };
           };
         };
         return;
       };
+
+      if(HTML=="スマホ"||HTML=="編集"){
+
+        var Pad1 = new Pad("image/pad.png",Button_size*2);
+        Pad1.y = height - Button_size*2;
+        scene.addChild(Pad1);
+
+        var Ui_Button = [];
+        var Ui_Button_count = null;
+
+        function Buttons(X,Y,W,H,V){
+          Ui_Button_count = Ui_Button.length;
+          Ui_Button[Ui_Button_count] = new Button(V,"light",W,H);
+          Ui_Button[Ui_Button_count].moveTo(X,Y);
+          Ui_Button[Ui_Button_count].original_Y = Y;
+          Ui_Button[Ui_Button_count]._style["font-size"] = H/2.2;
+          Ui_Button[Ui_Button_count].addEventListener("touchstart",function(e){
+            switch(V){
+              case Key_config.決定.キー:
+                Key_config.決定.プッシュ = true;
+                break;
+              case Key_config.加速.キー:
+                Key_config.加速.プッシュ = true;
+                break;
+              case Key_config.停止.キー:
+                Key_config.停止.プッシュ = true;
+                break;
+              case Key_config.メニュー.キー:
+                Key_config.メニュー.プッシュ = true;
+                break;
+            };
+            return;
+          });
+          Ui_Button[Ui_Button_count].addEventListener("touchend",function(e){
+            switch(V){
+              case Key_config.決定.キー:
+                Key_config.決定.プッシュ = false;
+                break;
+              case Key_config.加速.キー:
+                Key_config.加速.プッシュ = false;
+                break;
+              case Key_config.停止.キー:
+                Key_config.停止.プッシュ = false;
+                break;
+              case Key_config.メニュー.キー:
+                Key_config.メニュー.プッシュ = false;
+                break;
+            };
+            return;
+          });
+          switch(V){
+            case Key_config.決定.キー:
+              Ui_Button[Ui_Button_count].key = "決定";
+              break;
+            case Key_config.加速.キー:
+              Ui_Button[Ui_Button_count].key = "加速";
+              break;
+            case Key_config.停止.キー:
+              Ui_Button[Ui_Button_count].key = "停止";
+              break;
+            case Key_config.メニュー.キー:
+              Ui_Button[Ui_Button_count].key = "メニュー";
+              break;
+            };
+          scene.addChild(Ui_Button[Ui_Button_count]);
+        };
+
+        Buttons(width-Button_size,height-Button_size,Button_size,Button_size,Key_config.決定.キー);
+        Buttons(width-Button_size*2,height-Button_size,Button_size,Button_size,Key_config.加速.キー);
+        Buttons(width-Button_size,height-Button_size*2,Button_size,Button_size,Key_config.停止.キー);
+        Buttons(width-Button_size*2,height-Button_size*2,Button_size,Button_size,Key_config.メニュー.キー);
+
+        function pad_keydown(){
+          Pad1._element.src = "image/pad.png";
+          if(game.input.up&&!game.input.down&&!game.input.left&&!game.input.right){
+            Pad1.rotation = 0;
+            Pad1._element.src = "image/pad_keydown.png";
+          };
+          if(!game.input.up&&game.input.down&&!game.input.left&&!game.input.right){
+            Pad1.rotation = 180;
+            Pad1._element.src = "image/pad_keydown.png";
+          };
+          if(!game.input.up&&!game.input.down&&game.input.left&&!game.input.right){
+            Pad1.rotation = 270;
+            Pad1._element.src = "image/pad_keydown.png";
+          };
+          if(!game.input.up&&!game.input.down&&!game.input.left&&game.input.right){
+            Pad1.rotation = 90;
+            Pad1._element.src = "image/pad_keydown.png";
+          };
+          for(var I = 0; I < Ui_Button.length; I++){
+          if(Key_config[Ui_Button[I].key].プッシュ){
+            Ui_Button[I]._applyTheme(Ui_Button[I].theme.active);
+            Ui_Button[I].pressed = true;
+            Ui_Button[I].y = Ui_Button[I].original_Y + 1;
+          }
+          else{
+            Ui_Button[I]._applyTheme(Ui_Button[I].theme.normal);
+            Ui_Button[I].pressed = false;
+            Ui_Button[I].y = Ui_Button[I].original_Y - 1;
+          };
+        };
+          return;
+        };
+      };
+
+      return scene;
+    };
+    var Item_Scene = function(Datas){
+
+      var scene = new Scene();
+
+      if(!Datas) Datas = {テキスト:"存在しないデータ。"};
+
+      var Image_count = null;
+      var Image = [];
+      var Images_Data = {};
+
+      function Images(Width,Height,X,Y,Src,Name){
+        Image_count = Image.length;
+        Image[Image_count] = new Sprite();
+        Image[Image_count]._element = document.createElement("img");
+        if(Src) Image[Image_count]._element.src = Src;
+        else Image[Image_count]._element.src = "image/透明.png";
+        Image[Image_count].width = Width;
+        Image[Image_count].height = Height;
+        Image[Image_count].x = X;
+        Image[Image_count].y = Y;
+        Image[Image_count].名前 = Name;
+        Images_Data[Name] = Image_count;
+        scene.addChild(Image[Image_count]);
+        return;
+      };
+
+      Images(width,height,0,0,"image/textbox.png","テキストボックス");
+      Image[Images_Data.テキストボックス].opacity = 0.5;
+      if(HTML=="スマホ"||HTML=="編集") Image[Images_Data.テキストボックス].height /= 2;
+
+      var ChoiceText = [];
+      var Choice_Number = 0;
+      var Item_box_Number = 0;
+
+      function Choice(text){
+        ChoiceText[I] = new Sprite();
+        ChoiceText[I]._element = document.createElement("innerHTML");
+        ChoiceText[I]._style.font  = "60px monospace";
+        ChoiceText[I]._style.color = "white";
+        ChoiceText[I].x = 200;
+        ChoiceText[I].y = 50 + I * 90;
+        scene.addChild(ChoiceText[I]);
+      };
+
+      for(var I = 0; I < 9; I++) Choice();
+
+      var Items = [];
+
+      for(var I = 0; I < Object.keys(Flag).length; I++){
+        if(Flag[Object.keys(Flag)[I]].説明){
+          Items[Items.length] = [];
+          Items[Items.length-1][0] = Object.keys(Flag)[I];
+          Items[Items.length-1][1] = Flag[Object.keys(Flag)[I]].説明;
+          if(Flag[Object.keys(Flag)[I]].数) Items[Items.length-1][0] += " ×" + Flag[Object.keys(Flag)[I]].数;
+       };
+      };
+      Items[Items.length] = ["戻る",false];
+
+      scene.addEventListener("enterframe",function(){
+
+        for(var L = 0; L < Object.keys(Key_config).length; L++){
+          if(Key_config[Object.keys(Key_config)[L]].タイム){
+            Key_config[Object.keys(Key_config)[L]].タイム--;
+          };
+        };
+
+        if(game.input.up&&!game.input.down&&!game.input.left&&!game.input.right&&!Key_config.上.タイム){
+          Key_config.上.タイム = 5;
+          if(Choice_Number) Choice_Number--;
+          else if(Item_box_Number) Item_box_Number--;
+        };
+        if(!game.input.up&&game.input.down&&!game.input.left&&!game.input.right&&!Key_config.下.タイム){
+          Key_config.下.タイム = 5;
+          if(Items[Choice_Number+Item_box_Number][1]){
+            if(Choice_Number!=8) Choice_Number++;
+            else Item_box_Number++;
+          };
+        };
+
+        for(var I = 0; I < 9; I++){
+          if(Items[I+Item_box_Number]) ChoiceText[I]._element.textContent = Items[I+Item_box_Number][0];
+          else break;
+        };
+
+        ChoiceText[Choice_Number]._element.textContent = ChoiceText[Choice_Number]._element.textContent + " ◄";
+
+        if(!Key_config.決定.タイム&&Key_config.決定.プッシュ){
+          game.popScene();
+          if(Items[Choice_Number+Item_box_Number][1]){
+            Scene_Check_Scene(Stage_Datas[Items[Choice_Number+Item_box_Number][1]]);
+          };
+          return;
+        };
+
+        if(HTML=="スマホ"||HTML=="編集") pad_keydown();
+
+        return;
+      });
 
       if(HTML=="スマホ"||HTML=="編集"){
 
@@ -1717,6 +1947,14 @@ function Game_load(width,height){
             break;
         };
         Key_config_setting = false;
+        Key_config.決定.キー = Flag.決定キー;
+        Key_config.加速.キー = Flag.加速キー;
+        Key_config.停止.キー = Flag.停止キー;
+        Key_config.メニュー.キー = Flag.メニューキー;
+        Key_config.上.キー = Flag.上キー;
+        Key_config.下.キー = Flag.下キー;
+        Key_config.左.キー = Flag.左キー;
+        Key_config.右.キー = Flag.右キー;
         return;
       };
 
@@ -1728,7 +1966,7 @@ function Game_load(width,height){
           if(game.input.left) key_set_input("←");
           if(game.input.right) key_set_input("→");
           if(!Key_config_setting){
-            game.replaceScene(Chat_Scene({テキスト:"設定しました。●マップが切り替わると同時に適用されます。"}));
+            game.replaceScene(Chat_Scene({テキスト:"設定しました。"}));
           };
         };
       });
@@ -1750,16 +1988,41 @@ function Game_load(width,height){
             Character_direction = Datas[Flag_name];
             break;
           default:
-            switch((Datas[Flag_name]+"").substring(0,1)){
+            if(Datas[Flag_name].数){
+              switch((Datas[Flag_name].数+"").substring(0,1)){
               case "+":
+                if(Flag[Flag_name]) Flag[Flag_name].数 += Datas[Flag_name].数*1;
+                else{
+                  Flag[Flag_name] = JSON.stringify(Datas[Flag_name]);
+                  Flag[Flag_name] = JSON.parse(Flag[Flag_name]);
+                  Flag[Flag_name].数 = Flag[Flag_name].数.substring(1)*1;
+                };
+              break;
+              case "-":
+                if(Flag[Flag_name]) Flag[Flag_name].数 += Datas[Flag_name].数*1;
+                else{
+                  Flag[Flag_name] = JSON.stringify(Datas[Flag_name]);
+                  Flag[Flag_name] = JSON.parse(Flag[Flag_name]);
+                  Flag[Flag_name].数 = Flag[Flag_name]*1;
+                };
+              break;
+              default:
+                Flag[Flag_name] = JSON.stringify(Datas[Flag_name]);
+                Flag[Flag_name] = JSON.parse(Flag[Flag_name]);
+                break;
+              };
+            }
+            else{
+              switch((Datas[Flag_name]+"").substring(0,1)){
+                case "+":
                 if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
                 else Flag[Flag_name] = Datas[Flag_name].substring(1)*1;
                 break;
-              case "-":
+                case "-":
                 if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
                 else Flag[Flag_name] = Datas[Flag_name]*1;
                 break;
-              default:
+                default:
                 switch(Datas[Flag_name]){
                   case 0:
                   case "0":
@@ -1769,13 +2032,14 @@ function Game_load(width,height){
                   case "delete":
                   case "Delete":
                   case "デリート":
-                    delete Flag[Flag_name];
-                    break;
+                  delete Flag[Flag_name];
+                  break;
                   default:
-                    Flag[Flag_name] = Datas[Flag_name];
-                    break;
+                  Flag[Flag_name] = Datas[Flag_name];
+                  break;
                 };
                 break;
+              };
             };
             break;
         };
