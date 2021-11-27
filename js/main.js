@@ -1,5 +1,6 @@
 enchant();
 
+var Cursor = {};
 var Stage_X = 0;
 var Stage_Y = 0;
 var Create_Map = null;
@@ -11,7 +12,8 @@ var Object_moves = {};
 var Load_Object_moves = null;
 var Setting_key = null;
 var Character_direction = "右";
-var Flag = {
+var Flag = {};
+var Key_settings = {
   決定キー:"c",加速キー:"z",停止キー:"x",メニューキー:"s",
   上キー:"↑",下キー:"↓",左キー:"←",右キー:"→"
 };
@@ -20,14 +22,14 @@ var Flag_item_name = null;
 var Chat = "最初";
 var Stage = "最初";
 var Key_config = {
-  決定:{キー:Flag.決定キー,プッシュ:false,タイム:0},
-  加速:{キー:Flag.加速キー,プッシュ:false,タイム:0},
-  停止:{キー:Flag.停止キー,プッシュ:false,タイム:0},
-  メニュー:{キー:Flag.メニューキー,プッシュ:false,タイム:0},
-  上:{キー:Flag.上キー,プッシュ:false,タイム:0},
-  下:{キー:Flag.下キー,プッシュ:false,タイム:0},
-  左:{キー:Flag.左キー,プッシュ:false,タイム:0},
-  右:{キー:Flag.右キー,プッシュ:false,タイム:0}
+  決定:{キー:Key_settings.決定キー,プッシュ:false,タイム:0},
+  加速:{キー:Key_settings.加速キー,プッシュ:false,タイム:0},
+  停止:{キー:Key_settings.停止キー,プッシュ:false,タイム:0},
+  メニュー:{キー:Key_settings.メニューキー,プッシュ:false,タイム:0},
+  上:{キー:Key_settings.上キー,プッシュ:false,タイム:0},
+  下:{キー:Key_settings.下キー,プッシュ:false,タイム:0},
+  左:{キー:Key_settings.左キー,プッシュ:false,タイム:0},
+  右:{キー:Key_settings.右キー,プッシュ:false,タイム:0}
 };
 var Move_box = null;
 var Button_size = 400;
@@ -51,38 +53,38 @@ if(HTML!="スマホ"){
       Key_config_setting = false;
       switch(Setting_key){
         case "↑":
-          Flag.上キー = e.key;
+          Key_settings.上キー = e.key;
           break;
         case "↓":
-          Flag.下キー = e.key;
+          Key_settings.下キー = e.key;
           break;
         case "←":
-          Flag.左キー = e.key;
+          Key_settings.左キー = e.key;
           break;
         case "→":
-          Flag.右キー = e.key;
+          Key_settings.右キー = e.key;
           break;
         case "c":
-          Flag.決定キー = e.key;
+          Key_settings.決定キー = e.key;
           break;
         case "z":
-          Flag.加速キー = e.key;
+          Key_settings.加速キー = e.key;
           break;
         case "x":
-          Flag.停止キー = e.key;
+          Key_settings.停止キー = e.key;
           break;
         case "s":
-          Flag.メニューキー = e.key;
+          Key_settings.メニューキー = e.key;
           break;
       };
-      Key_config.決定.キー = Flag.決定キー;
-      Key_config.加速.キー = Flag.加速キー;
-      Key_config.停止.キー = Flag.停止キー;
-      Key_config.メニュー.キー = Flag.メニューキー;
-      Key_config.上.キー = Flag.上キー;
-      Key_config.下.キー = Flag.下キー;
-      Key_config.左.キー = Flag.左キー;
-      Key_config.右.キー = Flag.右キー;
+      Key_config.決定.キー = Key_settings.決定キー;
+      Key_config.加速.キー = Key_settings.加速キー;
+      Key_config.停止.キー = Key_settings.停止キー;
+      Key_config.メニュー.キー = Key_settings.メニューキー;
+      Key_config.上.キー = Key_settings.上キー;
+      Key_config.下.キー = Key_settings.下キー;
+      Key_config.左.キー = Key_settings.左キー;
+      Key_config.右.キー = Key_settings.右キー;
       return;
     }
     else{
@@ -147,8 +149,8 @@ if(HTML!="スマホ"){
 
 function Flag_judgement(Name,Condition){
   var Judge = true;
-  if(Flag[Name]==undefined) Flag[Name] = 0;
-  Name = Flag[Name];
+  if(Flag[Name]) Name = Flag[Name];
+  else Name = 0;
   if(Name.数!=undefined) Name = Name.数;
   if(Condition["!="]!=undefined){
     if(Array.isArray(Condition["!="])){
@@ -161,7 +163,7 @@ function Flag_judgement(Name,Condition){
     }
     else if(Name == Condition["!="]) Judge = false;
   };
-  if(Condition["="]!=undefined) if(Name != Condition["="]) Judge = false;
+  if(Condition["=="]!=undefined) if(Name != Condition["=="]) Judge = false;
   if(Condition[">"]!=undefined) if(Name <= Condition[">"]) Judge = false;
   if(Condition["<"]!=undefined) if(Name >= Condition["<"]) Judge = false;
   return(Judge);
@@ -224,6 +226,7 @@ function Game_load(width,height){
       var Map_Y = null;
 
       var Move = 0;
+      var Move_distance = 0;
       var Map_W = Map[0].length;
       var Map_H = Map.length;
       var Check_X = null;
@@ -648,7 +651,7 @@ function Game_load(width,height){
             };
             if(!Touch_data&&Key_config.メニュー.プッシュ){
               var Menu_data = {テキスト:" ",名前:"メニュー"};
-              Menu_data.選択肢 = {テストルーム:"テストルーム",閉じる:false,キー設定:"キー設定",セーブ:"セーブ",アイテム:"Item"};
+              Menu_data.選択肢 = {テストルーム:"テストルーム",閉じる:false,キー設定:"キー設定",セーブ:"セーブ",持ち物:"持ち物"};
               if(HTML!="編集"){
                 delete Menu_data.選択肢.最初から;
                 delete Menu_data.選択肢.セーブ削除;
@@ -688,17 +691,21 @@ function Game_load(width,height){
 
             Human.Number++;
             if(Move){
+              Move_distance = 10;
+              if(Flag.スピードアップ){
+                if(Flag.スピードアップ > 5) Flag.スピードアップ = 5;
+                Move_distance *= Flag.スピードアップ;
+              };
               if(Key_config.加速.プッシュ){
+                Move_distance *= 3;
                 if(Human.Number >= Human["走" + Human.向き].length) Human.Number = 0;
                 Image[Images_Data["主人公"]]._element.src = Human["走" + Human.向き][Human.Number];
-                if(HTML=="編集") Move -= 100;
-                else Move -= 25;
               }
               else{
                 if(Human.Number >= Human["歩" + Human.向き].length) Human.Number = 0;
                 Image[Images_Data["主人公"]]._element.src = Human["歩" + Human.向き][Human.Number];
-                Move -= 10;
               };
+              Move -= Move_distance;
               if(Move < 0) Move = 0;
               if(Move==0&&Arrangement[Stage_name]["X_" + Human.Beforex + " Y_" + Human.Beforey]=="動"){
                 delete Arrangement[Stage_name]["X_" + Human.Beforex + " Y_" + Human.Beforey];
@@ -1270,7 +1277,10 @@ function Game_load(width,height){
               continue;
             };
           }
-          else Flag[Match_text[I]] = 0;
+          else{
+            Text_text = Text_text.replace(/\(フラグ:(.+?):フラグ\)/,0);
+            continue;
+          };
           Text_text = Text_text.replace(/\(フラグ:(.+?):フラグ\)/,Flag[Match_text[I]]);
         };
       };
@@ -1454,7 +1464,8 @@ function Game_load(width,height){
                     Object_moves = {};
                     Load_Object_moves = null;
                     Character_direction = "右";
-                    Flag = {
+                    Flag = {};
+                    Key_settings = {
                       決定キー:"c",加速キー:"z",停止キー:"x",メニューキー:"s",
                       上キー:"↑",下キー:"↓",左キー:"←",右キー:"→"
                     };
@@ -1463,14 +1474,14 @@ function Game_load(width,height){
                     Chat = "最初";
                     Stage = "最初";
                     Key_config = {
-                      決定:{キー:Flag.決定キー,プッシュ:false,タイム:0},
-                      加速:{キー:Flag.加速キー,プッシュ:false,タイム:0},
-                      停止:{キー:Flag.停止キー,プッシュ:false,タイム:0},
-                      メニュー:{キー:Flag.メニューキー,プッシュ:false,タイム:0},
-                      上:{キー:Flag.上キー,プッシュ:false,タイム:0},
-                      下:{キー:Flag.下キー,プッシュ:false,タイム:0},
-                      左:{キー:Flag.左キー,プッシュ:false,タイム:0},
-                      右:{キー:Flag.右キー,プッシュ:false,タイム:0}
+                      決定:{キー:Key_settings.決定キー,プッシュ:false,タイム:0},
+                      加速:{キー:Key_settings.加速キー,プッシュ:false,タイム:0},
+                      停止:{キー:Key_settings.停止キー,プッシュ:false,タイム:0},
+                      メニュー:{キー:Key_settings.メニューキー,プッシュ:false,タイム:0},
+                      上:{キー:Key_settings.上キー,プッシュ:false,タイム:0},
+                      下:{キー:Key_settings.下キー,プッシュ:false,タイム:0},
+                      左:{キー:Key_settings.左キー,プッシュ:false,タイム:0},
+                      右:{キー:Key_settings.右キー,プッシュ:false,タイム:0}
                     };
                     Move_box = null;
                     Button_size = 400;
@@ -1481,10 +1492,6 @@ function Game_load(width,height){
                   case "テストルーム":
                     Character_X = 0;
                     Character_Y = 0;
-                    break;
-                  case "Item":
-                    game.pushScene(Item_Scene());
-                    return;
                     break;
                 };
                 Scene_Check_Scene(Stage_Datas[Datas.次]);
@@ -1642,9 +1649,10 @@ function Game_load(width,height){
     };
     var Item_Scene = function(Datas){
 
-      var scene = new Scene();
+      var Item_Cursor = 0;
+      if(Cursor[Datas]) Item_Cursor = Cursor[Datas];
 
-      if(!Datas) Datas = {テキスト:"存在しないデータ。"};
+      var scene = new Scene();
 
       var Image_count = null;
       var Image = [];
@@ -1689,7 +1697,7 @@ function Game_load(width,height){
       var Items = [];
 
       for(var I = 0; I < Object.keys(Flag).length; I++){
-        if(Flag[Object.keys(Flag)[I]].説明){
+        if(Flag[Object.keys(Flag)[I]].タイプ==Datas){
           Items[Items.length] = [];
           Items[Items.length-1][0] = Object.keys(Flag)[I];
           Items[Items.length-1][1] = Flag[Object.keys(Flag)[I]].説明;
@@ -1697,6 +1705,14 @@ function Game_load(width,height){
        };
       };
       Items[Items.length] = ["戻る",false];
+
+      while(Item_Cursor){
+        if(Items[Choice_Number+Item_box_Number][1]){
+          if(Choice_Number!=8) Choice_Number++;
+          else Item_box_Number++;
+        };
+        Item_Cursor--;
+      };
 
       scene.addEventListener("enterframe",function(){
 
@@ -1726,10 +1742,17 @@ function Game_load(width,height){
 
         ChoiceText[Choice_Number]._element.textContent = ChoiceText[Choice_Number]._element.textContent + " ◄";
 
+        Cursor[Datas] = Choice_Number + Item_box_Number;
+
         if(!Key_config.決定.タイム&&Key_config.決定.プッシュ){
+          Key_config.決定.タイム = 5;
           game.popScene();
           if(Items[Choice_Number+Item_box_Number][1]){
             Scene_Check_Scene(Stage_Datas[Items[Choice_Number+Item_box_Number][1]]);
+          }
+          else{
+            delete Cursor[Datas];
+            Scene_Check_Scene(Stage_Datas["持ち物"]);
           };
           return;
         };
@@ -1922,39 +1945,39 @@ function Game_load(width,height){
       function key_set_input(Key){
         switch(Setting_key){
           case "↑":
-            Flag.上キー = Key;
+            Key_settings.上キー = Key;
             break;
           case "↓":
-            Flag.下キー = Key;
+            Key_settings.下キー = Key;
             break;
           case "←":
-            Flag.左キー = Key;
+            Key_settings.左キー = Key;
             break;
           case "→":
-            Flag.右キー = Key;
+            Key_settings.右キー = Key;
             break;
           case "c":
-            Flag.決定キー = Key;
+            Key_settings.決定キー = Key;
             break;
           case "z":
-            Flag.加速キー = Key;
+            Key_settings.加速キー = Key;
             break;
           case "x":
-            Flag.停止キー = Key;
+            Key_settings.停止キー = Key;
             break;
           case "s":
-            Flag.メニューキー = Key;
+            Key_settings.メニューキー = Key;
             break;
         };
         Key_config_setting = false;
-        Key_config.決定.キー = Flag.決定キー;
-        Key_config.加速.キー = Flag.加速キー;
-        Key_config.停止.キー = Flag.停止キー;
-        Key_config.メニュー.キー = Flag.メニューキー;
-        Key_config.上.キー = Flag.上キー;
-        Key_config.下.キー = Flag.下キー;
-        Key_config.左.キー = Flag.左キー;
-        Key_config.右.キー = Flag.右キー;
+        Key_config.決定.キー = Key_settings.決定キー;
+        Key_config.加速.キー = Key_settings.加速キー;
+        Key_config.停止.キー = Key_settings.停止キー;
+        Key_config.メニュー.キー = Key_settings.メニューキー;
+        Key_config.上.キー = Key_settings.上キー;
+        Key_config.下.キー = Key_settings.下キー;
+        Key_config.左.キー = Key_settings.左キー;
+        Key_config.右.キー = Key_settings.右キー;
         return;
       };
 
@@ -2044,14 +2067,6 @@ function Game_load(width,height){
             break;
         };
       };
-      Key_config.決定.キー = Flag.決定キー;
-      Key_config.加速.キー = Flag.加速キー;
-      Key_config.停止.キー = Flag.停止キー;
-      Key_config.メニュー.キー = Flag.メニューキー;
-      Key_config.上.キー = Flag.上キー;
-      Key_config.下.キー = Flag.下キー;
-      Key_config.左.キー = Flag.左キー;
-      Key_config.右.キー = Flag.右キー;
       console.log(Flag);
       return;
     };
@@ -2086,6 +2101,9 @@ function Game_load(width,height){
         case "会話":
           game.pushScene(Chat_Scene(Datas.データ));
           break;
+        case "持ち物":
+          game.pushScene(Item_Scene(Datas.データ名));
+          break;
         default:
           if(Datas.次){
             if(Datas.次=="暗転") Scene_Check_Scene(Stage_Datas[Stage]);
@@ -2107,14 +2125,14 @@ function Game_load(width,height){
     if(window.localStorage.getItem("Flag")){
       Flag = window.localStorage.getItem("Flag");
       Flag = JSON.parse(Flag);
-      if(!Flag.決定キー) Flag.決定キー = "c";
-      if(!Flag.加速キー) Flag.加速キー = "z";
-      if(!Flag.停止キー) Flag.停止キー = "x";
-      if(!Flag.メニューキー) Flag.メニューキー = "s";
-      if(!Flag.上キー) Flag.上キー = "↑";
-      if(!Flag.下キー) Flag.下キー = "↓";
-      if(!Flag.左キー) Flag.左キー = "←";
-      if(!Flag.右キー) Flag.右キー = "→";
+      if(!Key_settings.決定キー) Key_settings.決定キー = "c";
+      if(!Key_settings.加速キー) Key_settings.加速キー = "z";
+      if(!Key_settings.停止キー) Key_settings.停止キー = "x";
+      if(!Key_settings.メニューキー) Key_settings.メニューキー = "s";
+      if(!Key_settings.上キー) Key_settings.上キー = "↑";
+      if(!Key_settings.下キー) Key_settings.下キー = "↓";
+      if(!Key_settings.左キー) Key_settings.左キー = "←";
+      if(!Key_settings.右キー) Key_settings.右キー = "→";
     };
     if(window.localStorage.getItem("Stage")){
       Stage = window.localStorage.getItem("Stage");
