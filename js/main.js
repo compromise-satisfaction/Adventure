@@ -2288,7 +2288,7 @@ function Game_load(width,height){
           break;
         }
         if(result[I].データタイプ=="変換"){
-          var Converting_data = result[I].変換データ;
+          var Converting_data = result[I].データ;
         }
         else Stage_Datas[result[I].データ名] = result[I];
       }
