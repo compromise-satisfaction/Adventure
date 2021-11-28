@@ -519,6 +519,26 @@ function Game_load(width,height){
         };
       };
 
+      if(Datas.フィルタ){
+        for(var I = 0; I < Object.keys(Datas.フィルタ).length; I++){
+          Images(width,height,0,0,Datas.フィルタ[Object.keys(Datas.フィルタ)[I]],Object.keys(Datas.フィルタ)[I]);
+        };
+      };
+
+
+      if(Datas.フィルタ出現条件){
+        var Options_texts_one = null;
+        for(var I = 0; I < Object.keys(Datas.フィルタ出現条件).length;I++){
+          Options_texts_one = Datas.フィルタ出現条件[Object.keys(Datas.フィルタ出現条件)[I]];
+          for(var J = 0; J < Object.keys(Options_texts_one).length; J++){
+            Flag_name = Object.keys(Options_texts_one)[J];
+            if(Flag_name=="ランダム") Flag_name = !Math.floor(Math.random()*Options_texts_one[Flag_name]);
+            else Flag_name = Flag_judgement(Flag_name,Options_texts_one[Flag_name]);
+            if(!Flag_name) scene.removeChild(Image[Images_Data[Object.keys(Datas.フィルタ出現条件)[I]]]);
+          };
+        };
+      };
+
       Load_Arrangement = null;
 
       Map_X = Character_X;
