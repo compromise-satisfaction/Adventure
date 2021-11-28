@@ -1443,7 +1443,7 @@ function Game_load(width,height){
         Image_count = Image.length;
         Image[Image_count] = new Sprite();
         Image[Image_count]._element = document.createElement("img");
-        if(Src) Image[Image_count]._element.src = Src;
+        if(Src) Image[Image_count].src = Src;
         else Image[Image_count]._element.src = "image/透明.png";
         Image[Image_count].width = Width;
         Image[Image_count].height = Height;
@@ -1464,7 +1464,7 @@ function Game_load(width,height){
           if(Datas.画像[Image_keys].y) Image[Images_Data[Image_keys]].y = Datas.画像[Image_keys].y;
           if(Datas.画像[Image_keys].width) Image[Images_Data[Image_keys]].width = Datas.画像[Image_keys].width;
           if(Datas.画像[Image_keys].height) Image[Images_Data[Image_keys]].height = Datas.画像[Image_keys].height;
-          if(Datas.画像[Image_keys].src) Image[Images_Data[Image_keys]]._element.src = Datas.画像[Image_keys].src;
+          if(Datas.画像[Image_keys].src) Image[Images_Data[Image_keys]].src = Datas.画像[Image_keys].src;
           if(Datas.画像[Image_keys].fadeIn){
             Image[Images_Data[Image_keys]].opacity = 0;
             Image[Images_Data[Image_keys]].tl.fadeIn(Datas.画像[Image_keys].fadeIn);
@@ -1599,6 +1599,9 @@ function Game_load(width,height){
         if(Write){
           if(Key_config.加速.プッシュ) while(Write) Text_write();
           else Text_write();
+          for(var L = 0; L < Image.length; L++){
+            Image[L]._element.src = Image[L].src;
+          };
         }
         else{
           if(Key_config.停止.プッシュ){
