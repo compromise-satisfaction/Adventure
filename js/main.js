@@ -253,10 +253,22 @@ function Time(Time,Data){
 };
 
 function Flag_judgement(Name,Condition){
+  switch(Name){
+    case "時間":
+      if(Flag.ゲーム内時間) Name = new Date(Flag.ゲーム内時間.時刻).getHours();
+      else Name = new Date().getHours();
+      break;
+    case "分":
+      if(Flag.ゲーム内時間) Name = new Date(Flag.ゲーム内時間.時刻).getMinutes();
+      else Name = new Date().getMinutes();
+      break;
+    default:
+      if(Flag[Name]) Name = Flag[Name];
+      else Name = 0;
+      if(Name.数!=undefined) Name = Name.数;
+      break;
+  };
   var Judge = true;
-  if(Flag[Name]) Name = Flag[Name];
-  else Name = 0;
-  if(Name.数!=undefined) Name = Name.数;
   if(Condition["!="]!=undefined){
     if(Array.isArray(Condition["!="])){
       for(var I = 0; I < Condition["!="].length; I++){
@@ -268,7 +280,15 @@ function Flag_judgement(Name,Condition){
     }
     else if(Name == Condition["!="]) Judge = false;
   };
-  if(Condition["=="]!=undefined) if(Name != Condition["=="]) Judge = false;
+  if(Condition["=="]!=undefined){
+    if(Array.isArray(Condition["=="])){
+      for(var I = 0; I < Condition["=="].length; I++){
+        if(Name==Condition["=="][I]) break;
+      };
+      if(I==Condition["=="].length) Judge = false;
+    }
+    else if(Name != Condition["=="]) Judge = false;
+  };
   if(Condition[">"]!=undefined) if(Name <= Condition[">"]) Judge = false;
   if(Condition["<"]!=undefined) if(Name >= Condition["<"]) Judge = false;
   return(Judge);
@@ -525,7 +545,6 @@ function Game_load(width,height){
         };
       };
 
-
       if(Datas.フィルタ出現条件){
         var Options_texts_one = null;
         for(var I = 0; I < Object.keys(Datas.フィルタ出現条件).length;I++){
@@ -707,7 +726,6 @@ function Game_load(width,height){
                 Time_text.name = Timeout;
                 if(Flag[Timeout].時刻) Time_text._element.textContent = Timeout + " " + Flag[Timeout].時刻;
                 else Time_text._element.textContent = Timeout + " " + Flag[Timeout];
-                console.log(Time_text._element.textContent);
               };
               for(var L = 0; L < Object.keys(Effect_time).length; L++){
                 Timeout = Object.keys(Effect_time)[L];
