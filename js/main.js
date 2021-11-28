@@ -452,8 +452,9 @@ function Game_load(width,height){
         scene.addChild(White);
       };
 
-      var Wait = false;
       var Now = null;
+      var Wait = false;
+      var Timeout = null;
       var Previous = new Date().getSeconds();
 
       var Time_text = new Sprite();
@@ -580,11 +581,14 @@ function Game_load(width,height){
                 if(!Effect_time[Object.keys(Effect_time)[L]]){
                   switch(Object.keys(Effect_time)[L]){
                     case "スピードアップ":
-                    delete Flag.スピードアップ;
-                    Time_text._element.textContent = null;
-                    break;
+                      delete Flag.スピードアップ;
+                      Time_text._element.textContent = null;
+                      break;
                   };
-                  delete Effect_time[Object.keys(Effect_time)[L]];
+                  Timeout = Object.keys(Effect_time)[L]
+                  delete Effect_time[Timeout];
+                  Scene_Check_Scene(Stage_Datas[Timeout + "タイムアップ"]);
+                  return;
                 };
               };
               Previous = Now;
@@ -2072,20 +2076,19 @@ function Game_load(width,height){
         Flag_name = Object.keys(Datas)[I];
         if(Flag_name.substring(Flag_name.length-3,Flag_name.length)=="タイム"){
           Effect_time[Flag_name.substring(0,Flag_name.length-3)] = Datas[Flag_name];
-          console.log(Effect_time);
-          return;
-        };
-        switch(Flag_name){
-          case "x":
+        }
+        else{
+          switch(Flag_name){
+            case "x":
             Character_X = Datas[Flag_name];
             break;
-          case "y":
+            case "y":
             Character_Y = Datas[Flag_name];
             break;
-          case "向き":
+            case "向き":
             Character_direction = Datas[Flag_name];
             break;
-          default:
+            default:
             if(Datas[Flag_name].数){
               switch((Datas[Flag_name].数+"").substring(0,1)){
                 case "+":
@@ -2112,38 +2115,40 @@ function Game_load(width,height){
               };
             }
             else{
-            switch((Datas[Flag_name]+"").substring(0,1)){
-              case "+":
-              if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
-              else Flag[Flag_name] = Datas[Flag_name].substring(1)*1;
-              break;
-              case "-":
-              if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
-              else Flag[Flag_name] = Datas[Flag_name]*1;
-              break;
-              default:
-              switch(Datas[Flag_name]){
-                case 0:
-                case "0":
-                case "消去":
-                case "消滅":
-                case "削除":
-                case "delete":
-                case "Delete":
-                case "デリート":
-                delete Flag[Flag_name];
+              switch((Datas[Flag_name]+"").substring(0,1)){
+                case "+":
+                if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
+                else Flag[Flag_name] = Datas[Flag_name].substring(1)*1;
+                break;
+                case "-":
+                if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
+                else Flag[Flag_name] = Datas[Flag_name]*1;
                 break;
                 default:
-                Flag[Flag_name] = Datas[Flag_name];
+                switch(Datas[Flag_name]){
+                  case 0:
+                  case "0":
+                  case "消去":
+                  case "消滅":
+                  case "削除":
+                  case "delete":
+                  case "Delete":
+                  case "デリート":
+                  delete Flag[Flag_name];
+                  break;
+                  default:
+                  Flag[Flag_name] = Datas[Flag_name];
+                  break;
+                };
                 break;
               };
-              break;
             };
-          };
             break;
+          };
         };
       };
       console.log(Flag);
+      console.log(Effect_time);
       return;
     };
 
@@ -2306,7 +2311,13 @@ function Game_load(width,height){
       };
     };
 
-    Stage_Datas.テストルーム = {データ名:"テストルーム",データタイプ:"マップ",データ:{画像:{背景:"image/白.png"}}};
+    if(Stage_Datas.テストルーム) Stage_Datas.テストルーム = {フラグ獲得:Stage_Datas.テストルーム.フラグ獲得};
+    else Stage_Datas.テストルーム = {};
+
+    Stage_Datas.テストルーム.データ名 = "テストルーム";
+    Stage_Datas.テストルーム.データタイプ = "マップ";
+    Stage_Datas.テストルーム.データ = {画像:{背景:"image/白.png"}};
+
     var Test_NPC = 1;
 
     for(var I = 0; I < Object.keys(Stage_Datas).length; I++){
