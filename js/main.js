@@ -149,6 +149,109 @@ if(HTML!="スマホ"){
   });
 };
 
+function Time(Time,Data){
+  var Text = JSON.stringify(Time);
+  if(Text.match(/.*(\d{4}).(\d{2}).(\d{2})[^T]+(\d{2}).(\d{2}).(\d{2}).*/)){
+    Time = Text.replace(/.*(\d{4}).(\d{2}).(\d{2})[^T]+(\d{2}).(\d{2}).(\d{2}).*/,"$1/$2/$3 $4:$5:$6");
+  };
+  Time = new Date(Time);
+  if(!Data) Data = {タイプ:"漢字",全:true};
+  if(!Data.タイプ) Data.タイプ = "日付";
+  var Year = Time.getFullYear();
+  var Month = Time.getMonth()+1;
+  var Dates = Time.getDate();
+  var Hour = Time.getHours();
+  var Minute = Time.getMinutes();
+  var Seconds = Time.getSeconds();
+  var Day = Time.getDay();
+  if(Month<10) Month = "0" + Month;
+  if(Dates<10) Dates = "0" + Dates;
+  if(Hour<10) Hour = "0" + Hour;
+  if(Minute<10) Minute = "0" + Minute;
+  if(Seconds<10) Seconds = "0" + Seconds;
+  Day = "日月火水木金土"[Day];
+  Time = "";
+  if(Data.月日){
+    Data.月 = true;
+    Data.日 = true;
+  };
+  if(Data.日付){
+    Data.年 = true;
+    Data.月 = true;
+    Data.日 = true;
+  };
+  if(Data.時分){
+    Data.時 = true;
+    Data.分 = true;
+  };
+  if(Data.時間){
+    Data.時 = true;
+    Data.分 = true;
+    Data.秒 = true;
+  };
+  if(Data.全){
+    Data.年 = true;
+    Data.月 = true;
+    Data.日 = true;
+    Data.曜 = true;
+    Data.時 = true;
+    Data.分 = true;
+    Data.秒 = true;
+  };
+  switch(Data.タイプ){
+    case "漢字":
+      if(Data.年) Time += Year + "年";
+      if(Data.月) Time += Month + "月";
+      if(Data.日) Time += Dates + "日";
+      if(Data.曜){
+        if(Time) Time += " ";
+        Time += "(" + Day + ")";
+      }
+      if(Data.時){
+        if(Time) Time += " ";
+        Time += Hour + "時";
+      }
+      if(Data.分) Time += Minute + "分";
+      if(Data.秒) Time += Seconds + "秒";
+      break;
+    case "数字":
+      if(Data.年) Time += Year;
+      if(Data.月) Time += Month;
+      if(Data.日) Time += Dates;
+      if(Data.時) Time += Hour;
+      if(Data.分) Time += Minute;
+      if(Data.秒) Time += Seconds;
+      break;
+    case "日付":
+      if(Data.年) Time += Year;
+      if(Data.月){
+        if(Time) Time += "/";
+        Time += Month;
+      }
+      if(Data.日){
+        if(Time) Time += "/";
+        Time += Dates;
+      }
+      if(Data.時){
+        if(Time) Time += " ";
+        Time += Hour;
+      }
+      if(Data.分){
+        if(Time) Time += ":";
+        Time += Minute;
+      }
+      if(Data.秒){
+        if(Time) Time += ":";
+        Time += Seconds;
+      }
+      break
+  };
+  if(Year+""=="NaN"){
+    Time = "2000/01/01";
+  };
+  return(Time);
+};
+
 function Flag_judgement(Name,Condition){
   var Judge = true;
   if(Flag[Name]) Name = Flag[Name];
@@ -1349,6 +1452,10 @@ function Game_load(width,height){
               Text_text = Text_text.replace(/\(フラグ:(.+?):フラグ\)/,Flag[Match_text[I]].数);
               continue;
             };
+            if(Flag[Match_text[I]].時刻!=undefined){
+              Text_text = Text_text.replace(/\(フラグ:(.+?):フラグ\)/,Flag[Match_text[I]].時刻);
+              continue;
+            };
           }
           else{
             Text_text = Text_text.replace(/\(フラグ:(.+?):フラグ\)/,0);
@@ -2136,6 +2243,9 @@ function Game_load(width,height){
                   case "デリート":
                   delete Flag[Flag_name];
                   break;
+                  case "時刻":
+                    Flag[Flag_name] = {時刻:Time(new Date(),{タイプ:"日付",日付:true,時分:true})};
+                    break;
                   default:
                   Flag[Flag_name] = Datas[Flag_name];
                   break;
