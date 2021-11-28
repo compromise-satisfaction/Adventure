@@ -560,14 +560,21 @@ function Game_load(width,height){
       var Timeout = null;
       var Previous = new Date().getSeconds();
 
-      var Time_text = new Sprite();
-      Time_text._element = document.createElement("innerHTML");
-      Time_text._style.font  = "60px monospace";
-      Time_text._style.color = "yellow";
-      Time_text._backgroundColor = "black";
-      Time_text.x = 60;
-      Time_text.y = 60;
-      scene.addChild(Time_text);
+      var Time_text = null;
+      var Time_texts = [];
+      var Time_texts_Number = 0;
+
+      for(var I = 0; I < 13; I++){
+        Time_texts[I] = new Sprite();
+        Time_texts[I]._element = document.createElement("innerHTML");
+        Time_texts[I]._style.font  = "60px monospace";
+        Time_texts[I]._style.color = "yellow";
+        Time_texts[I]._backgroundColor = "black";
+        Time_texts[I].x = 60;
+        Time_texts[I].y = 60 + I * 60;
+        scene.addChild(Time_texts[I]);
+      };
+
 
       scene.addEventListener("enterframe",function(){
 
@@ -668,30 +675,53 @@ function Game_load(width,height){
             Now = new Date().getSeconds();
 
             if(Now!=Previous){
-              for(var L = 0; L < Object.keys(Effect_time).length; L++){
-                Effect_time[Object.keys(Effect_time)[L]]--;
-                switch(Object.keys(Effect_time)[L]){
-                  case "スピードアップ":
-                  Time_text.TextMinutes = Effect_time[Object.keys(Effect_time)[L]]*1;
-                  Time_text.TextMinutes = Time_text.TextMinutes - Time_text.TextMinutes % 60;
-                  Time_text.TextMinutes = (Time_text.TextMinutes / 60) % 60;
-                  Time_text.TextSeconds = Effect_time[Object.keys(Effect_time)[L]]%60;
-                  if(Time_text.TextMinutes < 10) Time_text.TextMinutes = "0" + Time_text.TextMinutes;
-                  if(Time_text.TextSeconds < 10) Time_text.TextSeconds = "0" + Time_text.TextSeconds;
-                  Time_text._element.textContent = Time_text.TextMinutes + ":" + Time_text.TextSeconds;
-                  break;
+              for(var L = 0; L < Object.keys(Flag).length; L++){
+                Timeout = Object.keys(Flag)[L];
+                if(!Flag[Timeout + "表示"]) continue;
+                Time_texts_Number = 0;
+                while(Time_texts[Time_texts_Number]._element.textContent){
+                  if(Time_texts[Time_texts_Number].name==Timeout) break;
+                  Time_texts_Number++;
                 };
-                if(!Effect_time[Object.keys(Effect_time)[L]]){
-                  switch(Object.keys(Effect_time)[L]){
+                Time_text = Time_texts[Time_texts_Number];
+                Time_text.name = Timeout;
+                if(Flag[Timeout].時刻) Time_text._element.textContent = Timeout + " " + Flag[Timeout].時刻;
+                else Time_text._element.textContent = Timeout + " " + Flag[Timeout];
+                console.log(Time_text._element.textContent);
+              };
+              for(var L = 0; L < Object.keys(Effect_time).length; L++){
+                Timeout = Object.keys(Effect_time)[L];
+                Effect_time[Timeout]--;
+                switch(Timeout){
+                  default:
+                    Time_texts_Number = 0;
+                    while(Time_texts[Time_texts_Number]._element.textContent){
+                      if(Time_texts[Time_texts_Number].name==Timeout) break;
+                      Time_texts_Number++;
+                    };
+                    Time_text = Time_texts[Time_texts_Number];
+                    Time_text.name = Timeout;
+                    Time_text.TextMinutes = Effect_time[Timeout]*1;
+                    Time_text.TextMinutes = Time_text.TextMinutes - Time_text.TextMinutes % 60;
+                    Time_text.TextMinutes = (Time_text.TextMinutes / 60) % 60;
+                    Time_text.TextSeconds = Effect_time[Timeout]%60;
+                    if(Time_text.TextMinutes < 10) Time_text.TextMinutes = "0" + Time_text.TextMinutes;
+                    if(Time_text.TextSeconds < 10) Time_text.TextSeconds = "0" + Time_text.TextSeconds;
+                    Time_text._element.textContent = Timeout;
+                    Time_text._element.textContent += " " + Time_text.TextMinutes;
+                    Time_text._element.textContent += ":" + Time_text.TextSeconds;
+                    if(!Flag[Timeout + "タイム表示"]) Time_text._element.textContent = null;
+                    break;
+                };
+                if(!Effect_time[Timeout]){
+                  switch(Timeout){
                     case "スピードアップ":
                       delete Flag.スピードアップ;
-                      Time_text._element.textContent = null;
                       break;
                   };
-                  Timeout = Object.keys(Effect_time)[L]
                   delete Effect_time[Timeout];
                   Scene_Check_Scene(Stage_Datas[Timeout + "タイムアップ"]);
-                  return;
+                  Time_text._element.textContent = null;
                 };
               };
               Previous = Now;
@@ -2247,8 +2277,16 @@ function Game_load(width,height){
                     Flag[Flag_name] = {時刻:Time(new Date(),{タイプ:"日付",日付:true,時分:true})};
                     break;
                   default:
-                  Flag[Flag_name] = Datas[Flag_name];
-                  break;
+                    if(Flag[Flag_name]){
+                      if(Flag[Flag_name].時刻){
+                        Flag[Flag_name].時刻 = new Date(Flag[Flag_name].時刻);
+                        Flag[Flag_name].時刻.setMinutes(Flag[Flag_name].時刻.getMinutes()+Datas[Flag_name]);
+                        Flag[Flag_name].時刻 = Time(new Date(Flag[Flag_name].時刻),{タイプ:"日付",日付:true,時分:true});
+                      }
+                      else Flag[Flag_name] = Datas[Flag_name];
+                    }
+                    else Flag[Flag_name] = Datas[Flag_name];
+                    break;
                 };
                 break;
               };
