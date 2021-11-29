@@ -1676,6 +1676,57 @@ function Game_load(width,height){
                     game.pushScene(Chat_Scene({テキスト:"セーブしました。"}));
                     return;
                     break;
+                  case "セーブデータロード":
+                    if(window.localStorage.getItem("Arrangement")){
+                      Load_Arrangement = window.localStorage.getItem("Arrangement");
+                      Load_Arrangement = JSON.parse(Load_Arrangement);
+                    };
+                    if(window.localStorage.getItem("Object_moves")){
+                      Load_Object_moves = window.localStorage.getItem("Object_moves");
+                      Load_Object_moves = JSON.parse(Load_Object_moves);
+                    };
+                    if(window.localStorage.getItem("Effect_time")){
+                      Effect_time = window.localStorage.getItem("Effect_time");
+                      Effect_time = JSON.parse(Effect_time);
+                    };
+                    if(window.localStorage.getItem("Flag")){
+                      Flag = window.localStorage.getItem("Flag");
+                      Flag = JSON.parse(Flag);
+                      if(!Key_settings.決定キー) Key_settings.決定キー = "c";
+                      if(!Key_settings.加速キー) Key_settings.加速キー = "z";
+                      if(!Key_settings.停止キー) Key_settings.停止キー = "x";
+                      if(!Key_settings.メニューキー) Key_settings.メニューキー = "s";
+                      if(!Key_settings.上キー) Key_settings.上キー = "↑";
+                      if(!Key_settings.下キー) Key_settings.下キー = "↓";
+                      if(!Key_settings.左キー) Key_settings.左キー = "←";
+                      if(!Key_settings.右キー) Key_settings.右キー = "→";
+                    };
+                    if(window.localStorage.getItem("Stage")){
+                      Stage = window.localStorage.getItem("Stage");
+                      Stage = JSON.parse(Stage);
+                    };
+                    if(window.localStorage.getItem("Stage_X")){
+                      Stage_X = window.localStorage.getItem("Stage_X");
+                      Stage_X = JSON.parse(Stage_X);
+                    };
+                    if(window.localStorage.getItem("Stage_Y")){
+                      Stage_Y = window.localStorage.getItem("Stage_Y");
+                      Stage_Y = JSON.parse(Stage_Y);
+                    };
+                    if(window.localStorage.getItem("Character_X")){
+                      Character_X = window.localStorage.getItem("Character_X");
+                      Character_X = JSON.parse(Character_X);
+                    };
+                    if(window.localStorage.getItem("Character_Y")){
+                      Character_Y = window.localStorage.getItem("Character_Y");
+                      Character_Y = JSON.parse(Character_Y);
+                    };
+                    if(window.localStorage.getItem("Character_direction")){
+                      Character_direction = window.localStorage.getItem("Character_direction");
+                      Character_direction = JSON.parse(Character_direction);
+                    };
+                    Scene_Check_Scene(Stage_Datas[Stage]);
+                    return;
                   case "キー設定c":
                   case "キー設定z":
                   case "キー設定x":
@@ -2441,55 +2492,6 @@ function Game_load(width,height){
       return;
     };
 
-    if(window.localStorage.getItem("Arrangement")){
-      Load_Arrangement = window.localStorage.getItem("Arrangement");
-      Load_Arrangement = JSON.parse(Load_Arrangement);
-    };
-    if(window.localStorage.getItem("Object_moves")){
-      Load_Object_moves = window.localStorage.getItem("Object_moves");
-      Load_Object_moves = JSON.parse(Load_Object_moves);
-    };
-    if(window.localStorage.getItem("Effect_time")){
-      Effect_time = window.localStorage.getItem("Effect_time");
-      Effect_time = JSON.parse(Effect_time);
-    };
-    if(window.localStorage.getItem("Flag")){
-      Flag = window.localStorage.getItem("Flag");
-      Flag = JSON.parse(Flag);
-      if(!Key_settings.決定キー) Key_settings.決定キー = "c";
-      if(!Key_settings.加速キー) Key_settings.加速キー = "z";
-      if(!Key_settings.停止キー) Key_settings.停止キー = "x";
-      if(!Key_settings.メニューキー) Key_settings.メニューキー = "s";
-      if(!Key_settings.上キー) Key_settings.上キー = "↑";
-      if(!Key_settings.下キー) Key_settings.下キー = "↓";
-      if(!Key_settings.左キー) Key_settings.左キー = "←";
-      if(!Key_settings.右キー) Key_settings.右キー = "→";
-    };
-    if(window.localStorage.getItem("Stage")){
-      Stage = window.localStorage.getItem("Stage");
-      Stage = JSON.parse(Stage);
-    };
-    if(window.localStorage.getItem("Stage_X")){
-      Stage_X = window.localStorage.getItem("Stage_X");
-      Stage_X = JSON.parse(Stage_X);
-    };
-    if(window.localStorage.getItem("Stage_Y")){
-      Stage_Y = window.localStorage.getItem("Stage_Y");
-      Stage_Y = JSON.parse(Stage_Y);
-    };
-    if(window.localStorage.getItem("Character_X")){
-      Character_X = window.localStorage.getItem("Character_X");
-      Character_X = JSON.parse(Character_X);
-    };
-    if(window.localStorage.getItem("Character_Y")){
-      Character_Y = window.localStorage.getItem("Character_Y");
-      Character_Y = JSON.parse(Character_Y);
-    };
-    if(window.localStorage.getItem("Character_direction")){
-      Character_direction = window.localStorage.getItem("Character_direction");
-      Character_direction = JSON.parse(Character_direction);
-    };
-
     switch(HTML){
       case "管理者":
         var Data_number = "データ1";
@@ -2573,7 +2575,8 @@ function Game_load(width,height){
     Stage_Datas.テストルーム.データ.画像.主人公 = true;
     Stage_Datas.テストルーム.データ.マップ = {作成中:[Test_NPC,Test_NPC]};
 
-    if(!Stage_Datas[Stage]) Stage = "最初";
+    if(window.localStorage.getItem("Stage")) Stage = "セーブデータ有り";
+    else Stage = "セーブデータ無し";
     Scene_Check_Scene(Stage_Datas[Stage]);
     return;
   },);
