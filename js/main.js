@@ -2267,39 +2267,61 @@ function Game_load(width,height){
             Character_direction = Datas[Flag_name];
             break;
             default:
-            if(Datas[Flag_name].数){
-              switch((Datas[Flag_name].数+"").substring(0,1)){
-                case "+":
-                if(Flag[Flag_name]) Flag[Flag_name].数 += Datas[Flag_name].数*1;
-                else{
-                  Flag[Flag_name] = JSON.stringify(Datas[Flag_name]);
-                  Flag[Flag_name] = JSON.parse(Flag[Flag_name]);
-                  Flag[Flag_name].数 = Flag[Flag_name].数.substring(1)*1;
-                };
-                break;
-                case "-":
-                if(Flag[Flag_name]) Flag[Flag_name].数 += Datas[Flag_name].数*1;
-                else{
-                  Flag[Flag_name] = JSON.stringify(Datas[Flag_name]);
-                  Flag[Flag_name] = JSON.parse(Flag[Flag_name]);
-                  Flag[Flag_name].数 = Flag[Flag_name]*1;
-                };
-                if(!Flag[Flag_name].数) delete Flag[Flag_name];
-                break;
-                default:
-                Flag[Flag_name] = JSON.stringify(Datas[Flag_name]);
-                Flag[Flag_name] = JSON.parse(Flag[Flag_name]);
-                break;
+            if(Datas[Flag_name].処理){
+              if(Datas[Flag_name].処理.以上!=undefined){
+                if(Flag[Flag_name] < Datas[Flag_name].処理.以上) Flag[Flag_name] = Datas[Flag_name].処理.以上;
               };
+              if(Datas[Flag_name].処理.以下!=undefined){
+                if(Flag[Flag_name] > Datas[Flag_name].処理.以下) Flag[Flag_name] = Datas[Flag_name].処理.以下;
+              };
+              if(Datas[Flag_name].処理.整数) Flag[Flag_name] = Math.floor(Flag[Flag_name]);
             }
             else{
+              if(Datas[Flag_name].数){
+                switch((Datas[Flag_name].数+"").substring(0,1)){
+                  case "+":
+                  if(Flag[Flag_name]!=undefined) Flag[Flag_name].数 += Datas[Flag_name].数*1;
+                  else{
+                    Flag[Flag_name] = JSON.stringify(Datas[Flag_name]);
+                    Flag[Flag_name] = JSON.parse(Flag[Flag_name]);
+                    Flag[Flag_name].数 = Flag[Flag_name].数.substring(1)*1;
+                  };
+                  break;
+                  case "-":
+                  if(Flag[Flag_name]!=undefined) Flag[Flag_name].数 += Datas[Flag_name].数*1;
+                  else{
+                    Flag[Flag_name] = JSON.stringify(Datas[Flag_name]);
+                    Flag[Flag_name] = JSON.parse(Flag[Flag_name]);
+                    Flag[Flag_name].数 = Flag[Flag_name]*1;
+                  };
+                  if(!Flag[Flag_name].数) delete Flag[Flag_name];
+                  break;
+                  default:
+                  Flag[Flag_name] = JSON.stringify(Datas[Flag_name]);
+                  Flag[Flag_name] = JSON.parse(Flag[Flag_name]);
+                  break;
+                };
+              }
+              else{
               switch((Datas[Flag_name]+"").substring(0,1)){
                 case "+":
-                if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
+                if(Flag[Flag_name]!=undefined){
+                  if((""+Datas[Flag_name]).match(/時間×/)){
+                    if(!Flag[Flag_name]) Flag[Flag_name] = 0;
+                    Flag[Flag_name] += Datas[Flag_name].substring(4)*Set_time;
+                  }
+                  else Flag[Flag_name] += Datas[Flag_name]*1;
+                }
                 else Flag[Flag_name] = Datas[Flag_name].substring(1)*1;
                 break;
                 case "-":
-                if(Flag[Flag_name]) Flag[Flag_name] += Datas[Flag_name]*1;
+                if(Flag[Flag_name]!=undefined){
+                  if((""+Datas[Flag_name]).match(/時間×/)){
+                    if(!Flag[Flag_name]) Flag[Flag_name] = 0;
+                    Flag[Flag_name] -= Datas[Flag_name].substring(4)*Set_time;
+                  }
+                  else Flag[Flag_name] += Datas[Flag_name]*1;
+                }
                 else Flag[Flag_name] = Datas[Flag_name]*1;
                 break;
                 default:
@@ -2318,11 +2340,23 @@ function Game_load(width,height){
                     Flag[Flag_name] = {時刻:Time(new Date(),{タイプ:"日付",日付:true,時分:true})};
                     break;
                   default:
-                    if(Flag[Flag_name]){
+                    if(Flag[Flag_name]!=undefined){
                       if(Flag[Flag_name].時刻){
                         Flag[Flag_name].時刻 = new Date(Flag[Flag_name].時刻);
-                        Flag[Flag_name].時刻.setMinutes(Flag[Flag_name].時刻.getMinutes()+Datas[Flag_name]);
+                        Set_time = Time(Flag[Flag_name].時刻,{タイプ:"日付",日付:true,時分:true});
+                        Set_time = new Date(Set_time).getTime()/60000;
+                        if((""+Datas[Flag_name]).match(/\d{2}:\d{2}/)){
+                          Flag[Flag_name].時刻 = Time(Flag[Flag_name].時刻,{タイプ:"日付",日付:true});
+                          Flag[Flag_name].時刻 = Flag[Flag_name].時刻 + " " + Datas[Flag_name];
+                        }
+                        else Flag[Flag_name].時刻.setMinutes(Flag[Flag_name].時刻.getMinutes()+Datas[Flag_name]);
                         Flag[Flag_name].時刻 = Time(new Date(Flag[Flag_name].時刻),{タイプ:"日付",日付:true,時分:true});
+                        while(Set_time > new Date(Flag[Flag_name].時刻).getTime()/60000){
+                          Flag[Flag_name].時刻 = new Date(Flag[Flag_name].時刻);
+                          Flag[Flag_name].時刻.setDate(Flag[Flag_name].時刻.getDate()+1);
+                          Flag[Flag_name].時刻 = Time(new Date(Flag[Flag_name].時刻),{タイプ:"日付",日付:true,時分:true});
+                        };
+                        Set_time = new Date(Flag[Flag_name].時刻).getTime()/60000 - Set_time;
                       }
                       else Flag[Flag_name] = Datas[Flag_name];
                     }
@@ -2331,6 +2365,7 @@ function Game_load(width,height){
                 };
                 break;
               };
+            };
             };
             break;
           };
@@ -2344,15 +2379,33 @@ function Game_load(width,height){
     function Scene_Check_Scene(Datas){
       if(!Datas) Datas = {データタイプ:"会話",データ:{テキスト:"データが見つかりませんでした。"}};
       if(Datas.フラグ判断){
-        for(var I = 0; I < Object.keys(Datas.フラグ判断).length; I++){
-          Flag_name = Object.keys(Datas.フラグ判断)[I];
-          if(Flag_name=="ランダム") Flag_name = !Math.floor(Math.random()*Datas.フラグ判断[Flag_name]);
-          else Flag_name = Flag_judgement(Flag_name,Datas.フラグ判断[Flag_name]);
-          if(!Flag_name) break;
-        };
-        if(I!=Object.keys(Datas.フラグ判断).length){
+        if(Array.isArray(Datas.フラグ判断)){
+          for(var J = 0; J < Datas.フラグ判断.length; J++){
+            for(var I = 0; I < Object.keys(Datas.フラグ判断[J]).length; I++){
+              Flag_name = Object.keys(Datas.フラグ判断[J])[I];
+              if(Flag_name=="ランダム") Flag_name = !Math.floor(Math.random()*Datas.フラグ判断[J][Flag_name]);
+              else Flag_name = Flag_judgement(Flag_name,Datas.フラグ判断[J][Flag_name]);
+              if(!Flag_name) break;
+            };
+            if(I==Object.keys(Datas.フラグ判断[J]).length){
+              Scene_Check_Scene(Stage_Datas[Datas.フラグ分岐[J]]);
+              return;
+            };
+          };
           if(Datas.フラグ無し) Scene_Check_Scene(Stage_Datas[Datas.フラグ無し]);
           return;
+        }
+        else{
+          for(var I = 0; I < Object.keys(Datas.フラグ判断).length; I++){
+            Flag_name = Object.keys(Datas.フラグ判断)[I];
+            if(Flag_name=="ランダム") Flag_name = !Math.floor(Math.random()*Datas.フラグ判断[Flag_name]);
+            else Flag_name = Flag_judgement(Flag_name,Datas.フラグ判断[Flag_name]);
+            if(!Flag_name) break;
+          };
+          if(I!=Object.keys(Datas.フラグ判断).length){
+            if(Datas.フラグ無し) Scene_Check_Scene(Stage_Datas[Datas.フラグ無し]);
+            return;
+          };
         };
       };
       if(Datas.フラグ獲得) Flag_get(Datas.フラグ獲得);
