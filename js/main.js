@@ -1661,6 +1661,13 @@ function Game_load(width,height){
               game.popScene();
               if(Datas.次){
                 switch(Datas.次){
+                  case "タイトル":
+                    var Menu_data = Stage_Datas["タイトル"].データ;
+                    Menu_data.選択肢 = {最初から:"最初から"};
+                    if(window.localStorage.getItem("Stage")) Menu_data.選択肢.続きから = "セーブデータロード";
+                    game.replaceScene(Chat_Scene(Menu_data));
+                    return;
+                    break;
                   case "セーブ":
                     window.localStorage.setItem("Flag",JSON.stringify(Flag));
                     window.localStorage.setItem("Stage",JSON.stringify(Stage));
@@ -2575,9 +2582,10 @@ function Game_load(width,height){
     Stage_Datas.テストルーム.データ.画像.主人公 = true;
     Stage_Datas.テストルーム.データ.マップ = {作成中:[Test_NPC,Test_NPC]};
 
-    if(window.localStorage.getItem("Stage")) Stage = "セーブデータ有り";
-    else Stage = "セーブデータ無し";
-    Scene_Check_Scene(Stage_Datas[Stage]);
+    var Menu_data = Stage_Datas["タイトル"].データ;
+    Menu_data.選択肢 = {最初から:"最初から"};
+    if(window.localStorage.getItem("Stage")) Menu_data.選択肢.続きから = "セーブデータロード";
+    game.replaceScene(Chat_Scene(Menu_data));
     return;
   },);
 };
