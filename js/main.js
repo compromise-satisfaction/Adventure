@@ -1774,6 +1774,7 @@ function Game_load(width,height){
                     Object_moves = {};
                     Load_Object_moves = null;
                     Character_direction = "右";
+                    Effect_time = {};
                     Flag = {};
                     Key_settings = {
                       決定キー:"c",加速キー:"z",停止キー:"x",メニューキー:"s",
