@@ -1,17 +1,13 @@
 enchant();
 
 var Cursor = {};
-var Stage_X = 0;
-var Stage_Y = 0;
 var Create_Map = null;
-var Character_X = 0;
-var Character_Y = 0;
 var Arrangement = {};
 var Load_Arrangement = null;
 var Object_moves = {};
 var Load_Object_moves = null;
 var Setting_key = null;
-var Character_direction = "右";
+var Character = {x:0,y:0,向き:"下"};
 var Effect_time = {};
 var Flag = {};
 var Key_settings = {
@@ -20,8 +16,7 @@ var Key_settings = {
 };
 var Flag_name = null;
 var Flag_item_name = null;
-var Chat = "最初";
-var Stage = "最初";
+var Stage = {名前:"最初",x:0,y:0};
 var Key_config = {
   決定:{キー:Key_settings.決定キー,プッシュ:false,タイム:0},
   加速:{キー:Key_settings.加速キー,プッシュ:false,タイム:0},
@@ -147,6 +142,17 @@ if(HTML!="スマホ"){
         break;
     };
   });
+};
+
+function Key_false(){
+  Key_config.上.プッシュ = false;
+  Key_config.下.プッシュ = false;
+  Key_config.左.プッシュ = false;
+  Key_config.右.プッシュ = false;
+  Key_config.決定.プッシュ = false;
+  Key_config.加速.プッシュ = false;
+  Key_config.停止.プッシュ = false;
+  Key_config.メニュー.プッシュ = false;
 };
 
 function Time(Time,Data){
@@ -396,7 +402,7 @@ function Game_load(width,height){
             if(!Flag.主人公) Flag.主人公 = Datas.画像[Object.keys(Datas.画像)[I]];
             Human.画像 = Stage_Datas[Flag.主人公].データ;
             Images(100,100,1600/2-50,900/2-50,false,"主人公");
-            Human.向き = Character_direction;
+            Human.向き = Character.向き;
             Human.上 = Human.画像.上;
             Human.下 = Human.画像.下;
             Human.左 = Human.画像.左;
@@ -410,7 +416,7 @@ function Game_load(width,height){
             Human.走左 = Human.画像.走左;
             Human.走右 = Human.画像.走右;
             Human.Number = 0;
-            Image[Images_Data["主人公"]]._element.src = Human[Character_direction][Human.Number];
+            Image[Images_Data["主人公"]]._element.src = Human[Character.向き][Human.Number];
             break;
           default:
             if(Datas.画像[Object.keys(Datas.画像)[I]].座標){
@@ -418,13 +424,13 @@ function Game_load(width,height){
               MAP_object_X = MAP_object.座標[0];
               MAP_object_Y = MAP_object.座標[1];
               MAP_object = Stage_Datas[MAP_object.データ];
-              if(MAP_object.フラグ判断&&Stage!="テストルーム"){
-                for(var K = 0; K < Object.keys(MAP_object.フラグ判断).length; K++){
-                  Flag_name = Object.keys(MAP_object.フラグ判断)[K];
-                  Flag_name = Flag_judgement(Flag_name,MAP_object.フラグ判断[Flag_name]);
+              if(MAP_object.出現条件&&Stage.名前!="テストルーム"){
+                for(var K = 0; K < Object.keys(MAP_object.出現条件).length; K++){
+                  Flag_name = Object.keys(MAP_object.出現条件)[K];
+                  Flag_name = Flag_judgement(Flag_name,MAP_object.出現条件[Flag_name]);
                   if(!Flag_name) break;
                 };
-                if(K!=Object.keys(MAP_object.フラグ判断).length){
+                if(K!=Object.keys(MAP_object.出現条件).length){
                   if(!Arrangement_write){
                     for(var J = 0; J < Object.keys(Arrangement[Stage_name]).length; J++){
                       if(Object.keys(Datas.画像)[I]==Arrangement[Stage_name][Object.keys(Arrangement[Stage_name])[J]]){
@@ -560,8 +566,8 @@ function Game_load(width,height){
 
       Load_Arrangement = null;
 
-      Map_X = Character_X;
-      Map_Y = Character_Y;
+      Map_X = Character.x;
+      Map_Y = Character.y;
 
       if(!Arrangement[Stage_name]["X_" + Map_X + " Y_" + Map_Y]){
         Arrangement[Stage_name]["X_" + Map_X + " Y_" + Map_Y] = "主人公";
@@ -771,7 +777,7 @@ function Game_load(width,height){
               };
             };
 
-            Character_direction = Human.向き;
+            Character.向き = Human.向き;
 
             if(HTML=="スマホ"||HTML=="編集") pad_keydown();
 
@@ -900,6 +906,7 @@ function Game_load(width,height){
                   delete Menu_data.選択肢.テストルーム;
                 };
                 console.log(Arrangement[Stage_name]);
+                Key_false();
                 game.pushScene(Chat_Scene(Menu_data));
                 return;
               };
@@ -1146,7 +1153,10 @@ function Game_load(width,height){
             };
           }
           else{
-            console.log("マップ外");
+            if(Datas.マップ外){
+              Head_data = Stage_Datas[Datas.マップ外];
+              console.log(Head_data);
+            };
             Move = 0;
             return;
           };
@@ -1170,8 +1180,8 @@ function Game_load(width,height){
             Map_X++;
             break;
         };
-        Character_X = Map_X;
-        Character_Y = Map_Y;
+        Character.x = Map_X;
+        Character.y = Map_Y;
         Arrangement_point = Arrangement[Stage_name]["X_" + Map_X + " Y_" + Map_Y];
         if(!Arrangement_point) Arrangement[Stage_name]["X_" + Map_X + " Y_" + Map_Y] = "主人公";
         return;
@@ -1298,7 +1308,7 @@ function Game_load(width,height){
             break;
         };
 
-        if(Stage=="テストルーム"){
+        if(Stage.名前=="テストルーム"){
           Object.Move = 0;
           return(false);
         };
@@ -1664,75 +1674,38 @@ function Game_load(width,height){
                   case "タイトル":
                     var Menu_data = Stage_Datas["タイトル"].データ;
                     Menu_data.選択肢 = {最初から:"最初から"};
-                    if(window.localStorage.getItem("Stage")) Menu_data.選択肢.続きから = "セーブデータロード";
+                    if(window.localStorage.getItem("セーブデータ")) Menu_data.選択肢.続きから = "セーブデータロード";
+                    Key_false();
                     game.replaceScene(Chat_Scene(Menu_data));
                     return;
                     break;
                   case "セーブ":
-                    window.localStorage.setItem("Flag",JSON.stringify(Flag));
-                    window.localStorage.setItem("Stage",JSON.stringify(Stage));
-                    window.localStorage.setItem("Stage_X",JSON.stringify(Stage_X));
-                    window.localStorage.setItem("Stage_Y",JSON.stringify(Stage_Y));
-                    window.localStorage.setItem("Effect_time",JSON.stringify(Effect_time));
-                    window.localStorage.setItem("Arrangement",JSON.stringify(Arrangement));
-                    window.localStorage.setItem("Character_X",JSON.stringify(Character_X));
-                    window.localStorage.setItem("Character_Y",JSON.stringify(Character_Y));
-                    window.localStorage.setItem("Object_moves",JSON.stringify(Object_moves));
-                    window.localStorage.setItem("Character_direction",JSON.stringify(Character_direction));
+                    SAVEDATA = {
+                      Flag:Flag,
+                      Stage:Stage,
+                      Character:Character,
+                      Effect_time:Effect_time,
+                      Arrangement:Arrangement,
+                      Object_moves:Object_moves,
+                    };
+                    window.localStorage.setItem("セーブデータ",JSON.stringify(SAVEDATA));
                     console.log("セーブ完了。");
+                    Key_false();
                     game.pushScene(Chat_Scene({テキスト:"セーブしました。"}));
                     return;
                     break;
                   case "セーブデータロード":
-                    if(window.localStorage.getItem("Arrangement")){
-                      Load_Arrangement = window.localStorage.getItem("Arrangement");
-                      Load_Arrangement = JSON.parse(Load_Arrangement);
+                    if(window.localStorage.getItem("セーブデータ")){
+                      SAVEDATA = window.localStorage.getItem("セーブデータ");
+                      SAVEDATA = JSON.parse(SAVEDATA);
+                      Flag = SAVEDATA.Flag;
+                      Stage = SAVEDATA.Stage;
+                      Character = SAVEDATA.Character;
+                      Effect_time = SAVEDATA.Effect_time;
+                      Load_Arrangement = SAVEDATA.Arrangement;
+                      Load_Object_moves = SAVEDATA.Object_moves;
                     };
-                    if(window.localStorage.getItem("Object_moves")){
-                      Load_Object_moves = window.localStorage.getItem("Object_moves");
-                      Load_Object_moves = JSON.parse(Load_Object_moves);
-                    };
-                    if(window.localStorage.getItem("Effect_time")){
-                      Effect_time = window.localStorage.getItem("Effect_time");
-                      Effect_time = JSON.parse(Effect_time);
-                    };
-                    if(window.localStorage.getItem("Flag")){
-                      Flag = window.localStorage.getItem("Flag");
-                      Flag = JSON.parse(Flag);
-                      if(!Key_settings.決定キー) Key_settings.決定キー = "c";
-                      if(!Key_settings.加速キー) Key_settings.加速キー = "z";
-                      if(!Key_settings.停止キー) Key_settings.停止キー = "x";
-                      if(!Key_settings.メニューキー) Key_settings.メニューキー = "s";
-                      if(!Key_settings.上キー) Key_settings.上キー = "↑";
-                      if(!Key_settings.下キー) Key_settings.下キー = "↓";
-                      if(!Key_settings.左キー) Key_settings.左キー = "←";
-                      if(!Key_settings.右キー) Key_settings.右キー = "→";
-                    };
-                    if(window.localStorage.getItem("Stage")){
-                      Stage = window.localStorage.getItem("Stage");
-                      Stage = JSON.parse(Stage);
-                    };
-                    if(window.localStorage.getItem("Stage_X")){
-                      Stage_X = window.localStorage.getItem("Stage_X");
-                      Stage_X = JSON.parse(Stage_X);
-                    };
-                    if(window.localStorage.getItem("Stage_Y")){
-                      Stage_Y = window.localStorage.getItem("Stage_Y");
-                      Stage_Y = JSON.parse(Stage_Y);
-                    };
-                    if(window.localStorage.getItem("Character_X")){
-                      Character_X = window.localStorage.getItem("Character_X");
-                      Character_X = JSON.parse(Character_X);
-                    };
-                    if(window.localStorage.getItem("Character_Y")){
-                      Character_Y = window.localStorage.getItem("Character_Y");
-                      Character_Y = JSON.parse(Character_Y);
-                    };
-                    if(window.localStorage.getItem("Character_direction")){
-                      Character_direction = window.localStorage.getItem("Character_direction");
-                      Character_direction = JSON.parse(Character_direction);
-                    };
-                    Scene_Check_Scene(Stage_Datas[Stage]);
+                    Scene_Check_Scene(Stage_Datas[Stage.名前]);
                     return;
                   case "キー設定c":
                   case "キー設定z":
@@ -1743,37 +1716,37 @@ function Game_load(width,height){
                   case "キー設定←":
                   case "キー設定→":
                     Setting_key = Datas.次.substring(4);
+                    Key_false();
                     game.pushScene(Key_setting_Scene());
                     return;
                     break;
                   case "矢印キー設定":
                     Menu_data = {テキスト:" ",名前:"どのキーを設定しますか？"};
                     Menu_data.選択肢 = {他のキー:"キー設定","→":"キー設定→","←":"キー設定←","↓":"キー設定↓","↑":"キー設定↑"};
+                    Key_false();
                     game.pushScene(Chat_Scene(Menu_data));
                     return;
                     break;
                   case "キー設定":
                     Menu_data = {テキスト:" ",名前:"どのキーを設定しますか？"};
                     Menu_data.選択肢 = {矢印キー:"矢印キー設定",s:"キー設定s",x:"キー設定x",z:"キー設定z",c:"キー設定c"};
+                    Key_false();
                     game.pushScene(Chat_Scene(Menu_data));
                     return;
                     break;
                   case "セーブ削除":
                     window.localStorage.clear();
+                    Key_false();
                     game.pushScene(Chat_Scene({テキスト:"既存セーブを削除しました。●ゲームは続けることができます。"}));
                     return;
                     break;
                   case "最初から":
-                    Stage_X = 0;
-                    Stage_Y = 0;
                     Create_Map = null;
-                    Character_X = 0;
-                    Character_Y = 0;
                     Arrangement = {};
                     Load_Arrangement = null;
                     Object_moves = {};
                     Load_Object_moves = null;
-                    Character_direction = "右";
+                    Character = {x:0,y:0,向き:"下"};
                     Effect_time = {};
                     Flag = {};
                     Key_settings = {
@@ -1782,8 +1755,7 @@ function Game_load(width,height){
                     };
                     Flag_name = null;
                     Flag_item_name = null;
-                    Chat = "最初";
-                    Stage = "最初";
+                    Stage = {名前:"最初",x:0,y:0};
                     Key_config = {
                       決定:{キー:Key_settings.決定キー,プッシュ:false,タイム:0},
                       加速:{キー:Key_settings.加速キー,プッシュ:false,タイム:0},
@@ -1797,12 +1769,12 @@ function Game_load(width,height){
                     Move_box = null;
                     Button_size = 400;
                     This_object = null;
-                    Scene_Check_Scene(Stage_Datas["最初"]);
+                    Scene_Check_Scene(Stage_Datas[Stage.名前]);
                     return;
                     break;
                   case "テストルーム":
-                    Character_X = 0;
-                    Character_Y = 0;
+                    Character.x = 0;
+                    Character.y = 0;
                     break;
                 };
                 Scene_Check_Scene(Stage_Datas[Datas.次]);
@@ -2068,6 +2040,13 @@ function Game_load(width,height){
           return;
         };
 
+        if(!Key_config.メニュー.タイム&&Key_config.メニュー.プッシュ){
+          Key_config.メニュー.タイム = 5;
+          game.popScene();
+          Scene_Check_Scene(Stage_Datas["持ち物"]);
+          return;
+        };
+
         if(HTML=="スマホ"||HTML=="編集") pad_keydown();
 
         return;
@@ -2193,6 +2172,7 @@ function Game_load(width,height){
       scene.addChild(Blackout);
       scene.addEventListener("enterframe",function(){
         if(Blackout.opacity==1){
+          Key_false();
           game.popScene();
           game.replaceScene(Map_Scene(Datas,Stage_name));
         };
@@ -2300,6 +2280,7 @@ function Game_load(width,height){
           if(game.input.left) key_set_input("←");
           if(game.input.right) key_set_input("→");
           if(!Key_config_setting){
+            Key_false();
             game.replaceScene(Chat_Scene({テキスト:"設定しました。"}));
           };
         };
@@ -2317,13 +2298,13 @@ function Game_load(width,height){
         else{
           switch(Flag_name){
             case "x":
-            Character_X = Datas[Flag_name];
+            Character.x = Datas[Flag_name];
             break;
             case "y":
-            Character_Y = Datas[Flag_name];
+            Character.y = Datas[Flag_name];
             break;
             case "向き":
-            Character_direction = Datas[Flag_name];
+            Character.向き = Datas[Flag_name];
             break;
             default:
             if(Datas[Flag_name].処理){
@@ -2437,47 +2418,40 @@ function Game_load(width,height){
 
     function Scene_Check_Scene(Datas){
       if(!Datas) Datas = {データタイプ:"会話",データ:{テキスト:"データが見つかりませんでした。"}};
-      if(Datas.フラグ判断){
-        if(Array.isArray(Datas.フラグ判断)){
-          for(var J = 0; J < Datas.フラグ判断.length; J++){
-            for(var I = 0; I < Object.keys(Datas.フラグ判断[J]).length; I++){
-              Flag_name = Object.keys(Datas.フラグ判断[J])[I];
-              if(Flag_name=="ランダム") Flag_name = !Math.floor(Math.random()*Datas.フラグ判断[J][Flag_name]);
-              else Flag_name = Flag_judgement(Flag_name,Datas.フラグ判断[J][Flag_name]);
-              if(!Flag_name) break;
+      if(Datas.フラグ獲得) Flag_get(Datas.フラグ獲得);
+      switch(Datas.データタイプ){
+        case "フラグ分岐":
+          for(var I = 0; I < Object.keys(Datas.データ).length; I++){
+            Flag_name1 = Object.keys(Datas.データ)[I];
+            if(Datas.データ[Flag_name1]=="フラグ無し"){
+              Flag_name3 = Flag_name1;
+              continue;
             };
-            if(I==Object.keys(Datas.フラグ判断[J]).length){
-              Scene_Check_Scene(Stage_Datas[Datas.フラグ分岐[J]]);
+            for(var J = 0; J < Object.keys(Datas.データ[Flag_name1]).length; J++){
+              Flag_name2 = Object.keys(Datas.データ[Flag_name1])[J];
+              if(Flag_name2=="ランダム") Flag_name2 = !Math.floor(Math.random() * Datas.データ[Flag_name1][Flag_name2]);
+              else Flag_name2 = Flag_judgement(Flag_name2,Datas.データ[Flag_name1][Flag_name2]);
+              if(!Flag_name2) break;
+            };
+            if(J==Object.keys(Datas.データ[Flag_name1]).length){
+              Scene_Check_Scene(Stage_Datas[Flag_name1]);
               return;
             };
           };
-          if(Datas.フラグ無し) Scene_Check_Scene(Stage_Datas[Datas.フラグ無し]);
+          Scene_Check_Scene(Stage_Datas[Flag_name3]);
           return;
-        }
-        else{
-          for(var I = 0; I < Object.keys(Datas.フラグ判断).length; I++){
-            Flag_name = Object.keys(Datas.フラグ判断)[I];
-            if(Flag_name=="ランダム") Flag_name = !Math.floor(Math.random()*Datas.フラグ判断[Flag_name]);
-            else Flag_name = Flag_judgement(Flag_name,Datas.フラグ判断[Flag_name]);
-            if(!Flag_name) break;
-          };
-          if(I!=Object.keys(Datas.フラグ判断).length){
-            if(Datas.フラグ無し) Scene_Check_Scene(Stage_Datas[Datas.フラグ無し]);
-            return;
-          };
-        };
-      };
-      if(Datas.フラグ獲得) Flag_get(Datas.フラグ獲得);
-      switch(Datas.データタイプ){
+          break;
         case "マップ":
-          Stage = Datas.データ名;
-          game.pushScene(Blackout_Scene(Datas.データ,Stage));
+          Stage.名前 = Datas.データ名;
+          Key_false();
+          game.pushScene(Blackout_Scene(Datas.データ,Stage.名前));
           break;
         case "マップ処理":
           Move_box = Datas.データ;
           Move_box_length = 0;
           break;
         case "メイン":
+          Key_false();
           game.replaceScene(Main_Scene(Datas.データ));
           break;
         case "道具使用":
@@ -2485,14 +2459,16 @@ function Game_load(width,height){
           console.log(Use_Item);
           break;
         case "会話":
+          Key_false();
           game.pushScene(Chat_Scene(Datas.データ));
           break;
         case "持ち物":
+          Key_false();
           game.pushScene(Item_Scene(Datas.データ名));
           break;
         default:
           if(Datas.次){
-            if(Datas.次=="暗転") Scene_Check_Scene(Stage_Datas[Stage]);
+            if(Datas.次=="暗転") Scene_Check_Scene(Stage_Datas[Stage.名前]);
             else Scene_Check_Scene(Stage_Datas[Datas.次]);
           };
           break;
@@ -2585,7 +2561,8 @@ function Game_load(width,height){
 
     var Menu_data = Stage_Datas["タイトル"].データ;
     Menu_data.選択肢 = {最初から:"最初から"};
-    if(window.localStorage.getItem("Stage")) Menu_data.選択肢.続きから = "セーブデータロード";
+    if(window.localStorage.getItem("セーブデータ")) Menu_data.選択肢.続きから = "セーブデータロード";
+    Key_false();
     game.replaceScene(Chat_Scene(Menu_data));
     return;
   },);
