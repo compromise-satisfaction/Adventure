@@ -153,7 +153,6 @@ function Key_false(){
   Key_config.加速.プッシュ = false;
   Key_config.停止.プッシュ = false;
   Key_config.メニュー.プッシュ = false;
-  if(HTML=="スマホ"||HTML=="編集") pad_keydown();
 };
 
 function Time(Time,Data){
