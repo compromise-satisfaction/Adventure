@@ -424,7 +424,6 @@ function Game_load(width,height){
               MAP_object_X = MAP_object.座標[0];
               MAP_object_Y = MAP_object.座標[1];
               MAP_object = Stage_Datas[MAP_object.データ];
-              console.log(Datas.画像[Object.keys(Datas.画像)[I]]);
               if(MAP_object.出現条件&&Stage.名前!="テストルーム"){
                 for(var K = 0; K < Object.keys(MAP_object.出現条件).length; K++){
                   Flag_name = Object.keys(MAP_object.出現条件)[K];
@@ -621,7 +620,6 @@ function Game_load(width,height){
         scene.addChild(Time_texts[I]);
       };
 
-
       scene.addEventListener("enterframe",function(){
 
         if(Use_Item){
@@ -764,10 +762,12 @@ function Game_load(width,height){
                       delete Flag.スピードアップ;
                       break;
                   };
-                  delete Effect_time[Timeout];
-                  Scene_Check_Scene(Stage_Datas[Timeout + "タイムアップ"]);
+                  if(Stage_Datas[Timeout + "タイムアップ"]) Scene_Check_Scene(Stage_Datas[Timeout + "タイムアップ"]);
                   Time_text._element.textContent = null;
                 };
+              };
+              for(var L = 0; L < Object.keys(Effect_time).length; L++){
+                if(!Object.keys(Effect_time)[L]) delete Object.keys(Effect_time)[L];
               };
               Previous = Now;
             };
@@ -1691,7 +1691,6 @@ function Game_load(width,height){
                       Object_moves:Object_moves,
                     };
                     window.localStorage.setItem("セーブデータ",JSON.stringify(SAVEDATA));
-                    console.log("セーブ完了。");
                     Key_false();
                     game.pushScene(Chat_Scene({テキスト:"セーブしました。"}));
                     return;
@@ -2386,21 +2385,24 @@ function Game_load(width,height){
                   default:
                     if(Flag[Flag_name]!=undefined){
                       if(Flag[Flag_name].時刻){
-                        Flag[Flag_name].時刻 = new Date(Flag[Flag_name].時刻);
-                        Set_time = Time(Flag[Flag_name].時刻,{タイプ:"日付",日付:true,時分:true});
-                        Set_time = new Date(Set_time).getTime()/60000;
-                        if((""+Datas[Flag_name]).match(/\d{2}:\d{2}/)){
-                          Flag[Flag_name].時刻 = Time(Flag[Flag_name].時刻,{タイプ:"日付",日付:true});
-                          Flag[Flag_name].時刻 = Flag[Flag_name].時刻 + " " + Datas[Flag_name];
-                        }
-                        else Flag[Flag_name].時刻.setMinutes(Flag[Flag_name].時刻.getMinutes()+Datas[Flag_name]);
-                        Flag[Flag_name].時刻 = Time(new Date(Flag[Flag_name].時刻),{タイプ:"日付",日付:true,時分:true});
-                        while(Set_time > new Date(Flag[Flag_name].時刻).getTime()/60000){
+                        if(Datas[Flag_name].時刻) Flag[Flag_name] = Datas[Flag_name];
+                        else{
                           Flag[Flag_name].時刻 = new Date(Flag[Flag_name].時刻);
-                          Flag[Flag_name].時刻.setDate(Flag[Flag_name].時刻.getDate()+1);
+                          Set_time = Time(Flag[Flag_name].時刻,{タイプ:"日付",日付:true,時分:true});
+                          Set_time = new Date(Set_time).getTime()/60000;
+                          if((""+Datas[Flag_name]).match(/\d{2}:\d{2}/)){
+                            Flag[Flag_name].時刻 = Time(Flag[Flag_name].時刻,{タイプ:"日付",日付:true});
+                            Flag[Flag_name].時刻 = Flag[Flag_name].時刻 + " " + Datas[Flag_name];
+                          }
+                          else Flag[Flag_name].時刻.setMinutes(Flag[Flag_name].時刻.getMinutes()+Datas[Flag_name]);
                           Flag[Flag_name].時刻 = Time(new Date(Flag[Flag_name].時刻),{タイプ:"日付",日付:true,時分:true});
+                          while(Set_time > new Date(Flag[Flag_name].時刻).getTime()/60000){
+                            Flag[Flag_name].時刻 = new Date(Flag[Flag_name].時刻);
+                            Flag[Flag_name].時刻.setDate(Flag[Flag_name].時刻.getDate()+1);
+                            Flag[Flag_name].時刻 = Time(new Date(Flag[Flag_name].時刻),{タイプ:"日付",日付:true,時分:true});
+                          };
+                          Set_time = new Date(Flag[Flag_name].時刻).getTime()/60000 - Set_time;
                         };
-                        Set_time = new Date(Flag[Flag_name].時刻).getTime()/60000 - Set_time;
                       }
                       else Flag[Flag_name] = Datas[Flag_name];
                     }
@@ -2415,8 +2417,8 @@ function Game_load(width,height){
           };
         };
       };
-      console.log(Flag);
       console.log(Effect_time);
+      console.log(Flag);
       return;
     };
 
