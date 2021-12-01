@@ -767,7 +767,7 @@ function Game_load(width,height){
                 };
               };
               for(var L = 0; L < Object.keys(Effect_time).length; L++){
-                if(!Object.keys(Effect_time)[L]) delete Object.keys(Effect_time)[L];
+                if(!Effect_time[Object.keys(Effect_time)[L]]) delete Object.keys(Effect_time)[L];
               };
               Previous = Now;
             };
