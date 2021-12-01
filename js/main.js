@@ -1608,7 +1608,7 @@ function Game_load(width,height){
         if(HTML=="スマホ"||HTML=="編集") pad_keydown();
 
         if(Write){
-          if(Key_config.加速.プッシュ) while(Write) Text_write();
+          if(Key_config.加速.プッシュ||Datas.瞬時) while(Write) Text_write();
           else Text_write();
           for(var L = 0; L < Image.length; L++){
             Image[L]._element.src = Image[L].src;
