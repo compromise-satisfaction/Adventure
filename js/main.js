@@ -424,6 +424,7 @@ function Game_load(width,height){
               MAP_object_X = MAP_object.座標[0];
               MAP_object_Y = MAP_object.座標[1];
               MAP_object = Stage_Datas[MAP_object.データ];
+              console.log(Datas.画像[Object.keys(Datas.画像)[I]]);
               if(MAP_object.出現条件&&Stage.名前!="テストルーム"){
                 for(var K = 0; K < Object.keys(MAP_object.出現条件).length; K++){
                   Flag_name = Object.keys(MAP_object.出現条件)[K];
@@ -1668,6 +1669,7 @@ function Game_load(width,height){
               };
             }
             else{
+              Key_false();
               game.popScene();
               if(Datas.次){
                 switch(Datas.次){
@@ -2029,6 +2031,7 @@ function Game_load(width,height){
 
         if(!Key_config.決定.タイム&&Key_config.決定.プッシュ){
           Key_config.決定.タイム = 5;
+          Key_false();
           game.popScene();
           if(Items[Choice_Number+Item_box_Number][1]){
             Scene_Check_Scene(Stage_Datas[Items[Choice_Number+Item_box_Number][1]]);
@@ -2042,6 +2045,7 @@ function Game_load(width,height){
 
         if(!Key_config.メニュー.タイム&&Key_config.メニュー.プッシュ){
           Key_config.メニュー.タイム = 5;
+          Key_false();
           game.popScene();
           Scene_Check_Scene(Stage_Datas["持ち物"]);
           return;
