@@ -942,7 +942,18 @@ function Game_load(width,height){
                     };
                   };
                 }
-                else console.log("マップ外");
+                else{
+                  if(HTML=="編集"){
+                    var Menu_data = {テキスト:"イベントを設定しますか？",名前:"地点:マップ外"};
+                    Menu_data.選択肢 = {
+                      はい:"マップ外イベントを設定",
+                      いいえ:false
+                    };
+                    Key_false();
+                    game.pushScene(Chat_Scene(Menu_data));
+                    return;
+                  };
+                };
               };
               if(!Move&&Key_config.メニュー.プッシュ){
                 var Menu_data = {テキスト:" ",名前:"メニュー"};
@@ -1723,6 +1734,10 @@ function Game_load(width,height){
                     game.pushScene(Event_setting_Scene("会話"));
                     return;
                     break;
+                  case "マップ外イベントを設定":
+                    game.pushScene(Event_setting_Scene("マップ外"));
+                    return;
+                    break;
                   case "NPCを配置":
                     game.pushScene(Event_setting_Scene("NPC"));
                     return;
@@ -1732,7 +1747,7 @@ function Game_load(width,height){
                     return;
                     break;
                   case "接触イベントを配置":
-                    game.pushScene(Event_setting_Scene("接触"));
+                    game.pushScene(Event_setting_Scene("接触判定"));
                     return;
                     break;
                   case "タイトル":
@@ -2388,31 +2403,83 @@ function Game_load(width,height){
         scene.addChild(Inputs[Inputs_length]);
       };
 
-      Input(0,height/2-300,width/2,300,"","Objectname");
-      Input(width/2,height/2-300,width/2,300,"","Eventname");
+      switch(Type){
+        case "会話":
+          Input(0,height/2-300,width/2,300,"","テキスト");
+          Input(width/2,height/2-300,width/2,300,"","名前");
+          break;
+        case "マップ外":
+          Input(width/2,height/2-300,width/2,300,"","Eventname");
+          break;
+        default:
+          Input(0,height/2-300,width/2,300,"","Objectname");
+          Input(width/2,height/2-300,width/2,300,"","Eventname");
+          break;
+      };
 
       var Ui_Button = new Button("決定","light",width,height/2);
       Ui_Button.moveTo(0,height/2);
       Ui_Button._style["font-size"] = height/4;
       Ui_Button.addEventListener("touchend",function(e){
-        if(Inputs[0]._element.value&&Inputs[1]._element.value){
-          Stage_Datas[Stage.名前].データ.画像[Inputs[0]._element.value] = {
-            データ:Inputs[1]._element.value,
-            座標:[Character.Check_X,Character.Check_Y]
-          };
-          if(!Stage_Datas[Inputs[1]._element.value]){
-            switch(Type){
-              case "調べる":
-                Stage_Datas[Inputs[1]._element.value] = {
-                  データ名:Inputs[1]._element.value,
-                  データタイプ:"調べる",
-                  データ:{ロード:Inputs[1]._element.value + "調べる"}
-                };
-                break;
+        switch(Type){
+          case "会話":
+            if(Inputs[0]._element.value){
+              Stage_Datas[New_Date].データタイプ = Type;
+              Stage_Datas[New_Date].データ = {テキスト:Inputs[0]._element.value};
+              if(Inputs[1]._element.value){
+                Stage_Datas[New_Date].データ.名前 = Inputs[1]._element.value;
+              };
+              game.popScene();
+              Scene_Check_Scene(Stage_Datas[Stage.名前])
             };
-          };
-          game.popScene();
-          Scene_Check_Scene(Stage_Datas[Stage.名前])
+            break;
+          case "マップ外":
+            if(Inputs[0]._element.value){
+              Stage_Datas[Stage.名前].データ.マップ外 = Inputs[0]._element.value;
+              game.popScene();
+              Scene_Check_Scene(Stage_Datas[Stage.名前])
+            };
+            break;
+          default:
+            if(Inputs[0]._element.value&&Inputs[1]._element.value){
+              Stage_Datas[Stage.名前].データ.画像[Inputs[0]._element.value] = {
+                データ:Inputs[1]._element.value,
+                座標:[Character.Check_X,Character.Check_Y]
+              };
+              if(!Stage_Datas[Inputs[1]._element.value]){
+                switch(Type){
+                  case "NPC":
+                  for(var I = 0; I < Object.keys(Stage_Datas).length; I++){
+                    if(Stage_Datas[Object.keys(Stage_Datas)[I]].データタイプ=="NPC画像"){
+                      Stage_Datas[Inputs[1]._element.value] = {
+                        データ名:Inputs[1]._element.value,
+                        データタイプ:"NPC",
+                        データ:{画像:Stage_Datas[Object.keys(Stage_Datas)[I]].データ名,向き:"下"}
+                      };
+                      break;
+                    };
+                  };
+                  break;
+                  case "調べる":
+                  case "接触判定":
+                  Stage_Datas[Inputs[1]._element.value] = {
+                    データ名:Inputs[1]._element.value,
+                    データタイプ:Type,
+                    データ:{ロード:Inputs[1]._element.value + Type}
+                  };
+                  if(!Stage_Datas[Inputs[1]._element.value + Type]){
+                    Stage_Datas[Inputs[1]._element.value + Type] = {
+                      データ名:Inputs[1]._element.value + Type,
+                      データタイプ:"新規作成"
+                    };
+                  };
+                  break;
+                };
+              };
+              game.popScene();
+              Scene_Check_Scene(Stage_Datas[Stage.名前]);
+            };
+            break;
         };
         return;
       });
@@ -2552,20 +2619,23 @@ function Game_load(width,height){
     };
 
     function Scene_Check_Scene(Datas){
-      if(!Datas){
-        Datas = {データタイプ:"会話",データ:{テキスト:"データが見つかりませんでした。"}};
-        if(HTML=="編集"){
-          Datas.データ.テキスト += "●データを作成しますか？";
-          Datas.データ.選択肢 = {
-            マップ処理を作成:"マップ処理を作成",
-            フラグ分岐を作成:"フラグ分岐を作成",
-            会話を作成:"会話を作成",
-            いいえ:false
-          };
-        };
-      };
+      if(!Datas) Datas = {データタイプ:"会話",データ:{テキスト:"データが見つかりませんでした。"}};
       if(Datas.フラグ獲得) Flag_get(Datas.フラグ獲得);
       switch(Datas.データタイプ){
+        case "新規作成":
+          New_Date = {
+              テキスト:"データを作成しますか？",
+              選択肢:{
+                マップ処理を作成:"マップ処理を作成",
+                フラグ分岐を作成:"フラグ分岐を作成",
+                会話を作成:"会話を作成",
+                いいえ:false
+              }
+          };
+          Key_false();
+          game.pushScene(Chat_Scene(New_Date));
+          New_Date = Datas.データ名;
+          break;
         case "フラグ分岐":
           for(var I = 0; I < Object.keys(Datas.データ).length; I++){
             Flag_name1 = Object.keys(Datas.データ)[I];
