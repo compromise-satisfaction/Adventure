@@ -260,6 +260,32 @@ function Time(Time,Data){
 
 function Flag_judgement(Name,Condition){
   switch(Name){
+    case "x":
+      Name = Character.x;
+      break;
+    case "y":
+      Name = Character.y;
+      break;
+    case "向き":
+      Name = Character.向き;
+      break;
+    case "年":
+      if(Flag.ゲーム内時間) Name = new Date(Flag.ゲーム内時間.時刻).getFullYear();
+      else Name = new Date().getFullYear();
+      break;
+    case "月":
+      if(Flag.ゲーム内時間) Name = new Date(Flag.ゲーム内時間.時刻).getMonth()+1;
+      else Name = new Date().getMonth();
+      break;
+    case "日":
+      if(Flag.ゲーム内時間) Name = new Date(Flag.ゲーム内時間.時刻).getDate();
+      else Name = new Date().getDate();
+      break;
+    case "曜日":
+      if(Flag.ゲーム内時間) Name = new Date(Flag.ゲーム内時間.時刻).getDay();
+      else Name = new Date().getDay();
+      Name = "日月火水木金土"[Name];
+      break;
     case "時間":
       if(Flag.ゲーム内時間) Name = new Date(Flag.ゲーム内時間.時刻).getHours();
       else Name = new Date().getHours();
@@ -424,6 +450,11 @@ function Game_load(width,height){
               MAP_object_X = MAP_object.座標[0];
               MAP_object_Y = MAP_object.座標[1];
               MAP_object = Stage_Datas[MAP_object.データ];
+              if(!MAP_object){
+                MAP_object = {};
+                console.log(Datas.画像[Object.keys(Datas.画像)[I]].データ);
+                continue;
+              };
               if(MAP_object.出現条件&&Stage.名前!="テストルーム"){
                 for(var K = 0; K < Object.keys(MAP_object.出現条件).length; K++){
                   Flag_name = Object.keys(MAP_object.出現条件)[K];
@@ -894,7 +925,22 @@ function Game_load(width,height){
                       break;
                     };
                   }
-                  else console.log(Check_X,Check_Y);
+                  else{
+                    if(HTML=="編集"){
+                      var Menu_data = {テキスト:"イベントを配置しますか？",名前:"地点:"+Check_X+","+Check_Y};
+                      Menu_data.選択肢 = {
+                        接触イベントを配置:"接触イベントを配置",
+                        調べるを配置:"調べるを配置",
+                        NPCを配置:"NPCを配置",
+                        いいえ:false
+                      };
+                      Character.Check_X = Check_X;
+                      Character.Check_Y = Check_Y;
+                      Key_false();
+                      game.pushScene(Chat_Scene(Menu_data));
+                      return;
+                    };
+                  };
                 }
                 else console.log("マップ外");
               };
@@ -1673,6 +1719,22 @@ function Game_load(width,height){
               game.popScene();
               if(Datas.次){
                 switch(Datas.次){
+                  case "会話を作成":
+                    game.pushScene(Event_setting_Scene("会話"));
+                    return;
+                    break;
+                  case "NPCを配置":
+                    game.pushScene(Event_setting_Scene("NPC"));
+                    return;
+                    break;
+                  case "調べるを配置":
+                    game.pushScene(Event_setting_Scene("調べる"));
+                    return;
+                    break;
+                  case "接触イベントを配置":
+                    game.pushScene(Event_setting_Scene("接触"));
+                    return;
+                    break;
                   case "タイトル":
                     var Menu_data = Stage_Datas["タイトル"].データ;
                     Menu_data.選択肢 = {最初から:"最初から"};
@@ -1691,6 +1753,22 @@ function Game_load(width,height){
                       Object_moves:Object_moves,
                     };
                     window.localStorage.setItem("セーブデータ",JSON.stringify(SAVEDATA));
+
+                    if(HTML=="編集"){
+                      var URL = "https://script.google.com/macros/s/AKfycbw2Dx5NjCfQRv1TlpH0kSnvzvZrrLXoWI55JSpuda8XYxwEwbMd/exec";
+                      var Body = {
+                        書き込み:true,
+                        Sheet_id:"13esnJ1oLnt2hvzpK6pQEJW_kVF8UkUV_u3P55zpouBM",
+                        Sheet_name:"テスト",
+                        ステージデータ:Stage_Datas
+                      };
+                      var Options = {method: "POST",body:JSON.stringify(Body)};
+
+                      fetch(URL,Options).then(res => res.json()).then(result => {
+                      },);
+
+                    };
+
                     Key_false();
                     game.pushScene(Chat_Scene({テキスト:"セーブしました。"}));
                     return;
@@ -2291,6 +2369,57 @@ function Game_load(width,height){
 
       return scene;
     };
+    var Event_setting_Scene = function(Type){
+      var scene = new Scene();
+
+      var Inputs = [];
+      var Inputs_length = null;
+
+      function Input(x,y,w,h,v,p){
+        Inputs_length = Inputs.length;
+        Inputs[Inputs_length] = new Entity();
+        Inputs[Inputs_length].moveTo(x,y);
+        Inputs[Inputs_length].width = w;
+        Inputs[Inputs_length].height = h;
+        Inputs[Inputs_length]._element = document.createElement("textarea");
+        Inputs[Inputs_length]._style["font-size"] = 60;
+        Inputs[Inputs_length]._element.value = v;
+        Inputs[Inputs_length]._element.placeholder = p;
+        scene.addChild(Inputs[Inputs_length]);
+      };
+
+      Input(0,height/2-300,width/2,300,"","Objectname");
+      Input(width/2,height/2-300,width/2,300,"","Eventname");
+
+      var Ui_Button = new Button("決定","light",width,height/2);
+      Ui_Button.moveTo(0,height/2);
+      Ui_Button._style["font-size"] = height/4;
+      Ui_Button.addEventListener("touchend",function(e){
+        if(Inputs[0]._element.value&&Inputs[1]._element.value){
+          Stage_Datas[Stage.名前].データ.画像[Inputs[0]._element.value] = {
+            データ:Inputs[1]._element.value,
+            座標:[Character.Check_X,Character.Check_Y]
+          };
+          if(!Stage_Datas[Inputs[1]._element.value]){
+            switch(Type){
+              case "調べる":
+                Stage_Datas[Inputs[1]._element.value] = {
+                  データ名:Inputs[1]._element.value,
+                  データタイプ:"調べる",
+                  データ:{ロード:Inputs[1]._element.value + "調べる"}
+                };
+                break;
+            };
+          };
+          game.popScene();
+          Scene_Check_Scene(Stage_Datas[Stage.名前])
+        };
+        return;
+      });
+      scene.addChild(Ui_Button);
+
+      return scene;
+    };
 
     function Flag_get(Datas){
       for(var I = 0; I < Object.keys(Datas).length; I++){
@@ -2423,7 +2552,18 @@ function Game_load(width,height){
     };
 
     function Scene_Check_Scene(Datas){
-      if(!Datas) Datas = {データタイプ:"会話",データ:{テキスト:"データが見つかりませんでした。"}};
+      if(!Datas){
+        Datas = {データタイプ:"会話",データ:{テキスト:"データが見つかりませんでした。"}};
+        if(HTML=="編集"){
+          Datas.データ.テキスト += "●データを作成しますか？";
+          Datas.データ.選択肢 = {
+            マップ処理を作成:"マップ処理を作成",
+            フラグ分岐を作成:"フラグ分岐を作成",
+            会話を作成:"会話を作成",
+            いいえ:false
+          };
+        };
+      };
       if(Datas.フラグ獲得) Flag_get(Datas.フラグ獲得);
       switch(Datas.データタイプ){
         case "フラグ分岐":
@@ -2506,7 +2646,7 @@ function Game_load(width,height){
     var URL = "https://script.google.com/macros/s/AKfycbw2Dx5NjCfQRv1TlpH0kSnvzvZrrLXoWI55JSpuda8XYxwEwbMd/exec";
     var Options = {
       method: "POST",
-      body:JSON.stringify({Sheet_id:"13esnJ1oLnt2hvzpK6pQEJW_kVF8UkUV_u3P55zpouBM",Sheet_name:"ゲームデータ"})
+      body:JSON.stringify({Sheet_id:"13esnJ1oLnt2hvzpK6pQEJW_kVF8UkUV_u3P55zpouBM",Sheet_name:"テスト"})
     };
 
     fetch(URL,Options).then(res => res.json()).then(result => {
