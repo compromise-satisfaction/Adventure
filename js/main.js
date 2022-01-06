@@ -643,11 +643,11 @@ function Game_load(width,height){
       for(var I = 0; I < 13; I++){
         Time_texts[I] = new Sprite();
         Time_texts[I]._element = document.createElement("innerHTML");
-        Time_texts[I]._style.font  = "60px monospace";
+        Time_texts[I]._style.font  = "60px ゴシック";
         Time_texts[I]._style.color = "yellow";
         Time_texts[I]._backgroundColor = "black";
         Time_texts[I].x = 60;
-        Time_texts[I].y = 60 + I * 60;
+        Time_texts[I].y = 60 + I * 100;
         scene.addChild(Time_texts[I]);
       };
 
@@ -1543,7 +1543,7 @@ function Game_load(width,height){
       Images(width,400,0,480,"image/textbox.png","テキストボックス");
       Image[Images_Data.テキストボックス].opacity = 0.5;
 
-      var Numbers = 430;
+      var Numbers = 420;
       var Row = 6;
       var One_column = 20;
 
@@ -1551,7 +1551,7 @@ function Game_load(width,height){
         if(I%One_column==0) Numbers += 62;
         Text[I] = new Sprite();
         Text[I]._element = document.createElement("innerHTML");
-        Text[I]._style.font  = "60px monospace";
+        Text[I]._style.font  = "60px ゴシック";
         Text[I]._style.color = "white";
         Text[I].x = 62 * (I%One_column) + 180;
         Text[I].y = Numbers;
@@ -1564,11 +1564,11 @@ function Game_load(width,height){
       function Choice(){
         ChoiceText[I] = new Sprite();
         ChoiceText[I]._element = document.createElement("innerHTML");
-        ChoiceText[I]._style.font  = "60px monospace";
+        ChoiceText[I]._style.font  = "60px ゴシック";
         ChoiceText[I]._style.color = "white";
         ChoiceText[I].x = 1000;
-        ChoiceText[I].y = 400 - I * 90;
-        Images(600,80,ChoiceText[I].x-20,ChoiceText[I].y-10,"image/textbox.png","選択肢"+I);
+        ChoiceText[I].y = 380 - I * 90;
+        Images(600,80,ChoiceText[I].x-20,ChoiceText[I].y,"image/textbox.png","選択肢"+I);
         Image[Images_Data["選択肢"+I]].opacity = 0;
         scene.addChild(ChoiceText[I]);
       };
@@ -2062,7 +2062,7 @@ function Game_load(width,height){
       function Choice(text){
         ChoiceText[I] = new Sprite();
         ChoiceText[I]._element = document.createElement("innerHTML");
-        ChoiceText[I]._style.font  = "60px monospace";
+        ChoiceText[I]._style.font  = "60px ゴシック";
         ChoiceText[I]._style.color = "white";
         ChoiceText[I].x = 200;
         ChoiceText[I].y = 50 + I * 90;
@@ -2314,7 +2314,7 @@ function Game_load(width,height){
         if(I%One_column==0) Numbers += 62;
         Text[I] = new Sprite();
         Text[I]._element = document.createElement("innerHTML");
-        Text[I]._style.font  = "60px monospace";
+        Text[I]._style.font  = "60px ゴシック";
         Text[I]._element.textContent = a;
         Text[I]._style.color = "white";
         Text[I].x = 62 * (I%One_column) + 180;
